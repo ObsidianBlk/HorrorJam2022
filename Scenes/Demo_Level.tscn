@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Env/Walls/plaster_001.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Env/Floors/lanolium_001.png" type="Texture" id=2]
+[ext_resource path="res://Actors/TestDummy/TestDummy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/ShakeCamera/ShakeCamera.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 512, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 64 )
+
+[node name="Demo_Level" type="Node2D"]
+
+[node name="Wall" type="Sprite" parent="."]
+position = Vector2( 0, 64 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 1024, 128 )
+
+[node name="Floor" type="Sprite" parent="."]
+position = Vector2( 0, 192 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 1024, 64 )
+
+[node name="LevelCollisions" type="StaticBody2D" parent="."]
+
+[node name="Coll_North" type="CollisionShape2D" parent="LevelCollisions"]
+position = Vector2( 512, 182 )
+shape = SubResource( 1 )
+
+[node name="Coll_Sourth" type="CollisionShape2D" parent="LevelCollisions"]
+position = Vector2( 512, 266 )
+shape = SubResource( 1 )
+
+[node name="Coll_West" type="CollisionShape2D" parent="LevelCollisions"]
+position = Vector2( -10, 212 )
+shape = SubResource( 2 )
+
+[node name="Coll_East" type="CollisionShape2D" parent="LevelCollisions"]
+position = Vector2( 1034, 212 )
+shape = SubResource( 2 )
+
+[node name="TestDummy" parent="." groups=["Player"] instance=ExtResource( 3 )]
+position = Vector2( 171, 227 )
+
+[node name="ShakeCamera" parent="." groups=["ShakeCamera"] instance=ExtResource( 4 )]
+current = true
+target_node_path = NodePath("../TestDummy")
+trauma_seed = 34
