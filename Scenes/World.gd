@@ -28,6 +28,7 @@ func _ready() -> void:
 		for p in pnodes:
 			if p.has_method("move"):
 				_player_actor = p
+				_player_actor.connect("collision", self, "on_player_collision")
 				break
 	
 	var cnodes = get_tree().get_nodes_in_group("ShakeCamera")
@@ -67,6 +68,9 @@ func _unhandled_input(event) -> void:
 		elif event.is_action_released("run_toggle"):
 			_player_actor.set_running(false)
 		
+		if event.is_action_pressed("interact"):
+			_player_actor.interact()
+		
 		if event.is_action_pressed("test_key") and _camera != null:
 			_camera.add_trauma(0.5)
 		
@@ -94,4 +98,6 @@ func _unhandled_input(event) -> void:
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-
+func on_player_collision() -> void:
+	if _input_dir[2] != 0:
+		_player_actor.trigger()

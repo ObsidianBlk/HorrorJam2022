@@ -64,24 +64,22 @@ func _ready() -> void:
 	noise.octaves = 2
 
 func _process(delta : float) -> void:
-	if _target == null:
-		return
-	
-	if _lstpos.distance_to(_target.global_position) > THRESHOLD:
-		_lstpos = _target.global_position
-		_tween.stop_all()
-		
-		var dist : float = global_position.distance_to(_target.global_position)
-		if dist > max_target_distance:
-			snap_to_target()
-		else:
-			_tween.interpolate_property(
-				self, "global_position", 
-				global_position, _target.global_position, 
-				0.1,
-				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-			)
-			_tween.start()
+	if _target != null:
+		if _lstpos.distance_to(_target.global_position) > THRESHOLD:
+			_lstpos = _target.global_position
+			_tween.stop_all()
+			
+			var dist : float = global_position.distance_to(_target.global_position)
+			if dist > max_target_distance:
+				snap_to_target()
+			else:
+				_tween.interpolate_property(
+					self, "global_position", 
+					global_position, _target.global_position, 
+					0.1,
+					Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+				)
+				_tween.start()
 	
 	if _trauma > 0.0:
 		_trauma = max(_trauma - trauma_decay * delta, 0)

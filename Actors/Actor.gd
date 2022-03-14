@@ -1,6 +1,15 @@
 extends KinematicBody2D
 
 # -------------------------------------------------------------------------
+# Signals
+# -------------------------------------------------------------------------
+signal interact()
+signal trigger()
+
+signal collision()
+
+
+# -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
 export var walk_speed : float = 60.0
@@ -19,7 +28,8 @@ var _running : bool = false
 # Onready Variables
 # -------------------------------------------------------------------------
 onready var viz_node : Node2D = $Viz
-onready var asprite_node : AnimatedSprite = $Viz/ASprite
+onready var sprite_node : Sprite = $Viz/Sprite
+onready var anim_node : AnimationPlayer = $Anim
 
 # -------------------------------------------------------------------------
 # Setters / Getters
@@ -33,6 +43,7 @@ func set_running(r : bool) -> void:
 # -------------------------------------------------------------------------
 
 func _physics_process(delta : float) -> void:
+	_UpdateViz()
 	if _direction.length_squared() > 0.01:
 		var speed = run_speed if _running else walk_speed
 		var accel = run_accel if _running else walk_accel
@@ -43,31 +54,42 @@ func _physics_process(delta : float) -> void:
 		_velocity = lerp(_velocity, Vector2.ZERO, 0.5)
 		if _velocity.length() < 0.01:
 			_velocity = Vector2.ZERO
-			asprite_node.play("idle")
 	_velocity = move_and_slide(_velocity)
+	if get_last_slide_collision() != null:
+		emit_signal("collision")
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-
+func _UpdateViz() -> void:
+	if _direction.length() > 0:
+		anim_node.play("run" if _running else "walk")
+		sprite_node.flip_h = true if _direction.x < 0.0 else false
+	elif _velocity.length() < 0.01 and not anim_node.assigned_animation == "rest":
+		anim_node.play("rest")
+	
 
 
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
 func move(dir : Vector2) -> void:
+	var hsign = sign(_direction.x)
 	_direction = dir
 	if dir.length_squared() > 1:
 		_direction = dir.normalized()
 	if dir.length() > 0:
-		if _running:
-			asprite_node.play("run")
-		else:
-			asprite_node.play("walk")
-		if dir.x < 0.0:
-			asprite_node.flip_h = true
-		else:
-			asprite_node.flip_h = false
+		if sign(_direction.x) != hsign:
+			_velocity.x = 0.0
+
+func hide_viz(h : bool = true) -> void:
+	viz_node.visible = not h
+
+func interact() -> void:
+	emit_signal("interact")
+
+func trigger() -> void:
+	emit_signal("trigger")
 
 func is_walking() -> bool:
 	return not _running
