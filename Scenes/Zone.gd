@@ -20,6 +20,7 @@ func _ready() -> void:
 		if pnodes.size() > 1:
 			printerr("WARNING: More then one player node in loaded zone.")
 		_player = pnodes[0]
+		_player.hide_viz(true)
 	else:
 		printerr("WARNING: No player nodes found in loaded zone.")
 	
@@ -69,14 +70,22 @@ func start(door_name : String = "") -> void:
 		for door in doors:
 			door.connect("request_zone_change", self, "on_request_zone_change")
 			if door.name == door_name:
-				_player.global_position = door.global_position + 10
+				_player.global_position = door.global_position + Vector2(0.0, 10.0)
 				entry_door = door
 	
 	if entry_door:
 		_camera.snap_to_target()
-		entry_door.open_door(true, true)
+		entry_door.open_door(true)
+		yield(entry_door, "door_opened")
 		_player.fade_in()
+	else:
+		_player.hide_viz(false)
 
+
+func get_packed_scene() -> PackedScene:
+	for child in get_children():
+		child
+	return null
 
 # -------------------------------------------------------------------------
 # Handler Methods

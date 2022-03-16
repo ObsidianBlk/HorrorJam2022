@@ -4,6 +4,8 @@ extends Node2D
 # Signals
 # -------------------------------------------------------------------------
 signal request_zone_change(scene, door_name)
+signal door_opened()
+signal door_closed()
 
 # -------------------------------------------------------------------------
 # Export Variables
@@ -28,8 +30,9 @@ onready var anim_node : AnimationPlayer = get_node_or_null("Anim")
 # -------------------------------------------------------------------------
 func set_opened(o : bool) -> void:
 	opened = o
+	Database.set_value(name + "_opened", opened)
 	if anim_node != null:
-		anim_node.play("open" if opened else "closed")
+		anim_node.play("opened" if opened else "closed")
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -40,7 +43,10 @@ func _ready() -> void:
 		trigger_node.connect("body_exited", self, "on_body_exited")
 	if anim_node != null:
 		anim_node.connect("animation_finished", self, "on_animation_finished")
-	set_opened(opened)
+	if Database.has_value(name + "_opened"):
+		set_opened(Database.get_value(name + "_opened"))
+	else:
+		set_opened(opened)
 
 # -------------------------------------------------------------------------
 # Private Methods
@@ -56,23 +62,28 @@ func _ConnectBody(body : Node2D, enable : bool = true) -> void:
 			body.disconnect("interact", self, "on_interact")
 			body.disconnect("trigger", self, "on_trigger")
 
-func _ChangeDoorState(state : String, anim_name : String, animate : bool, wait_for_completion : bool) -> void:
+func _ChangeDoorState(state : String, anim_name : String, animate : bool) -> void:
 	if anim_node.assigned_animation != state:
 		if animate:
 			anim_node.play(anim_name)
-			if wait_for_completion:
-				yield(anim_node, "animation_finished")
+			return
 		else:
 			anim_node.play(state)
+	if state == "opened":
+		set_opened(true)
+		call_deferred("emit_signal", "door_opened")
+	else:
+		set_opened(false)
+		call_deferred("emit_signal", "door_closed")
 
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
-func open_door(animate : bool = true, wait_for_completion : bool = false) -> void:
-	_ChangeDoorState("opened", "opening", animate, wait_for_completion)
+func open_door(animate : bool = true) -> void:
+	_ChangeDoorState("opened", "opening", animate)
 
-func close_door(animate : bool = true, wait_for_completion : bool = false) -> void:
-	_ChangeDoorState("closed", "closing", animate, wait_for_completion)
+func close_door(animate : bool = true) -> void:
+	_ChangeDoorState("closed", "closing", animate)
 
 # -------------------------------------------------------------------------
 # Handler Methods
@@ -84,8 +95,12 @@ func on_animation_finished(anim : String) -> void:
 	match anim:
 		"opening":
 			anim_node.play("opened")
+			set_opened(true)
+			emit_signal("door_opened")
 		"closing":
 			anim_node.play("closed")
+			set_opened(false)
+			emit_signal("door_closed")
 
 
 func on_body_exited(body : Node2D) -> void:
@@ -115,5 +130,6 @@ func on_trigger(body : Node2D) -> void:
 	if anim_node.assigned_animation == "opened" and connected_scene != "" and connected_door != "":
 		_ConnectBody(body, false)
 		body.fade_out()
+		yield(body, "faded")
 		emit_signal("request_zone_change", connected_scene, connected_door)
 

@@ -2,5 +2,5 @@
 
 [ext_resource path="res://Objects/ShakeCamera/ShakeCamera.gd" type="Script" id=1]
 
-[node name="ShakeCamera" type="Camera2D"]
+[node name="ShakeCamera" type="Camera2D" groups=["ShakeCamera"]]
 script = ExtResource( 1 )

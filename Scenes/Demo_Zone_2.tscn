@@ -9,65 +9,62 @@
 [ext_resource path="res://Assets/Env/Floors/floor_shadow.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 512, 10 )
+extents = Vector2( 128, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 64 )
+extents = Vector2( 10, 48 )
 
-[node name="Demo_Level" type="Node2D"]
+[node name="Demo_Zone_2" type="Node2D"]
 script = ExtResource( 6 )
 
 [node name="Wall" type="Sprite" parent="."]
-position = Vector2( 0, 64 )
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 128 )
+region_rect = Rect2( 0, 0, 256, 128 )
 
 [node name="Floor" type="Sprite" parent="."]
-position = Vector2( 0, 192 )
+position = Vector2( 0, 128 )
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 64 )
+region_rect = Rect2( 0, 0, 256, 64 )
 
 [node name="Shadow" type="Sprite" parent="Floor"]
-self_modulate = Color( 0.203922, 0.203922, 0.203922, 1 )
+self_modulate = Color( 0.32549, 0.172549, 0.172549, 1 )
 texture = ExtResource( 7 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 64 )
+region_rect = Rect2( 0, 0, 256, 64 )
 
-[node name="Door_N1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 384, 192 )
-connected_scene = "res://Scenes/Demo_Zone_2.tscn"
-connected_door = "Door_N2"
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="LevelCollisions" type="StaticBody2D" parent="."]
-
-[node name="Coll_North" type="CollisionShape2D" parent="LevelCollisions"]
-position = Vector2( 512, 182 )
+[node name="Coll_North" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 128, 118 )
 shape = SubResource( 1 )
 
-[node name="Coll_Sourth" type="CollisionShape2D" parent="LevelCollisions"]
-position = Vector2( 512, 266 )
+[node name="Coll_South" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 128, 202 )
 shape = SubResource( 1 )
 
-[node name="Coll_West" type="CollisionShape2D" parent="LevelCollisions"]
-position = Vector2( -10, 212 )
+[node name="Coll_West" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -10, 162 )
 shape = SubResource( 2 )
 
-[node name="Coll_East" type="CollisionShape2D" parent="LevelCollisions"]
-position = Vector2( 1034, 212 )
+[node name="Coll_East" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 266, 162 )
 shape = SubResource( 2 )
+
+[node name="Door_N2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 193, 128 )
+connected_scene = "res://Scenes/Demo_Level.tscn"
+connected_door = "Door_N1"
 
 [node name="TestDummy" parent="." groups=["Player"] instance=ExtResource( 3 )]
-position = Vector2( 171, 227 )
+position = Vector2( 70, 156 )
 
 [node name="ShakeCamera" parent="." instance=ExtResource( 4 )]
 current = true
-target_node_path = NodePath("../TestDummy")
-trauma_seed = 34
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.207843, 0.207843, 0.207843, 1 )
+color = Color( 0.486275, 0.341176, 0.341176, 1 )

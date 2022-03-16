@@ -6,6 +6,8 @@ extends KinematicBody2D
 signal interact()
 signal trigger()
 
+signal faded()
+
 signal collision()
 
 
@@ -61,7 +63,7 @@ func _physics_process(delta : float) -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _UpdateViz() -> void:
+func _UpdateViz() -> void:	
 	if _direction.length() > 0:
 		anim_node.play("run" if _running else "walk")
 		sprite_node.flip_h = true if _direction.x < 0.0 else false
@@ -72,7 +74,10 @@ func _Fade(anim_name : String) -> void:
 	_velocity = Vector2.ZERO
 	_direction = Vector2.ZERO
 	$AnimFade.play(anim_name)
+	set_physics_process(false)
 	yield($AnimFade, "animation_finished")
+	set_physics_process(true)
+	emit_signal("faded")
 
 
 # -------------------------------------------------------------------------
@@ -93,7 +98,13 @@ func interact() -> void:
 func trigger() -> void:
 	emit_signal("trigger")
 
+func hide_viz(enable : bool = true) -> void:
+	viz_node.visible = not enable
+	set_physics_process(not enable)
+
 func fade_in() -> void:
+	if not viz_node.visible:
+		viz_node.visible = true
 	_Fade("fade_in")
 
 func fade_out() -> void:

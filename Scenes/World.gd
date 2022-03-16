@@ -99,7 +99,10 @@ func _LoadZone(scene_path : String, start_door : String = "") -> void:
 	var zone_inst = load(scene_path)
 	if zone_inst:
 		if _zone != null:
+			if _player_actor.is_connected("collision", self, "on_player_collision"):
+				_player_actor.disconnect("collision", self, "on_player_collision")
 			_player_actor = null
+			_camera = null
 			_zone.disconnect("request_zone_change", self, "_LoadZone")
 			viewport_node.remove_child(_zone)
 			_zone.queue_free()
@@ -119,6 +122,7 @@ func _StartZone(start_door : String = "") -> void:
 		_camera = _zone.get_camera()
 		_player_actor = _zone.get_player()
 		if _player_actor:
+			_player_actor.connect("collision", self, "on_player_collision")
 			_zone.start(start_door)
 			_zone_ready = true
 

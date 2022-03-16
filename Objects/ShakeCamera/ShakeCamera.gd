@@ -32,7 +32,6 @@ var _noise_y : float = 0.0
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
-onready var camera_node : Camera2D = $Camera
 onready var noise : OpenSimplexNoise = OpenSimplexNoise.new()
 
 

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "DBResource",
+"language": "GDScript",
+"path": "res://Scripts/Resources/DBResource.gd"
+}, {
 "base": "Reference",
 "class": "DTS",
 "language": "GDScript",
@@ -60,6 +65,7 @@ _global_script_classes=[ {
 "path": "res://addons/dialogic/Other/DialogicUtil.gd"
 } ]
 _global_script_class_icons={
+"DBResource": "",
 "DTS": "",
 "Dialogic": "",
 "DialogicAnimaPropertiesHelper": "",
@@ -77,6 +83,10 @@ _global_script_class_icons={
 config/name="HorrorJam2022"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Database="*res://Scripts/Auto/Database.gd"
 
 [display]
 

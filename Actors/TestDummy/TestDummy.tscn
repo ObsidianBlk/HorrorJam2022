@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Characters/TestDummy/Run.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/TestDummy/Walk.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Characters/TestDummy/Idle.png" type="Texture" id=3]
 [ext_resource path="res://Actors/Actor.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Characters/shadow.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Lighting/Kenney/light_01.png" type="Texture" id=6]
 
 [sub_resource type="CapsuleShape2D" id=23]
 radius = 6.0
@@ -483,3 +484,9 @@ anims/walk = SubResource( 27 )
 anims/RESET = SubResource( 30 )
 anims/fade_in = SubResource( 31 )
 anims/fade_out = SubResource( 32 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 0, -58 )
+texture = ExtResource( 6 )
+texture_scale = 0.5
+energy = 1.2
