@@ -67,7 +67,12 @@ func _UpdateViz() -> void:
 		sprite_node.flip_h = true if _direction.x < 0.0 else false
 	elif _velocity.length() < 0.01 and not anim_node.assigned_animation == "rest":
 		anim_node.play("rest")
-	
+
+func _Fade(anim_name : String) -> void:
+	_velocity = Vector2.ZERO
+	_direction = Vector2.ZERO
+	$AnimFade.play(anim_name)
+	yield($AnimFade, "animation_finished")
 
 
 # -------------------------------------------------------------------------
@@ -82,14 +87,17 @@ func move(dir : Vector2) -> void:
 		if sign(_direction.x) != hsign:
 			_velocity.x = 0.0
 
-func hide_viz(h : bool = true) -> void:
-	viz_node.visible = not h
-
 func interact() -> void:
 	emit_signal("interact")
 
 func trigger() -> void:
 	emit_signal("trigger")
+
+func fade_in() -> void:
+	_Fade("fade_in")
+
+func fade_out() -> void:
+	_Fade("fade_out")
 
 func is_walking() -> bool:
 	return not _running
