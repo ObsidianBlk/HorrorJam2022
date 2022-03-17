@@ -86,7 +86,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Database="*res://Scripts/Auto/Database.gd"
+System="*res://Scripts/Auto/System.gd"
 
 [display]
 

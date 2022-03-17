@@ -8,7 +8,7 @@ extends Node
 # -------------------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------------------
-var _DB : Dictionary = {}
+var _dbs = {}
 
 # -------------------------------------------------------------------------
 # Onready Variables
@@ -18,27 +18,36 @@ var _DB : Dictionary = {}
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
-
+func _ready() -> void:
+	load_or_create_database("settings", "user://settings.tres")
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
 
 
-
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
-func has_value(val_name : String) -> bool:
-	return val_name in _DB
+func load_or_create_database(db_name : String, filepath : String) -> void:
+	var db = null
+	if ResourceLoader.exists(filepath, "DBResource"):
+		db = ResourceLoader.load(filepath, "DBResource", true)
+	else:
+		db = DBResource.new()
+	if db:
+		_dbs[db_name] = db
 
-func get_value(val_name : String, default = null):
-	if val_name in _DB:
-		return _DB[val_name]
-	return default
+#func drop_database(db_name : String, save_changes : bool = false) -> void:
+#	if db_name in _dbs:
+#		var db : Resource = _dbs[db_name]
+#		if db.resource_path:
+#			pass
 
-func set_value(val_name : String, value) -> void:
-	_DB[val_name] = value
+func get_db(db_name : String) -> DBResource:
+	if db_name in _dbs:
+		return _dbs[db_name]
+	return null
 
 # -------------------------------------------------------------------------
 # Handler Methods

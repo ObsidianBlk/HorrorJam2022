@@ -30,21 +30,13 @@ onready var viewport_node : Viewport = get_node("Viewport")
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
+	# NOTE: This call won't actually load a resource file as one will not automatically
+	# exist. This is here just for test purposes at the moment.
+	System.load_or_create_database("game_state", "user://game_state.tres")
+	
+	# Kick the pig!
 	_LoadZone(INITIAL_ZONE)
-#	var pnodes = get_tree().get_nodes_in_group("Player")
-#	if pnodes.size() > 0:
-#		for p in pnodes:
-#			if p.has_method("move"):
-#				_player_actor = p
-#				_player_actor.connect("collision", self, "on_player_collision")
-#				break
-#
-#	var cnodes = get_tree().get_nodes_in_group("ShakeCamera")
-#	if cnodes.size() > 0:
-#		for c in cnodes:
-#			if c.has_method("add_trauma"):
-#				_camera = c
-#				break
+
 
 func _unhandled_input(event) -> void:
 	if _player_actor == null or not _zone_ready:

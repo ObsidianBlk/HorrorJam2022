@@ -30,7 +30,9 @@ onready var anim_node : AnimationPlayer = get_node_or_null("Anim")
 # -------------------------------------------------------------------------
 func set_opened(o : bool) -> void:
 	opened = o
-	Database.set_value(name + "_opened", opened)
+	var db = System.get_db("game_state")
+	if db:
+		db.set_value("doors." + name + ".opened", opened, true)
 	if anim_node != null:
 		anim_node.play("opened" if opened else "closed")
 
@@ -43,10 +45,12 @@ func _ready() -> void:
 		trigger_node.connect("body_exited", self, "on_body_exited")
 	if anim_node != null:
 		anim_node.connect("animation_finished", self, "on_animation_finished")
-	if Database.has_value(name + "_opened"):
-		set_opened(Database.get_value(name + "_opened"))
-	else:
-		set_opened(opened)
+	var db = System.get_db("game_state")
+	if db:
+		if db.has_value("doors." + name + ".opened"):
+			set_opened(db.get_value("doors." + name + ".opened"))
+		else:
+			set_opened(opened)
 
 # -------------------------------------------------------------------------
 # Private Methods
