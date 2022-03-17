@@ -32,7 +32,7 @@ onready var viewport_node : Viewport = get_node("Viewport")
 func _ready() -> void:
 	# NOTE: This call won't actually load a resource file as one will not automatically
 	# exist. This is here just for test purposes at the moment.
-	System.load_or_create_database("game_state", "user://game_state.tres")
+	System.load_or_create_db("game_state", "user://game_state.tres")
 	
 	# Kick the pig!
 	_LoadZone(INITIAL_ZONE)
