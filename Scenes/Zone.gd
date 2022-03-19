@@ -82,10 +82,10 @@ func start(door_name : String = "") -> void:
 		_player.hide_viz(false)
 
 
-func get_packed_scene() -> PackedScene:
-	for child in get_children():
-		child
-	return null
+#func get_packed_scene() -> PackedScene:
+#	for child in get_children():
+#		child
+#	return null
 
 # -------------------------------------------------------------------------
 # Handler Methods

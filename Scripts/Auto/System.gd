@@ -37,8 +37,8 @@ func load_db(db_name : String, filepath : String, replace_existing : bool = fals
 			printerr("WARNING: Database with name '", db_name, "' already loaded with a different filepath.")
 			return false
 	
-	if ResourceLoader.exists(filepath, "DBResource"):
-		var db = ResourceLoader.load(filepath, "DBResource", true)
+	if ResourceLoader.exists(filepath):
+		var db = ResourceLoader.load(filepath, "", true)
 		if db:
 			_dbs[db_name] = {"db":db, "filepath":filepath}
 			return true

@@ -5,6 +5,8 @@ extends Node2D
 # -------------------------------------------------------------------------
 const INITIAL_ZONE : String = "res://Scenes/Demo_Level.tscn"
 
+enum WORLD {Real=0, Alt=1}
+
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
@@ -13,18 +15,21 @@ const INITIAL_ZONE : String = "res://Scenes/Demo_Level.tscn"
 # -------------------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------------------
-var _player_actor : Node2D = null
+var _player : Node2D = null
 var _camera : Camera2D = null
 
-var _input_dir = [0,0,0,0]
+var _real_world : Node2D = null
+var _alt_world : Node2D = null
 
-var _zone_ready : bool = false
-var _zone : Node2D = null
+var _last_world : int = WORLD.Real
+
+var _input_dir = [0,0,0,0]
 
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
-onready var viewport_node : Viewport = get_node("Viewport")
+onready var real_viewport_node : Viewport = get_node("Real_World_View")
+onready var alt_viewport_node : Viewport = get_node("Alt_World_View")
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -34,12 +39,14 @@ func _ready() -> void:
 	# exist. This is here just for test purposes at the moment.
 	System.load_or_create_db("game_state", "user://game_state.tres")
 	
+	_PrepareWorld()
+	
 	# Kick the pig!
 	_LoadZone(INITIAL_ZONE)
 
 
 func _unhandled_input(event) -> void:
-	if _player_actor == null or not _zone_ready:
+	if _player == null or not _player.is_inside_tree():
 		return
 	
 	if event is InputEventKey:
@@ -64,17 +71,14 @@ func _unhandled_input(event) -> void:
 			_input_dir[3] = 0
 		
 		if event.is_action_pressed("run_toggle"):
-			_player_actor.set_running(true)
+			_player.set_running(true)
 		elif event.is_action_released("run_toggle"):
-			_player_actor.set_running(false)
+			_player.set_running(false)
 		
 		if event.is_action_pressed("interact"):
-			_player_actor.interact()
+			_player.interact()
 		
-		if event.is_action_pressed("test_key") and _camera != null:
-			_camera.add_trauma(0.5)
-		
-		_player_actor.move(
+		_player.move(
 			Vector2(
 				_input_dir[0] + _input_dir[1],
 				_input_dir[2] + _input_dir[3]
@@ -87,36 +91,111 @@ func _unhandled_input(event) -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+func _PrepareWorld() -> void:
+	var pnode = get_tree().get_nodes_in_group("Player")
+	if pnode.size() > 0:
+		if pnode.size() > 1:
+			printerr("WARNING: More than one 'player' node found. Using first found.")
+		_player = pnode[0]
+		_player.connect("collision", self, "on_player_collision")
+	else:
+		printerr("WARNING: No 'Player' nodes found!!")
+	
+	var cnode = get_tree().get_nodes_in_group("ShakeCamera")
+	if cnode.size() >0:
+		for cam in cnode:
+			if cam.current:
+				_camera = cam
+		if _camera == null:
+			print("WARNING: No current camera's found. Setting first camera to current.")
+			_camera = cnode[0]
+			_camera.current
+	else:
+		printerr("WARNING: No camera found!!")
+
+
 func _LoadZone(scene_path : String, start_door : String = "") -> void:
 	var zone_inst = load(scene_path)
 	if zone_inst:
-		if _zone != null:
-			if _player_actor.is_connected("collision", self, "on_player_collision"):
-				_player_actor.disconnect("collision", self, "on_player_collision")
-			_player_actor = null
-			_camera = null
-			_zone.disconnect("request_zone_change", self, "_LoadZone")
-			viewport_node.remove_child(_zone)
-			_zone.queue_free()
-			_zone = null
-		
-		_zone_ready = false
-		_zone = zone_inst.instance()
-		if _zone:
-			_zone.connect("request_zone_change", self, "_LoadZone")
-			viewport_node.add_child(_zone)
+		var zone = zone_inst.instance()
+		if zone:
+			_player.hide_viz(true)
+			if real_viewport_node.has_player_and_camera():
+				real_viewport_node.release_player_and_camera()
+			else:
+				alt_viewport_node.release_player_and_camera()
+			real_viewport_node.clear_children()
+			alt_viewport_node.clear_children()
+			
+			for child in zone.get_children():
+				if child.name == "RealWorld":
+					zone.remove_child(child)
+					real_viewport_node.add_child(child)
+				elif child.name == "AltWorld":
+					zone.remove_child(child)
+					alt_viewport_node.add_child(child)
+			
+			if not real_viewport_node.has_world_nodes() and not alt_viewport_node.has_world_nodes():
+				real_viewport_node.add_child(zone)
+			else:
+				zone.queue_free()
 			call_deferred("_StartZone", start_door)
 	else:
 		printerr("ERROR: Failed to find zone '", scene_path, "'!!")
 
-func _StartZone(start_door : String = "") -> void:
-	if _zone and not _zone_ready:
-		_camera = _zone.get_camera()
-		_player_actor = _zone.get_player()
-		if _player_actor:
-			_player_actor.connect("collision", self, "on_player_collision")
-			_zone.start(start_door)
-			_zone_ready = true
+
+func _StartZone(door_name : String = "") -> void:
+	if not (_player and _camera):
+		return
+	
+	var entry_door : Node2D = null
+	var doors = get_tree().get_nodes_in_group("Door")
+	if doors.size() > 0:
+		for door in doors:
+			door.connect("request_zone_change", self, "_LoadZone")
+			if door.name == door_name:
+				entry_door = door
+	
+	if entry_door:
+		if real_viewport_node.is_a_parent_of(entry_door):
+			real_viewport_node.add_player_and_camera(_player, _camera)
+		else:
+			alt_viewport_node.add_player_and_camera(_player, _camera)
+			
+		_player.global_position = entry_door.global_position + Vector2(0.0, 10.0)
+		_camera.snap_to_target()
+		entry_door.open_door(true)
+		yield(entry_door, "door_opened")
+		_player.fade_in()
+	else:
+		var viewport = real_viewport_node
+		var pos = null
+		if _last_world == WORLD.Real:
+			pos = real_viewport_node.get_player_start()
+			if pos != null:
+				viewport = real_viewport_node
+			else:
+				pos = alt_viewport_node.get_player_start()
+				if pos != null:
+					viewport = alt_viewport_node
+				else:
+					printerr("WARNING: No viewport with valid player start!")
+		elif _last_world == WORLD.Alt:
+			pos = alt_viewport_node.get_player_start()
+			if pos != null:
+				viewport = alt_viewport_node
+			else:
+				pos = real_viewport_node.get_player_start()
+				if pos != null:
+					viewport = real_viewport_node
+				else:
+					printerr("WARNING: No viewport with valid player start!")
+		
+		viewport.add_player_and_camera(_player, _camera)
+		if pos != null:
+			_player.global_position = pos
+			_camera.global_position = pos
+		_player.hide_viz(false)
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -128,4 +207,5 @@ func _StartZone(start_door : String = "") -> void:
 # -------------------------------------------------------------------------
 func on_player_collision() -> void:
 	if _input_dir[2] != 0:
-		_player_actor.trigger()
+		_player.trigger()
+
