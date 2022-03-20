@@ -4,6 +4,7 @@ extends Node2D
 # Constants
 # -------------------------------------------------------------------------
 const INITIAL_ZONE : String = "res://Scenes/Demo_Level.tscn"
+const WORLD_SHIFT_TIME : float = 2.0
 
 enum WORLD {Real=0, Alt=1}
 
@@ -16,12 +17,12 @@ enum WORLD {Real=0, Alt=1}
 # Variables
 # -------------------------------------------------------------------------
 var _player : Node2D = null
-var _camera : Camera2D = null
 
 var _real_world : Node2D = null
 var _alt_world : Node2D = null
 
 var _last_world : int = WORLD.Real
+var _world_time : float = 0.0
 
 var _input_dir = [0,0,0,0]
 
@@ -30,6 +31,8 @@ var _input_dir = [0,0,0,0]
 # -------------------------------------------------------------------------
 onready var real_viewport_node : Viewport = get_node("Real_World_View")
 onready var alt_viewport_node : Viewport = get_node("Alt_World_View")
+
+onready var gameview_node : Control = get_node("Canvas/GameView")
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -44,49 +47,16 @@ func _ready() -> void:
 	# Kick the pig!
 	_LoadZone(INITIAL_ZONE)
 
-
-func _unhandled_input(event) -> void:
-	if _player == null or not _player.is_inside_tree():
-		return
-	
-	if event is InputEventKey:
-		if event.is_action_pressed("move_left"):
-			_input_dir[0] = -1
-		elif event.is_action_released("move_left"):
-			_input_dir[0] = 0
-		
-		if event.is_action_pressed("move_right"):
-			_input_dir[1] = 1
-		elif event.is_action_released("move_right"):
-			_input_dir[1] = 0
-		
-		if event.is_action_pressed("move_up"):
-			_input_dir[2] = -1
-		elif event.is_action_released("move_up"):
-			_input_dir[2] = 0
-		
-		if event.is_action_pressed("move_down"):
-			_input_dir[3] = 1
-		elif event.is_action_released("move_down"):
-			_input_dir[3] = 0
-		
-		if event.is_action_pressed("run_toggle"):
-			_player.set_running(true)
-		elif event.is_action_released("run_toggle"):
-			_player.set_running(false)
-		
-		if event.is_action_pressed("interact"):
-			_player.interact()
-		
-		_player.move(
-			Vector2(
-				_input_dir[0] + _input_dir[1],
-				_input_dir[2] + _input_dir[3]
-			).normalized()
-		)
-	elif event is InputEventJoypadMotion:
-		pass
-
+func _process(delta : float) -> void:
+	match _last_world:
+		WORLD.Real:
+			if _world_time > 0.0:
+				_world_time = max(0.0, _world_time - delta)
+				gameview_node.material.set_shader_param("blend", _world_time / WORLD_SHIFT_TIME)
+		WORLD.Alt:
+			if _world_time < WORLD_SHIFT_TIME:
+				_world_time = min(WORLD_SHIFT_TIME, _world_time + delta)
+				gameview_node.material.set_shader_param("blend", _world_time / WORLD_SHIFT_TIME)
 
 # -------------------------------------------------------------------------
 # Private Methods
@@ -97,21 +67,8 @@ func _PrepareWorld() -> void:
 		if pnode.size() > 1:
 			printerr("WARNING: More than one 'player' node found. Using first found.")
 		_player = pnode[0]
-		_player.connect("collision", self, "on_player_collision")
 	else:
 		printerr("WARNING: No 'Player' nodes found!!")
-	
-	var cnode = get_tree().get_nodes_in_group("ShakeCamera")
-	if cnode.size() >0:
-		for cam in cnode:
-			if cam.current:
-				_camera = cam
-		if _camera == null:
-			print("WARNING: No current camera's found. Setting first camera to current.")
-			_camera = cnode[0]
-			_camera.current
-	else:
-		printerr("WARNING: No camera found!!")
 
 
 func _LoadZone(scene_path : String, start_door : String = "") -> void:
@@ -120,10 +77,10 @@ func _LoadZone(scene_path : String, start_door : String = "") -> void:
 		var zone = zone_inst.instance()
 		if zone:
 			_player.hide_viz(true)
-			if real_viewport_node.has_player_and_camera():
-				real_viewport_node.release_player_and_camera()
+			if real_viewport_node.has_player():
+				real_viewport_node.release_player()
 			else:
-				alt_viewport_node.release_player_and_camera()
+				alt_viewport_node.release_player()
 			real_viewport_node.clear_children()
 			alt_viewport_node.clear_children()
 			
@@ -145,9 +102,56 @@ func _LoadZone(scene_path : String, start_door : String = "") -> void:
 
 
 func _StartZone(door_name : String = "") -> void:
-	if not (_player and _camera):
+	if not _player:
 		return
 	
+	var entry_door : Node2D = _ConnectDoors(door_name)
+	_ConnectPortals()
+	
+	if entry_door:
+		var vp = real_viewport_node
+		if real_viewport_node.is_a_parent_of(entry_door):
+			real_viewport_node.add_player(_player)
+			alt_viewport_node.track_sibling_camera()
+		else:
+			vp = alt_viewport_node
+			alt_viewport_node.add_player(_player)
+			real_viewport_node.track_sibling_camera()
+			
+		_player.global_position = entry_door.global_position + Vector2(0.0, 10.0)
+		vp.snap_camera_to_target()
+		entry_door.open_door(true)
+		yield(entry_door, "door_opened")
+		_player.fade_in()
+	else:
+		var info : Dictionary = {}
+		match _last_world:
+			WORLD.Real:
+				info = _FindViewportPlayerStart(real_viewport_node, alt_viewport_node)
+			WORLD.Alt:
+				info = _FindViewportPlayerStart(alt_viewport_node, real_viewport_node)
+			_:
+				info = {"pos":null, "primary":real_viewport_node, "secondary":alt_viewport_node}
+		
+		info.primary.add_player(_player)
+		info.secondary.track_sibling_camera()
+		if info.pos != null:
+			_player.global_position = info.pos
+			info.primary.snap_camera_to_target()
+		_player.hide_viz(false)
+		#gameview_node.material.set_shader_param("blend", 1.0)
+
+func _FindViewportPlayerStart(viewA : Viewport, viewB : Viewport) -> Dictionary:
+	var res = {"pos":null, "primary":viewA, "secondary":viewB}
+	res.pos = viewA.get_player_start()
+	if res.pos == null:
+		res.pos = viewB.get_player_start()
+		if res.pos != null:
+			res.primary = viewB
+			res.primary = viewA
+	return res
+
+func _ConnectDoors(door_name : String) -> Node2D:
 	var entry_door : Node2D = null
 	var doors = get_tree().get_nodes_in_group("Door")
 	if doors.size() > 0:
@@ -155,47 +159,23 @@ func _StartZone(door_name : String = "") -> void:
 			door.connect("request_zone_change", self, "_LoadZone")
 			if door.name == door_name:
 				entry_door = door
-	
-	if entry_door:
-		if real_viewport_node.is_a_parent_of(entry_door):
-			real_viewport_node.add_player_and_camera(_player, _camera)
-		else:
-			alt_viewport_node.add_player_and_camera(_player, _camera)
-			
-		_player.global_position = entry_door.global_position + Vector2(0.0, 10.0)
-		_camera.snap_to_target()
-		entry_door.open_door(true)
-		yield(entry_door, "door_opened")
-		_player.fade_in()
-	else:
-		var viewport = real_viewport_node
-		var pos = null
-		if _last_world == WORLD.Real:
-			pos = real_viewport_node.get_player_start()
-			if pos != null:
-				viewport = real_viewport_node
-			else:
-				pos = alt_viewport_node.get_player_start()
-				if pos != null:
-					viewport = alt_viewport_node
-				else:
-					printerr("WARNING: No viewport with valid player start!")
-		elif _last_world == WORLD.Alt:
-			pos = alt_viewport_node.get_player_start()
-			if pos != null:
-				viewport = alt_viewport_node
-			else:
-				pos = real_viewport_node.get_player_start()
-				if pos != null:
-					viewport = real_viewport_node
-				else:
-					printerr("WARNING: No viewport with valid player start!")
-		
-		viewport.add_player_and_camera(_player, _camera)
-		if pos != null:
-			_player.global_position = pos
-			_camera.global_position = pos
-		_player.hide_viz(false)
+	return entry_door
+
+func _ConnectPortals() -> void:
+	var portals = get_tree().get_nodes_in_group("Portal")
+	for portal in portals:
+		if real_viewport_node.is_a_parent_of(portal):
+			portal.connect(
+				"world_shift",
+				self, "_on_world_shift",
+				[real_viewport_node, alt_viewport_node, WORLD.Alt]
+			)
+		elif alt_viewport_node.is_a_parent_of(portal):
+			portal.connect(
+				"world_shift",
+				self, "_on_world_shift",
+				[alt_viewport_node, real_viewport_node, WORLD.Real]
+			)
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -205,7 +185,13 @@ func _StartZone(door_name : String = "") -> void:
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-func on_player_collision() -> void:
-	if _input_dir[2] != 0:
-		_player.trigger()
+func _on_world_shift(from_view : Viewport, to_view : Viewport, target_world : int) -> void:
+	if WORLD.values().find(target_world) >= 0 and _last_world != target_world:
+		if to_view.has_world_nodes():
+			_last_world = target_world
+			from_view.release_player()
+			from_view.audio_listener_enable_2d = false
+			to_view.add_player(_player)
+			to_view.audio_listener_enable_2d = true
+			from_view.track_sibling_camera()
 

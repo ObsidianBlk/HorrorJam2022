@@ -20,21 +20,13 @@ var _input_dir = [0,0,0,0]
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
-	var p : Node2D = get_parent()
-	if p.is_in_group("Actor") and p.is_in_group("Player"):
-		_player = p
-		_player.connect("collision", self, "on_player_collision")
-		set_process_unhandled_input(true)
+	_Prepare()
 
-func _input(event):
-	print("Hello there")
 
 func _unhandled_input(event) -> void:
-	if _player == null or not _player.is_in_tree():
-		print("Ignoring input!")
+	if _player == null or not _player.is_inside_tree():
 		return
 	
-	print("Handling input")
 	if event is InputEventKey:
 		if event.is_action_pressed("move_left"):
 			_input_dir[0] = -1
@@ -76,7 +68,15 @@ func _unhandled_input(event) -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-
+func _Prepare() -> void:
+	var pnode = get_tree().get_nodes_in_group("Player")
+	if pnode.size() > 0:
+		if pnode.size() > 1:
+			printerr("WARNING: More than one 'player' node found. Using first found.")
+		_player = pnode[0]
+		_player.connect("collision", self, "on_player_collision")
+	else:
+		printerr("WARNING: No 'Player' nodes found!!")
 
 
 # -------------------------------------------------------------------------

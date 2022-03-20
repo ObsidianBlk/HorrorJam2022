@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Env/Walls/plaster_001.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Env/Floors/lanolium_001.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Env/Walls/Wood_001.png" type="Texture" id=3]
+[ext_resource path="res://Objects/Portal/Portal.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Env/Floors/floor_shadow.png" type="Texture" id=7]
 
@@ -69,6 +70,12 @@ shape = SubResource( 7 )
 position = Vector2( 522, 160 )
 shape = SubResource( 7 )
 
+[node name="PortalA" parent="AltWorld/SectionA" instance=ExtResource( 4 )]
+position = Vector2( 20, 159 )
+
+[node name="PortalB" parent="AltWorld/SectionA" instance=ExtResource( 4 )]
+position = Vector2( 492, 160 )
+
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
 color = Color( 0.239216, 0.0666667, 0.0666667, 1 )
 
@@ -120,6 +127,9 @@ shape = SubResource( 2 )
 position = Vector2( 1034, 212 )
 shape = SubResource( 2 )
 
+[node name="Portal" parent="RealWorld/SectionA" instance=ExtResource( 4 )]
+position = Vector2( 1000, 223 )
+
 [node name="SectionB" type="Node2D" parent="RealWorld"]
 position = Vector2( 1224, 64 )
 
@@ -153,6 +163,9 @@ shape = SubResource( 5 )
 [node name="CollEast" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
 position = Vector2( 522, 160 )
 shape = SubResource( 5 )
+
+[node name="Portal" parent="RealWorld/SectionB" instance=ExtResource( 4 )]
+position = Vector2( 22, 160 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.207843, 0.207843, 0.207843, 1 )

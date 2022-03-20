@@ -3,7 +3,7 @@ extends Viewport
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-
+export var sibling_viewport_path : NodePath = ""
 
 # -------------------------------------------------------------------------
 # Variables
@@ -11,10 +11,26 @@ extends Viewport
 var _player : Node2D = null
 var _camera : Camera2D = null
 
+var _sibling_viewport : Viewport = null
+
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------
+# Setters / getters
+# -------------------------------------------------------------------------
+
+func set_sibling_viewport_path(vpp : NodePath) -> void:
+	sibling_viewport_path = vpp
+	if sibling_viewport_path == "":
+		_sibling_viewport = null
+	else:
+		var n = get_node_or_null(sibling_viewport_path)
+		if n != null and n is Viewport:
+			if n.has_method("_GetCamera"):
+				_sibling_viewport = n
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -22,6 +38,7 @@ var _camera : Camera2D = null
 func _ready() -> void:
 	_FindPlayer()
 	_FindCamera()
+	set_sibling_viewport_path(sibling_viewport_path)
 
 # -------------------------------------------------------------------------
 # Private Methods
@@ -55,6 +72,9 @@ func _FindCamera() -> void:
 	else:
 		printerr("WARNING: No Camera nodes found.")
 
+func _GetCamera() -> Camera2D:
+	return _camera
+
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -74,35 +94,39 @@ func get_player_start():
 					return ps.global_position
 	return null
 
-func has_player_and_camera() -> bool:
-	return _player != null and _camera != null
+func has_player() -> bool:
+	return _player != null
 
-func add_player_and_camera(player : Node2D, camera : Camera2D) -> void:
+func add_player(player : Node2D) -> void:
 	if _player == null and player.get_parent() == null:
 		_player = player
 		add_child(player)
 	
-	if _camera == null and camera.get_parent() == null:
-		_camera = camera
-		add_child(camera)
-		if _player:
-			_camera.target_node_path = _camera.get_path_to(_player)
+	if _camera != null and _player != null:
+		_camera.target_node_path = _camera.get_path_to(_player)
 
-func release_player_and_camera() -> void:
+func release_player() -> void:
 	if _player != null:
+		if _camera != null:
+			_camera.target_node_path = ""
 		remove_child(_player)
 		_player = null
-	
-	if _camera != null:
-		_camera.target_node_path = ""
-		remove_child(_camera)
-		_camera = null
 
 func clear_children() -> void:
 	for child in get_children():
 		if child != _player and child != _camera:
 			remove_child(child)
 			child.queue_free()
+
+func snap_camera_to_target() -> void:
+	if _player != null and _camera != null:
+		_camera.snap_to_target()
+
+func track_sibling_camera() -> void:
+	if _sibling_viewport != null and _camera != null:
+		var sibling_camera : Camera2D = _sibling_viewport._GetCamera()
+		if sibling_camera:
+			_camera.target_node_path = _camera.get_path_to(sibling_camera)
 
 # -------------------------------------------------------------------------
 # Handler Methods
