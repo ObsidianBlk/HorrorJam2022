@@ -1,38 +1,37 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
 [ext_resource path="res://Objects/ShakeCamera/ShakeCamera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Actors/TestDummy/TestDummy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/World_Viewport.gd" type="Script" id=5]
-
-[sub_resource type="Shader" id=3]
-code = "shader_type canvas_item;
-
-uniform vec4 portal_color : hint_color = vec4(1);
-uniform sampler2D real_world;
-uniform sampler2D alt_world;
-uniform float blend : hint_range(0.0, 1.0) = 0.0;
-
-void fragment() {
-	vec4 color = mix(texture(real_world, UV), texture(alt_world, UV), blend);
-	if (distance(portal_color, color) < 0.001){
-		color = mix(texture(real_world, UV), texture(alt_world, UV), 1.0 - blend);
-	}
-	COLOR = color;
-}"
+[ext_resource path="res://Shaders/World.gdshader" type="Shader" id=6]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
+
+[sub_resource type="OpenSimplexNoise" id=7]
+seed = 324180756
+octaves = 1
+period = 33.9
+
+[sub_resource type="NoiseTexture" id=8]
+width = 640
+height = 380
+seamless = true
+noise = SubResource( 7 )
 
 [sub_resource type="ViewportTexture" id=5]
 viewport_path = NodePath("Real_World_View")
 
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
-shader = SubResource( 3 )
+shader = ExtResource( 6 )
 shader_param/portal_color = Color( 0.843137, 0.482353, 0.729412, 1 )
 shader_param/blend = 0.0
+shader_param/wave_thickness = 0.2
+shader_param/invert = false
+shader_param/noise_texture = SubResource( 8 )
 shader_param/real_world = SubResource( 5 )
 shader_param/alt_world = SubResource( 6 )
 
