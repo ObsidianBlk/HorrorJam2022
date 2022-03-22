@@ -4,7 +4,7 @@ extends Node2D
 # Constants
 # -------------------------------------------------------------------------
 const INITIAL_ZONE : String = "res://Scenes/Demo_Level.tscn"
-const WORLD_SHIFT_TIME : float = 5.0
+const WORLD_SHIFT_TIME : float = 1.0
 
 enum WORLD {Real=0, Alt=1}
 
@@ -53,16 +53,22 @@ func _process(delta : float) -> void:
 			if _world_time > 0.0:
 				_world_time = max(0.0, _world_time - delta)
 				if _world_time == 0.0:
-					_InvertShader()
-				print("Blend: ", _world_time / WORLD_SHIFT_TIME)
-				gameview_node.material.set_shader_param("blend", _world_time / WORLD_SHIFT_TIME)
+					gameview_node.material.set_shader_param("in_real_world", true)
+					gameview_node.material.set_shader_param("transit", 0.0)
+				else:
+					var blend = _world_time / WORLD_SHIFT_TIME
+					gameview_node.material.set_shader_param("blend", blend)
+					gameview_node.material.set_shader_param("transit", 1.0 - blend)
 		WORLD.Alt:
 			if _world_time < WORLD_SHIFT_TIME:
 				_world_time = min(WORLD_SHIFT_TIME, _world_time + delta)
 				if _world_time == WORLD_SHIFT_TIME:
-					_InvertShader()
-				print("Blend: ", _world_time / WORLD_SHIFT_TIME)
-				gameview_node.material.set_shader_param("blend", _world_time / WORLD_SHIFT_TIME)
+					gameview_node.material.set_shader_param("in_real_world", false)
+					gameview_node.material.set_shader_param("transit", 0.0)
+				else:
+					var blend = _world_time / WORLD_SHIFT_TIME
+					gameview_node.material.set_shader_param("blend", blend)
+					gameview_node.material.set_shader_param("transit", blend)
 
 # -------------------------------------------------------------------------
 # Private Methods
