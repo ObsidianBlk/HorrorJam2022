@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Assets/Characters/TestDummy/Run.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/TestDummy/Walk.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Actors/Actor.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Characters/shadow.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Lighting/Kenney/light_01.png" type="Texture" id=6]
+[ext_resource path="res://Objects/SoundCTRL/SoundCTRL.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape2D" id=23]
 radius = 6.0
@@ -282,6 +283,23 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ) ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath("SoundCTRL")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "steps" ],
+"method": "play_random_set"
+}, {
+"args": [ "steps" ],
+"method": "play_random_set"
+} ]
+}
 
 [sub_resource type="Animation" id=27]
 resource_name = "walk"
@@ -346,6 +364,23 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("SoundCTRL")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "steps" ],
+"method": "play_random_set"
+}, {
+"args": [ "steps" ],
+"method": "play_random_set"
+} ]
 }
 
 [sub_resource type="Animation" id=30]
@@ -490,3 +525,7 @@ position = Vector2( 0, -58 )
 texture = ExtResource( 6 )
 texture_scale = 0.5
 energy = 1.2
+
+[node name="SoundCTRL" parent="." instance=ExtResource( 7 )]
+sounds = [ [ "step1", "res://Assets/Audio/SFX/foot_step_001.wav" ], [ "step2", "res://Assets/Audio/SFX/foot_step_002.wav" ], [ "step3", "res://Assets/Audio/SFX/foot_step_003.wav" ] ]
+sound_sets = [ [ "steps", "step1,step2,step3" ] ]
