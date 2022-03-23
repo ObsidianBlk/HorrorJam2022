@@ -64,8 +64,12 @@ func _physics_process(delta : float) -> void:
 # -------------------------------------------------------------------------
 func _UpdateViz() -> void:	
 	if _direction.length() > 0:
-		anim_node.play("run" if _running else "walk")
-		sprite_node.flip_h = true if _direction.x < 0.0 else false
+		var walk_anim = "" if _direction.y >= 0 else "_away"
+		anim_node.play("run" if _running else "walk" + walk_anim)
+		if _direction.x < 0.0:
+			sprite_node.flip_h = true
+		elif _direction.x > 0.0:
+			sprite_node.flip_h = false
 	elif _velocity.length() < 0.01 and not anim_node.assigned_animation == "rest":
 		anim_node.play("rest")
 
