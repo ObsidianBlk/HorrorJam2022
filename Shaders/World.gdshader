@@ -15,6 +15,9 @@ vec4 calculate_color(vec2 uv, float time){
 	float ht = 0.1 * transit;
 
 	if (distance(portal_color, from_color) < 0.001){
+		if (distance(portal_color, to_color) < 0.001){
+			return from_color;
+		}
 		return to_color;
 	}
 	
@@ -24,11 +27,12 @@ vec4 calculate_color(vec2 uv, float time){
 	float uv_distance = distance(uv, vec2(0.5, 0.5)) * noise;
 	float weight = step(uv_distance, max_dist);
 	
-	/*if (invert)
-		weight = 1.0 - weight;
-	if (uv_distance < max_dist && uv_distance >= max_dist - wave_thickness)
-		weight = step(noise, shift_blend);*/
-	return mix(from_color, to_color, weight);
+	
+	vec4 color = mix(from_color, to_color, weight);
+	if (distance(portal_color, color) < 0.001){
+		color = (weight < 0.5) ? to_color : from_color;
+	}
+	return color;
 }
 
 
