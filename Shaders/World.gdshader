@@ -18,16 +18,17 @@ vec4 calculate_color(vec2 uv, float time){
 		return to_color;
 	}
 	
+	//float noise = step(texture(noise_texture, uv).x, smoothstep(-0.5, 1.0, transit));
+	float noise = mix(0.5, 1.5, texture(noise_texture, uv * normalize(vec2(sin(time), cos(time)))).x);
 	float max_dist = 0.7071 * transit; // Distance between (0, 0) and (0.5, 0.5) multiplied by transit
-	float uv_distance = distance(uv, vec2(0.5, 0.5));
+	float uv_distance = distance(uv, vec2(0.5, 0.5)) * noise;
 	float weight = step(uv_distance, max_dist);
-	float noise = step(texture(noise_texture, uv).x, smoothstep(-0.5, 1.0, transit));
 	
 	/*if (invert)
 		weight = 1.0 - weight;
 	if (uv_distance < max_dist && uv_distance >= max_dist - wave_thickness)
 		weight = step(noise, shift_blend);*/
-	return mix(from_color, to_color, weight * noise);
+	return mix(from_color, to_color, weight);
 }
 
 
