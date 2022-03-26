@@ -73,18 +73,20 @@ script = ExtResource( 4 )
 material = SubResource( 25 )
 frames = SubResource( 11 )
 animation = "Default"
-frame = 9
+frame = 3
 playing = true
 offset = Vector2( 0, -64 )
 
 [node name="ASP2D_Whispers" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 1 )
+autoplay = true
 max_distance = 500.0
 bus = "SFX"
 
 [node name="ASP2D_Groan" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 volume_db = 4.894
+autoplay = true
 max_distance = 50.0
 bus = "SFX"
 

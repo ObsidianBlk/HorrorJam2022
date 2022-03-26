@@ -1,0 +1,189 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Characters/Nightmare/segment_end.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Characters/Nightmare/segment.png" type="Texture" id=2]
+[ext_resource path="res://Objects/IK/IKJoint.gd" type="Script" id=3]
+[ext_resource path="res://Actors/Nightmare/Nightmare.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Characters/Nightmare/skull.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Characters/TestDummy/Idle.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Characters/Nightmare/chest.png" type="Texture" id=7]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 6.0
+height = 10.0
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 15, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -5, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "sway"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 11, 0 ), Vector2( -10, 0 ), Vector2( 10, -13 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -5, 0 ), Vector2( 13, -14 ), Vector2( 18, 0 ) ]
+}
+
+[node name="Nightmare" type="KinematicBody2D"]
+script = ExtResource( 4 )
+
+[node name="Ref" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, -48 )
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Chest" type="Sprite" parent="Body"]
+position = Vector2( 0, -53 )
+texture = ExtResource( 7 )
+
+[node name="Skull" type="Sprite" parent="Body"]
+position = Vector2( 1, -57 )
+texture = ExtResource( 5 )
+
+[node name="LegL" type="Node2D" parent="."]
+position = Vector2( -1, -28 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegL"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid" type="Node2D" parent="LegL"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegL/Mid"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid2" type="Node2D" parent="LegL/Mid"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegL/Mid/Mid2"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid3" type="Node2D" parent="LegL/Mid/Mid2"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegL/Mid/Mid2/Mid3"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Tip" type="Node2D" parent="LegL/Mid/Mid2/Mid3"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="LegR" type="Node2D" parent="."]
+position = Vector2( 6, -30 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegR"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid" type="Node2D" parent="LegR"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegR/Mid"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid2" type="Node2D" parent="LegR/Mid"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegR/Mid/Mid2"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid3" type="Node2D" parent="LegR/Mid/Mid2"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="LegR/Mid/Mid2/Mid3"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, 4 )
+
+[node name="Tip" type="Node2D" parent="LegR/Mid/Mid2/Mid3"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="LegLPos" type="Position2D" parent="."]
+position = Vector2( 15, 16 )
+
+[node name="LegRPos" type="Position2D" parent="."]
+position = Vector2( -5, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -4 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "sway"
+anims/RESET = SubResource( 2 )
+anims/sway = SubResource( 3 )
