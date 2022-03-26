@@ -1,18 +1,30 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Characters/Nightmare/segment_end.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/Nightmare/segment.png" type="Texture" id=2]
-[ext_resource path="res://Objects/IK/IKJoint.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/IKJoint.gd" type="Script" id=3]
 [ext_resource path="res://Actors/Nightmare/Nightmare.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Characters/Nightmare/skull.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Characters/TestDummy/Idle.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Characters/Nightmare/chest.png" type="Texture" id=7]
+[ext_resource path="res://Shaders/drip_particle.gdshader" type="Shader" id=8]
+[ext_resource path="res://Assets/Characters/Nightmare/ichor.png" type="Texture" id=9]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 8 )
+shader_param/drip_shade = Color( 0.129412, 0.141176, 0.113725, 0.501961 )
+shader_param/fall_shade = Color( 0.133333, 0.0392157, 0.0156863, 0.784314 )
+shader_param/surface_offset = Vector2( 16, 32 )
+shader_param/emission_bounds = Vector2( 32, 32 )
+shader_param/gravity = Vector3( 0, 60, 0 )
+shader_param/jam_friction = 40.0
+shader_param/surface_texture = ExtResource( 7 )
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
 height = 10.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("LegLPos:position")
@@ -24,7 +36,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 15, 16 ) ]
+"values": [ Vector2( -11, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("LegRPos:position")
@@ -36,13 +48,48 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -5, 0 ) ]
+"values": [ Vector2( 12, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Skull:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 5 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Skull:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "sway"
-length = 2.0
-loop = true
+[sub_resource type="Animation" id=6]
+resource_name = "idle"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("LegLPos:position")
 tracks/0/interp = 1
@@ -50,10 +97,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 11, 0 ), Vector2( -10, 0 ), Vector2( 10, -13 ) ]
+"values": [ Vector2( -11, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("LegRPos:position")
@@ -62,10 +109,87 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.8, 1.5 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 12, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Skull:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 5 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "walk"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -11, 0 ), Vector2( -15, 0 ), Vector2( 5, -12 ), Vector2( 9, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 14, -12 ), Vector2( 19, 0 ), Vector2( -3, 0 ), Vector2( -10, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 0 ), Vector2( 0, 4 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Skull:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -5, 0 ), Vector2( 13, -14 ), Vector2( 18, 0 ) ]
+"values": [ 0.0, -9.5, 5.9 ]
 }
 
 [node name="Nightmare" type="KinematicBody2D"]
@@ -78,105 +202,113 @@ offset = Vector2( 0, -48 )
 
 [node name="Body" type="Node2D" parent="."]
 
+[node name="ichor" type="Particles2D" parent="Body"]
+position = Vector2( -16, -54 )
+amount = 100
+process_material = SubResource( 4 )
+texture = ExtResource( 9 )
+
 [node name="Chest" type="Sprite" parent="Body"]
 position = Vector2( 0, -53 )
 texture = ExtResource( 7 )
 
 [node name="Skull" type="Sprite" parent="Body"]
-position = Vector2( 1, -57 )
+position = Vector2( 0, -58 )
 texture = ExtResource( 5 )
 
-[node name="LegL" type="Node2D" parent="."]
-position = Vector2( -1, -28 )
+[node name="LegL" type="Node2D" parent="Body"]
+position = Vector2( -4, -28 )
 script = ExtResource( 3 )
 show_bone = false
+target_node_path = NodePath("../../LegLPos")
 
-[node name="Sprite" type="Sprite" parent="LegL"]
+[node name="Sprite" type="Sprite" parent="Body/LegL"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 
-[node name="Mid" type="Node2D" parent="LegL"]
+[node name="Mid" type="Node2D" parent="Body/LegL"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegL/Mid"]
+[node name="Sprite" type="Sprite" parent="Body/LegL/Mid"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid2" type="Node2D" parent="LegL/Mid"]
+[node name="Mid2" type="Node2D" parent="Body/LegL/Mid"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegL/Mid/Mid2"]
+[node name="Sprite" type="Sprite" parent="Body/LegL/Mid/Mid2"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 
-[node name="Mid3" type="Node2D" parent="LegL/Mid/Mid2"]
+[node name="Mid3" type="Node2D" parent="Body/LegL/Mid/Mid2"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegL/Mid/Mid2/Mid3"]
+[node name="Sprite" type="Sprite" parent="Body/LegL/Mid/Mid2/Mid3"]
 texture = ExtResource( 1 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Tip" type="Node2D" parent="LegL/Mid/Mid2/Mid3"]
+[node name="Tip" type="Node2D" parent="Body/LegL/Mid/Mid2/Mid3"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="LegR" type="Node2D" parent="."]
-position = Vector2( 6, -30 )
+[node name="LegR" type="Node2D" parent="Body"]
+position = Vector2( 4, -30 )
 script = ExtResource( 3 )
 show_bone = false
+target_node_path = NodePath("../../LegRPos")
 
-[node name="Sprite" type="Sprite" parent="LegR"]
+[node name="Sprite" type="Sprite" parent="Body/LegR"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid" type="Node2D" parent="LegR"]
+[node name="Mid" type="Node2D" parent="Body/LegR"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegR/Mid"]
+[node name="Sprite" type="Sprite" parent="Body/LegR/Mid"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 
-[node name="Mid2" type="Node2D" parent="LegR/Mid"]
+[node name="Mid2" type="Node2D" parent="Body/LegR/Mid"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegR/Mid/Mid2"]
+[node name="Sprite" type="Sprite" parent="Body/LegR/Mid/Mid2"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid3" type="Node2D" parent="LegR/Mid/Mid2"]
+[node name="Mid3" type="Node2D" parent="Body/LegR/Mid/Mid2"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="LegR/Mid/Mid2/Mid3"]
+[node name="Sprite" type="Sprite" parent="Body/LegR/Mid/Mid2/Mid3"]
 texture = ExtResource( 1 )
 offset = Vector2( 0, 4 )
 
-[node name="Tip" type="Node2D" parent="LegR/Mid/Mid2/Mid3"]
+[node name="Tip" type="Node2D" parent="Body/LegR/Mid/Mid2/Mid3"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
 [node name="LegLPos" type="Position2D" parent="."]
-position = Vector2( 15, 16 )
+position = Vector2( -11, 0 )
 
 [node name="LegRPos" type="Position2D" parent="."]
-position = Vector2( -5, 0 )
+position = Vector2( 12, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -4 )
@@ -184,6 +316,7 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "sway"
-anims/RESET = SubResource( 2 )
-anims/sway = SubResource( 3 )
+autoplay = "walk"
+anims/RESET = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/walk = SubResource( 2 )

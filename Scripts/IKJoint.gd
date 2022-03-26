@@ -5,6 +5,10 @@ extends Node2D
 # http://www.andreasaristidou.com/publications/papers/FABRIK.pdf
 
 
+# WARNING: As of this time, this class is not a fully complete implementation of FABRIK.
+# It can only sort-of support sub-roots, but not accurately. Best used as single chain IK for
+# the time being.
+
 # ---------------------------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------------------------
@@ -16,6 +20,7 @@ const THRESHOLD : float = 0.01
 export var show_bone : bool = true					setget set_show_bone
 export var bone_color : Color = Color.coral
 export var max_cycles : int = 100					setget set_max_cycles
+export var target_node_path : NodePath = ""
 #export var verbose : bool = false
 
 
@@ -53,9 +58,14 @@ func set_max_cycles(c : int, from_base : bool = true) -> void:
 		if end != null:
 			end.set_max_cycles(c, false)
 
+	
 # ---------------------------------------------------------------------------------------------
 # Override Methods
 # ---------------------------------------------------------------------------------------------
+func _ready() -> void:
+	pass
+
+
 func _draw_joint_bone(joint : Node2D) -> void:
 	var angle = joint.position.angle_to_point(Vector2.ZERO) - deg2rad(90)
 	var dist = Vector2.ZERO.distance_to(joint.position)
@@ -91,6 +101,10 @@ func _draw() -> void:
 
 
 func _process(_delta : float) -> void:
+	if not Engine.editor_hint and is_base() and target_node_path != "":
+		var target = get_node_or_null(target_node_path)
+		if target is Node2D:
+			solve(target.global_position)
 	update()
 
 
