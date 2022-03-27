@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Env/Items/CeilingLight_001.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Lighting/CeilingLight_001_Light.png" type="Texture" id=2]
+
+[node name="CeilingLight" type="Light2D"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 88 )
+color = Color( 0.905882, 0.788235, 0.533333, 1 )
+mode = 2
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )

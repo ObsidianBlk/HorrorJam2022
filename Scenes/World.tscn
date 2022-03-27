@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Actors/TestDummy/TestDummy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/World_Viewport.gd" type="Script" id=5]
 [ext_resource path="res://Shaders/World.gdshader" type="Shader" id=6]
+[ext_resource path="res://Scripts/AINightmare.gd" type="Script" id=7]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
@@ -37,6 +38,9 @@ shader_param/alt_world = SubResource( 6 )
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="AINightmare" type="Node" parent="."]
+script = ExtResource( 7 )
 
 [node name="PlayerController" type="Node" parent="."]
 script = ExtResource( 1 )
