@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Assets/Characters/Nightmare/segment_end.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/Nightmare/segment.png" type="Texture" id=2]
@@ -9,15 +9,18 @@
 [ext_resource path="res://Assets/Characters/Nightmare/chest.png" type="Texture" id=7]
 [ext_resource path="res://Shaders/drip_particle.gdshader" type="Shader" id=8]
 [ext_resource path="res://Assets/Characters/Nightmare/ichor.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Characters/Nightmare/skull_away.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Characters/Nightmare/chest_away.png" type="Texture" id=11]
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 8 )
-shader_param/drip_shade = Color( 0.129412, 0.141176, 0.113725, 0.501961 )
-shader_param/fall_shade = Color( 0.133333, 0.0392157, 0.0156863, 0.784314 )
+shader_param/drip_shade = Color( 0.2, 0.219608, 0.176471, 0.784314 )
+shader_param/fall_shade = Color( 0.231373, 0.0666667, 0.027451, 0.886275 )
 shader_param/surface_offset = Vector2( 16, 32 )
 shader_param/emission_bounds = Vector2( 32, 32 )
 shader_param/gravity = Vector3( 0, 60, 0 )
-shader_param/jam_friction = 40.0
+shader_param/jam_friction = 60.0
+shader_param/max_distance = 28.0
 shader_param/surface_texture = ExtResource( 7 )
 
 [sub_resource type="CapsuleShape2D" id=1]
@@ -51,7 +54,7 @@ tracks/1/keys = {
 "values": [ Vector2( 12, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body:position")
+tracks/2/path = NodePath("Viz:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -63,7 +66,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Skull:texture")
+tracks/3/path = NodePath("Viz/Skull:texture")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -75,7 +78,7 @@ tracks/3/keys = {
 "values": [ ExtResource( 5 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Skull:rotation_degrees")
+tracks/4/path = NodePath("Viz/Skull:rotation_degrees")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -86,9 +89,105 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/Chest:flip_h")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/ArmR:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -45.997 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/ArmL:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -46.997 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/LegR:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -30 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/LegL:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -28 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Viz/Skull:flip_h")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
-[sub_resource type="Animation" id=6]
-resource_name = "idle"
+[sub_resource type="Animation" id=7]
+resource_name = "idle_left"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("LegLPos:position")
@@ -115,7 +214,7 @@ tracks/1/keys = {
 "values": [ Vector2( 12, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body:position")
+tracks/2/path = NodePath("Viz:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -127,7 +226,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Skull:texture")
+tracks/3/path = NodePath("Viz/Skull:texture")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -138,10 +237,550 @@ tracks/3/keys = {
 "update": 1,
 "values": [ ExtResource( 5 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/Chest:flip_h")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/Skull:flip_h")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/ArmR:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -48 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/ArmL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -45 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/LegR:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -28 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Viz/LegL:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -30 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "idle_left_away"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -11, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 12, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Viz/Skull:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 10 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/Chest:flip_h")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/Skull:flip_h")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/ArmR:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -48 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/ArmL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -45 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/LegR:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -28 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Viz/LegL:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -30 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "idle_right"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -11, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 12, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Viz/Skull:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 5 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/Chest:flip_h")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/Skull:flip_h")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/ArmR:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -45.997 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/ArmL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -46.997 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/LegR:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -30 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Viz/LegL:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -28 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "idle_right_away"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("LegLPos:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -11, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LegRPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 12, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Viz/Skull:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 10 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/Chest:flip_h")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/Skull:flip_h")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/ArmR:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -45.997 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/ArmL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -46.997 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/LegR:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -30 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Viz/LegL:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -28 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "walk"
-length = 0.8
+length = 1.5
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("LegLPos:position")
@@ -150,7 +789,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -11, 0 ), Vector2( -15, 0 ), Vector2( 5, -12 ), Vector2( 9, 0 ) ]
@@ -162,34 +801,118 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 14, -12 ), Vector2( 19, 0 ), Vector2( -3, 0 ), Vector2( -10, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body:position")
+tracks/2/path = NodePath("Viz:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 0 ), Vector2( 0, 4 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Skull:rotation_degrees")
+tracks/3/path = NodePath("Viz/Skull:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5 ),
+"times": PoolRealArray( 0, 0.6, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, -9.5, 5.9 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Viz/Chest:texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Viz/Chest:flip_h")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Viz/ArmR:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 7, -45.997 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Viz/ArmL:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -7, -46.997 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Viz/LegR:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -30 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Viz/LegL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -4, -28 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Viz/ichor:process_material:shader_param/surface_texture")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 7 ) ]
 }
 
 [node name="Nightmare" type="KinematicBody2D"]
@@ -200,109 +923,196 @@ visible = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, -48 )
 
-[node name="Body" type="Node2D" parent="."]
+[node name="Viz" type="Node2D" parent="."]
 
-[node name="ichor" type="Particles2D" parent="Body"]
-position = Vector2( -16, -54 )
-amount = 100
-process_material = SubResource( 4 )
-texture = ExtResource( 9 )
-
-[node name="Chest" type="Sprite" parent="Body"]
-position = Vector2( 0, -53 )
-texture = ExtResource( 7 )
-
-[node name="Skull" type="Sprite" parent="Body"]
-position = Vector2( 0, -58 )
-texture = ExtResource( 5 )
-
-[node name="LegL" type="Node2D" parent="Body"]
-position = Vector2( -4, -28 )
-script = ExtResource( 3 )
-show_bone = false
-target_node_path = NodePath("../../LegLPos")
-
-[node name="Sprite" type="Sprite" parent="Body/LegL"]
-texture = ExtResource( 2 )
-offset = Vector2( 0, 4 )
-
-[node name="Mid" type="Node2D" parent="Body/LegL"]
-position = Vector2( 0, 8 )
+[node name="ArmR" type="Node2D" parent="Viz"]
+position = Vector2( 7, -45.997 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegL/Mid"]
+[node name="Sprite" type="Sprite" parent="Viz/ArmR"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid2" type="Node2D" parent="Body/LegL/Mid"]
+[node name="Mid" type="Node2D" parent="Viz/ArmR"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegL/Mid/Mid2"]
+[node name="Sprite" type="Sprite" parent="Viz/ArmR/Mid"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 
-[node name="Mid3" type="Node2D" parent="Body/LegL/Mid/Mid2"]
+[node name="Mid2" type="Node2D" parent="Viz/ArmR/Mid"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegL/Mid/Mid2/Mid3"]
+[node name="Sprite" type="Sprite" parent="Viz/ArmR/Mid/Mid2"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid3" type="Node2D" parent="Viz/ArmR/Mid/Mid2"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/ArmR/Mid/Mid2/Mid3"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, 4 )
+
+[node name="Tip" type="Node2D" parent="Viz/ArmR/Mid/Mid2/Mid3"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Chest" type="Sprite" parent="Viz"]
+position = Vector2( 0, -53 )
+texture = ExtResource( 7 )
+
+[node name="ArmL" type="Node2D" parent="Viz"]
+position = Vector2( -7, -46.997 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/ArmL"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid" type="Node2D" parent="Viz/ArmL"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/ArmL/Mid"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid2" type="Node2D" parent="Viz/ArmL/Mid"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/ArmL/Mid/Mid2"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid3" type="Node2D" parent="Viz/ArmL/Mid/Mid2"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/ArmL/Mid/Mid2/Mid3"]
 texture = ExtResource( 1 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Tip" type="Node2D" parent="Body/LegL/Mid/Mid2/Mid3"]
+[node name="Tip" type="Node2D" parent="Viz/ArmL/Mid/Mid2/Mid3"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="LegR" type="Node2D" parent="Body"]
+[node name="Skull" type="Sprite" parent="Viz"]
+position = Vector2( 0, -58 )
+texture = ExtResource( 5 )
+
+[node name="LegR" type="Node2D" parent="Viz"]
 position = Vector2( 4, -30 )
 script = ExtResource( 3 )
 show_bone = false
 target_node_path = NodePath("../../LegRPos")
 
-[node name="Sprite" type="Sprite" parent="Body/LegR"]
+[node name="Sprite" type="Sprite" parent="Viz/LegR"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid" type="Node2D" parent="Body/LegR"]
+[node name="Mid" type="Node2D" parent="Viz/LegR"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegR/Mid"]
+[node name="Sprite" type="Sprite" parent="Viz/LegR/Mid"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 
-[node name="Mid2" type="Node2D" parent="Body/LegR/Mid"]
+[node name="Mid2" type="Node2D" parent="Viz/LegR/Mid"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegR/Mid/Mid2"]
+[node name="Sprite" type="Sprite" parent="Viz/LegR/Mid/Mid2"]
 texture = ExtResource( 2 )
 offset = Vector2( 0, 4 )
 flip_h = true
 
-[node name="Mid3" type="Node2D" parent="Body/LegR/Mid/Mid2"]
+[node name="Mid3" type="Node2D" parent="Viz/LegR/Mid/Mid2"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
 
-[node name="Sprite" type="Sprite" parent="Body/LegR/Mid/Mid2/Mid3"]
+[node name="Sprite" type="Sprite" parent="Viz/LegR/Mid/Mid2/Mid3"]
 texture = ExtResource( 1 )
 offset = Vector2( 0, 4 )
 
-[node name="Tip" type="Node2D" parent="Body/LegR/Mid/Mid2/Mid3"]
+[node name="Tip" type="Node2D" parent="Viz/LegR/Mid/Mid2/Mid3"]
 position = Vector2( 0, 8 )
 script = ExtResource( 3 )
 show_bone = false
+
+[node name="LegL" type="Node2D" parent="Viz"]
+position = Vector2( -4, -28 )
+script = ExtResource( 3 )
+show_bone = false
+target_node_path = NodePath("../../LegLPos")
+
+[node name="Sprite" type="Sprite" parent="Viz/LegL"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid" type="Node2D" parent="Viz/LegL"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/LegL/Mid"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Mid2" type="Node2D" parent="Viz/LegL/Mid"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/LegL/Mid/Mid2"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, 4 )
+
+[node name="Mid3" type="Node2D" parent="Viz/LegL/Mid/Mid2"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="Sprite" type="Sprite" parent="Viz/LegL/Mid/Mid2/Mid3"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, 4 )
+flip_h = true
+
+[node name="Tip" type="Node2D" parent="Viz/LegL/Mid/Mid2/Mid3"]
+position = Vector2( 0, 8 )
+script = ExtResource( 3 )
+show_bone = false
+
+[node name="ichor" type="Particles2D" parent="Viz"]
+position = Vector2( -16, -54 )
+amount = 200
+lifetime = 4.0
+process_material = SubResource( 4 )
+texture = ExtResource( 9 )
 
 [node name="LegLPos" type="Position2D" parent="."]
 position = Vector2( -11, 0 )
@@ -315,8 +1125,11 @@ position = Vector2( 0, -4 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "walk"
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "idle_right"
 anims/RESET = SubResource( 5 )
-anims/idle = SubResource( 6 )
+anims/idle_left = SubResource( 7 )
+anims/idle_left_away = SubResource( 8 )
+anims/idle_right = SubResource( 6 )
+anims/idle_right_away = SubResource( 9 )
 anims/walk = SubResource( 2 )

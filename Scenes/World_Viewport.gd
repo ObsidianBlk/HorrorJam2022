@@ -72,6 +72,12 @@ func _FindCamera() -> void:
 	else:
 		printerr("WARNING: No Camera nodes found.")
 
+func _FindYSort() -> YSort:
+	for child in get_children():
+		if child is YSort:
+			return child
+	return null
+
 func _GetCamera() -> Camera2D:
 	return _camera
 
@@ -100,7 +106,11 @@ func has_player() -> bool:
 func add_player(player : Node2D) -> void:
 	if _player == null and player.get_parent() == null:
 		_player = player
-		add_child(player)
+		var container = _FindYSort()
+		if container:
+			container.add_child(player)
+		else:
+			add_child(player)
 	
 	if _camera != null and _player != null:
 		_camera.target_node_path = _camera.get_path_to(_player)
@@ -109,12 +119,16 @@ func release_player() -> void:
 	if _player != null:
 		if _camera != null:
 			_camera.target_node_path = ""
-		remove_child(_player)
+		var parent = _player.get_parent()
+		if parent:
+			parent.remove_child(_player)
 		_player = null
 
 func clear_children() -> void:
 	for child in get_children():
 		if child != _player and child != _camera:
+			if _player and _player.get_parent() == child:
+				release_player()
 			remove_child(child)
 			child.queue_free()
 

@@ -7,6 +7,7 @@ uniform vec2 surface_offset;
 uniform vec2 emission_bounds;
 uniform vec3 gravity = vec3(0.0, 98.0, 0.0);
 uniform float jam_friction = 20.0;
+uniform float max_distance = 1.0;
 
 
 float rand_from_seed(inout uint seed){
@@ -70,6 +71,8 @@ void vertex(){
 		}
 	} else {
 		vec4 surfColor = surface_color_at(TRANSFORM[3].xy + surface_offset);
+		if (TRANSFORM[3].y > max_distance)
+			ACTIVE = false;
 		vec3 force = gravity + ((surfColor.a != 0f) ? (VELOCITY * -jam_friction) : vec3(0f));
 		VELOCITY += force * DELTA;
 		color = mix(drip_shade, fall_shade, normalized_range(16f, 28f, VELOCITY.y));

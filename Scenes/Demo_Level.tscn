@@ -14,21 +14,27 @@ extents = Vector2( 256, 10 )
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 10, 48 )
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 512, 10 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 64 )
-
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 256, 10 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 10, 48 )
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 512, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 64 )
+
 [node name="Demo_Level" type="Node2D"]
 
-[node name="AltWorld" type="Node2D" parent="."]
+[node name="AltWorld" type="YSort" parent="."]
+
+[node name="PortalA" parent="AltWorld" instance=ExtResource( 4 )]
+position = Vector2( 901, 223 )
+
+[node name="PortalB" parent="AltWorld" instance=ExtResource( 4 )]
+position = Vector2( 1373, 224 )
 
 [node name="SectionA" type="Node2D" parent="AltWorld"]
 position = Vector2( 881, 64 )
@@ -71,16 +77,53 @@ shape = SubResource( 7 )
 position = Vector2( 522, 160 )
 shape = SubResource( 7 )
 
-[node name="PortalA" parent="AltWorld/SectionA" instance=ExtResource( 4 )]
-position = Vector2( 20, 159 )
-
-[node name="PortalB" parent="AltWorld/SectionA" instance=ExtResource( 4 )]
-position = Vector2( 492, 160 )
-
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
 color = Color( 0.239216, 0.0666667, 0.0666667, 1 )
 
-[node name="RealWorld" type="Node2D" parent="."]
+[node name="RealWorld" type="YSort" parent="."]
+
+[node name="SectionB" type="Node2D" parent="RealWorld"]
+position = Vector2( 1224, 64 )
+
+[node name="Wall" type="Sprite" parent="RealWorld/SectionB"]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 512, 128 )
+
+[node name="Floor" type="Sprite" parent="RealWorld/SectionB"]
+position = Vector2( 0, 128 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 512, 64 )
+
+[node name="SectionCollision" type="StaticBody2D" parent="RealWorld/SectionB"]
+
+[node name="CollNorth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
+position = Vector2( 256, 118 )
+shape = SubResource( 4 )
+
+[node name="CollSouth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
+position = Vector2( 256, 202 )
+shape = SubResource( 4 )
+
+[node name="CollWest" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
+position = Vector2( -10, 160 )
+shape = SubResource( 5 )
+
+[node name="CollEast" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
+position = Vector2( 522, 160 )
+shape = SubResource( 5 )
+
+[node name="Nightmare" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 247, 228 )
+
+[node name="PortalA" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 1000, 223 )
+
+[node name="PortalB" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 1246, 224 )
 
 [node name="SectionA" type="Node2D" parent="RealWorld"]
 
@@ -127,49 +170,6 @@ shape = SubResource( 2 )
 [node name="Coll_East" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
 position = Vector2( 1034, 212 )
 shape = SubResource( 2 )
-
-[node name="Portal" parent="RealWorld/SectionA" instance=ExtResource( 4 )]
-position = Vector2( 1000, 223 )
-
-[node name="Nightmare" parent="RealWorld/SectionA" instance=ExtResource( 6 )]
-position = Vector2( 211, 161 )
-
-[node name="SectionB" type="Node2D" parent="RealWorld"]
-position = Vector2( 1224, 64 )
-
-[node name="Wall" type="Sprite" parent="RealWorld/SectionB"]
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 128 )
-
-[node name="Floor" type="Sprite" parent="RealWorld/SectionB"]
-position = Vector2( 0, 128 )
-texture = ExtResource( 2 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 64 )
-
-[node name="SectionCollision" type="StaticBody2D" parent="RealWorld/SectionB"]
-
-[node name="CollNorth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 256, 118 )
-shape = SubResource( 4 )
-
-[node name="CollSouth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 256, 202 )
-shape = SubResource( 4 )
-
-[node name="CollWest" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( -10, 160 )
-shape = SubResource( 5 )
-
-[node name="CollEast" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 522, 160 )
-shape = SubResource( 5 )
-
-[node name="Portal" parent="RealWorld/SectionB" instance=ExtResource( 4 )]
-position = Vector2( 22, 160 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.207843, 0.207843, 0.207843, 1 )

@@ -11,7 +11,7 @@ extents = Vector2( 128, 10 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10, 48 )
 
-[node name="Demo_Zone_2" type="Node2D"]
+[node name="Demo_Zone_2" type="YSort"]
 
 [node name="Wall" type="Sprite" parent="."]
 texture = ExtResource( 1 )

@@ -23,14 +23,13 @@ export var run_accel : float = 200.0
 # -------------------------------------------------------------------------
 var _velocity : Vector2 = Vector2.ZERO
 var _direction : Vector2 = Vector2.ZERO
+var _facing : Vector2 = Vector2(1,1)
 var _running : bool = false
 
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
 onready var viz_node : Node2D = $Viz
-onready var sprite_node : Sprite = $Viz/Sprite
-onready var anim_node : AnimationPlayer = $Anim
 
 # -------------------------------------------------------------------------
 # Setters / Getters
@@ -42,6 +41,7 @@ func set_running(r : bool) -> void:
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
+
 
 func _physics_process(delta : float) -> void:
 	_UpdateViz()
@@ -62,25 +62,12 @@ func _physics_process(delta : float) -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+
 func _UpdateViz() -> void:	
-	if _direction.length() > 0:
-		var walk_anim = "" if _direction.y >= 0 else "_away"
-		anim_node.play("run" if _running else "walk" + walk_anim)
-		if _direction.x < 0.0:
-			sprite_node.flip_h = true
-		elif _direction.x > 0.0:
-			sprite_node.flip_h = false
-	elif _velocity.length() < 0.01 and not anim_node.assigned_animation == "rest":
-		anim_node.play("rest")
+	pass
 
 func _Fade(anim_name : String) -> void:
-	_velocity = Vector2.ZERO
-	_direction = Vector2.ZERO
-	$AnimFade.play(anim_name)
-	set_physics_process(false)
-	yield($AnimFade, "animation_finished")
-	set_physics_process(true)
-	emit_signal("faded")
+	pass
 
 
 # -------------------------------------------------------------------------
@@ -92,8 +79,16 @@ func move(dir : Vector2) -> void:
 	if dir.length_squared() > 1:
 		_direction = dir.normalized()
 	if dir.length() > 0:
+		_facing = Vector2(sign(dir.x), sign(dir.y))
 		if sign(_direction.x) != hsign:
 			_velocity.x = 0.0
+
+func face(dir : Vector2) -> void:
+	if dir.length() > 0:
+		_facing = Vector2(sign(dir.x), sign(dir.y))
+
+func face_target(target : Node2D) -> void:
+	face(global_position.direction_to(target.global_position))
 
 func interact() -> void:
 	emit_signal("interact")

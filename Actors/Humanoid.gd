@@ -8,41 +8,46 @@ extends "res://Actors/Actor.gd"
 # -------------------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------------------
-var _player : KinematicBody2D = null
+var _sprite_nodes : Array = []
 
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
-onready var anim_node : AnimationPlayer = get_node("Anim")
+onready var anim_node : AnimationPlayer = $Anim
 
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
-
+func _ready() -> void:
+	for child in viz_node.get_children():
+		if child is Sprite and child.is_in_group("Flippable"):
+			_sprite_nodes.append(child)
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _FindPlayer() -> void:
-	if _player == null:
-		var plist = get_tree().get_nodes_in_group("Player")
-		for p in plist:
-			if p is KinematicBody2D:
-				_player = p
-				break
-
-func _UpdateViz() -> void:
-	_FindPlayer()
-	if _player != null:
-		var dir : Vector2 = global_position.direction_to(_player.global_position)
-		var anim = "idle" + ("_right" if dir.x >= 0.0 else "_left")
-		if dir.y < 0.0:
-			anim += "_away"
-		if anim_node.assigned_animation != anim:
-			anim_node.play(anim)
+func _UpdateViz() -> void:	
+	if _direction.length() > 0:
+		var walk_anim = "walk" if _facing.y >= 0 else "walk_away"
+		anim_node.play("run" if _running else walk_anim)
+		if _facing.x < 0.0:
+			for sprite_node in _sprite_nodes:
+				sprite_node.flip_h = true
+		elif _facing.x > 0.0:
+			for sprite_node in _sprite_nodes:
+				sprite_node.flip_h = false
+	elif _velocity.length() < 0.01:
+		if anim_node.assigned_animation.substr(0, 4) != "rest":
+			anim_node.play("rest" if _facing.y >= 0 else "rest_away")
 
 func _Fade(anim_name : String) -> void:
-	pass
+	_velocity = Vector2.ZERO
+	_direction = Vector2.ZERO
+	$AnimFade.play(anim_name)
+	set_physics_process(false)
+	yield($AnimFade, "animation_finished")
+	set_physics_process(true)
+	emit_signal("faded")
 
 
 # -------------------------------------------------------------------------
@@ -53,5 +58,4 @@ func _Fade(anim_name : String) -> void:
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-
 
