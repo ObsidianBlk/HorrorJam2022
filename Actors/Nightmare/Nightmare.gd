@@ -23,23 +23,19 @@ onready var anim_node : AnimationPlayer = get_node("Anim")
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _FindPlayer() -> void:
-	if _player == null:
-		var plist = get_tree().get_nodes_in_group("Player")
-		for p in plist:
-			if p is KinematicBody2D:
-				_player = p
-				break
-
 func _UpdateViz() -> void:
-	_FindPlayer()
-	if _player != null:
-		var dir : Vector2 = global_position.direction_to(_player.global_position)
-		var anim = "idle" + ("_right" if dir.x >= 0.0 else "_left")
-		if dir.y < 0.0:
+	var anim = ""
+	if _direction.length() > 0:
+		anim = "walk_right" if _direction.x >= 0.0 else "walk_left"
+		if _direction.y < 0:
 			anim += "_away"
-		if anim_node.assigned_animation != anim:
-			anim_node.play(anim)
+	elif _velocity.length() < 0.01:
+		anim = "idle_right" if _facing.x >= 0.0 else "idle_left"
+		if _facing.y < 0:
+			anim += "_away"
+	
+	if anim != "" and anim_node.assigned_animation != anim:
+		anim_node.play(anim)
 
 func _Fade(anim_name : String) -> void:
 	pass
