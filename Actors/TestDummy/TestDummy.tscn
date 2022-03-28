@@ -671,6 +671,7 @@ anims/fade_in = SubResource( 31 )
 anims/fade_out = SubResource( 32 )
 
 [node name="Light2D" type="Light2D" parent="."]
+visible = false
 position = Vector2( 0, -58 )
 texture = ExtResource( 6 )
 texture_scale = 0.5

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Env/Walls/plaster_001.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Env/Floors/lanolium_001.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Actors/Nightmare/Nightmare.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Env/Floors/floor_shadow.png" type="Texture" id=7]
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/Env/Walls/plaster_001_n.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Env/Walls/plaster_001_re.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 256, 10 )
@@ -121,7 +123,7 @@ shape = SubResource( 5 )
 position = Vector2( 247, 228 )
 
 [node name="PortalA" parent="RealWorld" instance=ExtResource( 4 )]
-position = Vector2( 1000, 223 )
+position = Vector2( 901, 223 )
 
 [node name="PortalB" parent="RealWorld" instance=ExtResource( 4 )]
 position = Vector2( 1246, 224 )
@@ -131,6 +133,7 @@ position = Vector2( 1246, 224 )
 [node name="Wall" type="Sprite" parent="RealWorld/SectionA"]
 position = Vector2( 0, 64 )
 texture = ExtResource( 1 )
+normal_map = ExtResource( 9 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 1024, 128 )
@@ -149,6 +152,15 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 1024, 64 )
 
+[node name="Wall_Right_Edge" type="Sprite" parent="RealWorld/SectionA"]
+position = Vector2( 992, 160 )
+texture = ExtResource( 10 )
+
+[node name="Wall_left_Edge2" type="Sprite" parent="RealWorld/SectionA"]
+position = Vector2( 32, 160 )
+texture = ExtResource( 10 )
+flip_h = true
+
 [node name="Door_N1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
 position = Vector2( 384, 192 )
 connected_scene = "res://Scenes/Demo_Zone_2.tscn"
@@ -165,24 +177,35 @@ position = Vector2( 512, 266 )
 shape = SubResource( 1 )
 
 [node name="Coll_West" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( -10, 212 )
+position = Vector2( 23, 219 )
+rotation = 0.785398
 shape = SubResource( 2 )
 
 [node name="Coll_East" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( 1034, 212 )
+position = Vector2( 1000, 219 )
+rotation = -0.785398
 shape = SubResource( 2 )
 
 [node name="CeilingLight" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 50, 56 )
+position = Vector2( 120, 56 )
 
 [node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 182, 56 )
+position = Vector2( 252, 56 )
+energy_variance = 0.5
+flicker_count_min = 2
+flicker_count_max = 8
+flicker_interval = 10.0
+flicker_interval_variance = 0.2
 
 [node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 314, 56 )
+position = Vector2( 384, 56 )
+flicker_count_min = 4
+flicker_count_max = 10
+flicker_interval = 2.0
+flicker_interval_variance = 0.5
 
 [node name="CeilingLight4" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 446, 56 )
+position = Vector2( 516, 56 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.207843, 0.207843, 0.207843, 1 )

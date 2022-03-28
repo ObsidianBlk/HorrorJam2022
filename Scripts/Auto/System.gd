@@ -82,6 +82,7 @@ func load_or_create_db(db_name : String, filepath : String, replace_existing : b
 func get_db(db_name : String) -> DBResource:
 	if db_name in _dbs:
 		return _dbs[db_name].db
+	print("No Database: ", db_name)
 	return null
 
 # -------------------------------------------------------------------------
