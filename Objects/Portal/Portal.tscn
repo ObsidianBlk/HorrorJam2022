@@ -1,15 +1,14 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Audio/SFX/Portal_Whispers.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Env/Effects/Blob_Portal.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Audio/SFX/Portal_Groan.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Objects/Portal/Portal.gd" type="Script" id=4]
-[ext_resource path="res://Objects/Portal/SpriteOutline.gdshader" type="Shader" id=5]
+[ext_resource path="res://Objects/Portal/Alphize.gdshader" type="Shader" id=5]
 
-[sub_resource type="ShaderMaterial" id=25]
+[sub_resource type="ShaderMaterial" id=24]
 shader = ExtResource( 5 )
-shader_param/line_color = Color( 0, 0, 0, 1 )
-shader_param/line_thickness = 1.327
+shader_param/replace_color = Color( 0.843137, 0.482353, 0.729412, 1 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )
@@ -35,32 +34,12 @@ region = Rect2( 512, 0, 128, 128 )
 atlas = ExtResource( 2 )
 region = Rect2( 640, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 2 )
-region = Rect2( 768, 0, 128, 128 )
-
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 2 )
-region = Rect2( 896, 0, 128, 128 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 2 )
-region = Rect2( 1024, 0, 128, 128 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 2 )
-region = Rect2( 1152, 0, 128, 128 )
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 2 )
-region = Rect2( 1280, 0, 128, 128 )
-
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
 "loop": true,
 "name": "Default",
-"speed": 12.0
+"speed": 8.0
 } ]
 
 [sub_resource type="CircleShape2D" id=12]
@@ -70,10 +49,11 @@ radius = 50.0
 script = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-material = SubResource( 25 )
+light_mask = 0
+material = SubResource( 24 )
 frames = SubResource( 11 )
 animation = "Default"
-frame = 8
+frame = 4
 playing = true
 offset = Vector2( 0, -64 )
 

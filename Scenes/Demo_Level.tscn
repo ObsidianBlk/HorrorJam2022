@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Assets/Env/Walls/plaster_001.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Env/Floors/lanolium_001.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Env/Walls/plaster_001_n.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Env/Walls/plaster_001_re.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Env/Walls/plaster_001_re_n.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 256, 10 )
@@ -155,10 +156,12 @@ region_rect = Rect2( 0, 0, 1024, 64 )
 [node name="Wall_Right_Edge" type="Sprite" parent="RealWorld/SectionA"]
 position = Vector2( 992, 160 )
 texture = ExtResource( 10 )
+normal_map = ExtResource( 11 )
 
 [node name="Wall_left_Edge2" type="Sprite" parent="RealWorld/SectionA"]
 position = Vector2( 32, 160 )
 texture = ExtResource( 10 )
+normal_map = ExtResource( 11 )
 flip_h = true
 
 [node name="Door_N1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
