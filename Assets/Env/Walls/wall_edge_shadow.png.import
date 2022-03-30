@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/plaster_001_re.png-2454abb71119d586b5e4ae017546b1e2.stex"
+path="res://.import/wall_edge_shadow.png-8f463ca49f1e80b313b1ff4f5635ba24.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Env/Walls/plaster_001_re.png"
-dest_files=[ "res://.import/plaster_001_re.png-2454abb71119d586b5e4ae017546b1e2.stex" ]
+source_file="res://Assets/Env/Walls/wall_edge_shadow.png"
+dest_files=[ "res://.import/wall_edge_shadow.png-8f463ca49f1e80b313b1ff4f5635ba24.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0

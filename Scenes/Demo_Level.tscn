@@ -9,8 +9,8 @@
 [ext_resource path="res://Assets/Env/Floors/floor_shadow.png" type="Texture" id=7]
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Env/Walls/plaster_001_n.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Env/Walls/plaster_001_re.png" type="Texture" id=10]
-[ext_resource path="res://Assets/Env/Walls/plaster_001_re_n.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Env/Walls/plaster_001_e.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Env/Walls/plaster_001_e_n.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 256, 10 )
