@@ -63,6 +63,11 @@ _global_script_classes=[ {
 "class": "DialogicUtil",
 "language": "GDScript",
 "path": "res://addons/dialogic/Other/DialogicUtil.gd"
+}, {
+"base": "PanelContainer",
+"class": "HistoryRow",
+"language": "GDScript",
+"path": "res://addons/dialogic/Example Assets/History/HistoryRow.gd"
 } ]
 _global_script_class_icons={
 "DBResource": "",
@@ -75,7 +80,8 @@ _global_script_class_icons={
 "DialogicDefinitionsUtil": "",
 "DialogicParser": "",
 "DialogicResources": "",
-"DialogicUtil": ""
+"DialogicUtil": "",
+"HistoryRow": ""
 }
 
 [application]
