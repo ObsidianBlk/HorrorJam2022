@@ -3,6 +3,7 @@ extends Node2D
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
+export var max_distance : float = 2000.0
 export (Array, Array, String) var sounds = []
 export (Array, Array, String) var sound_sets = []
 
@@ -18,10 +19,23 @@ var _rng : RandomNumberGenerator = null
 onready var sfx1 : AudioStreamPlayer2D = get_node("SFX1")
 onready var sfx2 : AudioStreamPlayer2D = get_node("SFX2")
 
+
+# -------------------------------------------------------------------------
+# Setters / Getters
+# -------------------------------------------------------------------------
+func set_max_distance(md : float) -> void:
+	if md > 0.0:
+		max_distance = md
+		if sfx1:
+			sfx1.max_distance = max_distance
+		if sfx2:
+			sfx2.max_distance = max_distance
+
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
+	set_max_distance(max_distance)
 	_rng = RandomNumberGenerator.new()
 	_rng.seed = randi() * 821345
 	for sound in sounds:

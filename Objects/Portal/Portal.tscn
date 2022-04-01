@@ -9,6 +9,9 @@
 [sub_resource type="ShaderMaterial" id=24]
 shader = ExtResource( 5 )
 shader_param/replace_color = Color( 0.843137, 0.482353, 0.729412, 1 )
+shader_param/alpha_min = 0.2
+shader_param/alpha_max = 1.0
+shader_param/speed = 4.421
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )

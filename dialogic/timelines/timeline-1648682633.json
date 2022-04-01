@@ -1,46 +1,40 @@
 {
 	"events": [
 		{
-			"character": "",
-			"event_id": "dialogic_010",
-			"options": [
-
-			],
+			"animation": "instant_in.gd",
+			"animation_length": 0,
+			"change_mirror_portrait": false,
+			"change_z_index": false,
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_002",
+			"mirror_portrait": false,
+			"portrait": "Default",
+			"portrait_definition": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			},
+			"type": 0,
+			"z_index": 0
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
 			"portrait": "",
-			"question": "Flip the switch"
+			"text": "This does not boad well for me, I think..."
 		},
 		{
-			"choice": "Yes",
-			"condition": "",
-			"definition": "",
-			"event_id": "dialogic_011",
-			"value": ""
-		},
-		{
-			"emit_signal": "yes",
-			"event_id": "dialogic_040"
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "I suppose I shall just have to deal with it.//"
 		},
 		{
 			"event_id": "dialogic_022",
-			"transition_duration": 1
-		},
-		{
-			"choice": "No",
-			"condition": "",
-			"definition": "",
-			"event_id": "dialogic_011",
-			"value": ""
-		},
-		{
-			"emit_signal": "no",
-			"event_id": "dialogic_040"
-		},
-		{
-			"event_id": "dialogic_022",
-			"transition_duration": 1
-		},
-		{
-			"event_id": "dialogic_013"
+			"transition_duration": 0.2
 		}
 	],
 	"metadata": {

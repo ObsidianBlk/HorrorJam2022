@@ -30,7 +30,6 @@ viewport_path = NodePath("Real_World_View")
 resource_local_to_scene = true
 shader = ExtResource( 6 )
 shader_param/portal_color = Color( 0.843137, 0.482353, 0.729412, 1 )
-shader_param/blend = 0.0
 shader_param/transit = 0.0
 shader_param/in_real_world = true
 shader_param/noise_texture = SubResource( 8 )
@@ -38,9 +37,11 @@ shader_param/real_world = SubResource( 5 )
 shader_param/alt_world = SubResource( 6 )
 
 [node name="World" type="Node2D"]
+pause_mode = 2
 script = ExtResource( 2 )
 
 [node name="AINightmare" type="Node" parent="."]
+pause_mode = 1
 script = ExtResource( 7 )
 
 [node name="PlayerController" type="Node" parent="."]
@@ -93,3 +94,7 @@ __meta__ = {
 }
 
 [node name="Dialog" parent="Canvas" instance=ExtResource( 8 )]
+pause_mode = 2
+
+[connection signal="timeline_end" from="Canvas/Dialog" to="." method="_on_Dialog_timeline_end"]
+[connection signal="timeline_start" from="Canvas/Dialog" to="." method="_on_Dialog_timeline_start"]

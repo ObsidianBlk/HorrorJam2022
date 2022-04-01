@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 uniform vec4 portal_color : hint_color = vec4(1);
-uniform float blend : hint_range(0.0, 1.0) = 0.0;
+//uniform float blend : hint_range(0.0, 1.0) = 0.0;
 uniform float transit : hint_range(0.0, 1.0) = 0.0;
 uniform sampler2D noise_texture;
 uniform sampler2D real_world;

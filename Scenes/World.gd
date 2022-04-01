@@ -47,9 +47,13 @@ func _ready() -> void:
 	# Kick the pig!
 	_LoadZone(INITIAL_ZONE)
 
+
 func _process(delta : float) -> void:
 	match _last_world:
 		WORLD.Real:
+			if System.get_audio_sfx_effect() != "RealWorld":
+				System.set_audio_sfx_effect("RealWorld")
+			
 			if _world_time > 0.0:
 				_world_time = max(0.0, _world_time - delta)
 				if _world_time == 0.0:
@@ -60,6 +64,9 @@ func _process(delta : float) -> void:
 					gameview_node.material.set_shader_param("blend", blend)
 					gameview_node.material.set_shader_param("transit", 1.0 - blend)
 		WORLD.Alt:
+			if System.get_audio_sfx_effect() != "AltWorld":
+				System.set_audio_sfx_effect("AltWorld")
+				
 			if _world_time < WORLD_SHIFT_TIME:
 				_world_time = min(WORLD_SHIFT_TIME, _world_time + delta)
 				if _world_time == WORLD_SHIFT_TIME:
@@ -125,15 +132,18 @@ func _StartZone(door_name : String = "") -> void:
 		if real_viewport_node.is_a_parent_of(entry_door):
 			real_viewport_node.add_player(_player)
 			alt_viewport_node.track_sibling_camera()
+			_ShowWorldPortals(real_viewport_node)
 		else:
 			vp = alt_viewport_node
 			alt_viewport_node.add_player(_player)
 			real_viewport_node.track_sibling_camera()
+			_ShowWorldPortals(alt_viewport_node)
 			
 		_player.global_position = entry_door.global_position + Vector2(0.0, 10.0)
 		vp.snap_camera_to_target()
-		entry_door.open_door(true)
-		yield(entry_door, "door_opened")
+		if entry_door.has_method("open_door"):
+			entry_door.open_door(true)
+			yield(entry_door, "door_opened")
 		_player.fade_in()
 	else:
 		var info : Dictionary = {}
@@ -147,6 +157,7 @@ func _StartZone(door_name : String = "") -> void:
 		
 		info.primary.add_player(_player)
 		info.secondary.track_sibling_camera()
+		_ShowWorldPortals(info.primary)
 		if info.pos != null:
 			_player.global_position = info.pos
 			info.primary.snap_camera_to_target()
@@ -189,6 +200,14 @@ func _ConnectPortals() -> void:
 				[alt_viewport_node, real_viewport_node, WORLD.Real]
 			)
 
+func _ShowWorldPortals(view : Viewport) -> void:
+	var portals = get_tree().get_nodes_in_group("Portal")
+	for portal in portals:
+		if view.is_a_parent_of(portal):
+			portal.visible = true
+		else:
+			portal.visible = false
+
 func _InvertShader() -> void:
 	var shader_invert = gameview_node.material.get_shader_param("invert")
 	gameview_node.material.set_shader_param("invert", not shader_invert)
@@ -210,4 +229,15 @@ func _on_world_shift(from_view : Viewport, to_view : Viewport, target_world : in
 			to_view.add_player(_player)
 			to_view.audio_listener_enable_2d = true
 			from_view.track_sibling_camera()
+			_ShowWorldPortals(to_view)
 
+
+
+func _on_Dialog_timeline_start(timeline_name : String) -> void:
+	if timeline_name != "":
+		get_tree().paused = true
+
+
+func _on_Dialog_timeline_end(timeline_name : String) -> void:
+	if timeline_name != "":
+		get_tree().paused = false

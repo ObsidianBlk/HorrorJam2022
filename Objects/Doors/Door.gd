@@ -1,4 +1,6 @@
+tool
 extends Node2D
+
 
 # -------------------------------------------------------------------------
 # Signals
@@ -8,8 +10,14 @@ signal door_opened()
 signal door_closed()
 
 # -------------------------------------------------------------------------
+# Constants
+# -------------------------------------------------------------------------
+const BOTTOM_SCENE_ALPHA : float = 0.45
+
+# -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
+export var bottom_of_scene : bool = false	setget set_bottom_of_scene
 export var opened : bool = false			setget set_opened
 # TODO: Have doors look for "keys" within the actors that trigger it.
 export (String, FILE, "*.tscn") var connected_scene : String = ""
@@ -22,35 +30,55 @@ export var connected_door : String = ""
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
-onready var trigger_node : Area2D = get_node_or_null("TriggerArea")
-onready var anim_node : AnimationPlayer = get_node_or_null("Anim")
+onready var trigger_node : Area2D = get_node("TriggerArea")
+onready var col_shape_node : CollisionShape2D = get_node("TriggerArea/CollisionShape2D")
+onready var anim_node : AnimationPlayer = get_node("Anim")
+onready var sprite_node : Sprite = get_node("Sprite")
 
 # -------------------------------------------------------------------------
 # Setters / Getters
 # -------------------------------------------------------------------------
 func set_opened(o : bool) -> void:
 	opened = o
-	var db = System.get_db("game_state")
-	if db:
-		db.set_value("doors." + name + ".opened", opened, true)
+	if not Engine.editor_hint:
+		var db = System.get_db("game_state")
+		if db:
+			db.set_value("doors." + name + ".opened", opened, true)
 	if anim_node != null:
 		anim_node.play("opened" if opened else "closed")
+
+func set_bottom_of_scene(b : bool) -> void:
+	bottom_of_scene = b
+	if bottom_of_scene:
+		if sprite_node:
+			sprite_node.self_modulate = Color(1,1,1,BOTTOM_SCENE_ALPHA)
+		if col_shape_node:
+			col_shape_node.position.y = -5
+	else:
+		if sprite_node:
+			sprite_node.self_modulate = Color(1,1,1,1)
+		if col_shape_node:
+			col_shape_node.position.y = 5
 
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
-	if trigger_node != null:
-		trigger_node.connect("body_entered", self, "on_body_entered")
-		trigger_node.connect("body_exited", self, "on_body_exited")
-	if anim_node != null:
-		anim_node.connect("animation_finished", self, "on_animation_finished")
-	var db = System.get_db("game_state")
-	if db:
-		if db.has_value("doors." + name + ".opened"):
-			set_opened(db.get_value("doors." + name + ".opened"))
-		else:
-			set_opened(opened)
+	set_bottom_of_scene(bottom_of_scene)
+	if not Engine.editor_hint:
+		if trigger_node != null:
+			trigger_node.connect("body_entered", self, "on_body_entered")
+			trigger_node.connect("body_exited", self, "on_body_exited")
+		if anim_node != null:
+			anim_node.connect("animation_finished", self, "on_animation_finished")
+		var db = System.get_db("game_state")
+		if db:
+			if db.has_value("doors." + name + ".opened"):
+				set_opened(db.get_value("doors." + name + ".opened"))
+			else:
+				set_opened(opened)
+	else:
+		set_opened(opened)
 
 # -------------------------------------------------------------------------
 # Private Methods
