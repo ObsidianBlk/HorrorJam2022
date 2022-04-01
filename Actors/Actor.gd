@@ -100,13 +100,19 @@ func hide_viz(enable : bool = true) -> void:
 	viz_node.visible = not enable
 	set_physics_process(not enable)
 
-func fade_in() -> void:
+func fade_in(dir_name : String) -> void:
 	if not viz_node.visible:
 		viz_node.visible = true
-	_Fade("fade_in")
+	if ["up", "down", "left", "right"].find(dir_name) < 0:
+		emit_signal("faded")
+		return
+	_Fade("fade_in_" + dir_name)
 
-func fade_out() -> void:
-	_Fade("fade_out")
+func fade_out(dir_name : String) -> void:
+	if ["up", "down", "left", "right"].find(dir_name) < 0:
+		emit_signal("faded")
+		return
+	_Fade("fade_out_" + dir_name)
 
 func is_walking() -> bool:
 	return not _running

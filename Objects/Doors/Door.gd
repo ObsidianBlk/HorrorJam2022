@@ -6,20 +6,18 @@ extends Node2D
 # Signals
 # -------------------------------------------------------------------------
 signal request_zone_change(scene, door_name)
-signal door_opened()
-signal door_closed()
 
 # -------------------------------------------------------------------------
-# Constants
+# ENUMs
 # -------------------------------------------------------------------------
-const BOTTOM_SCENE_ALPHA : float = 0.45
+enum FACING {Up=0, Down=1, Left=2, Right=3}
+enum STATE {Opened=0, Blocked=1, Transition=2}
 
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-export var bottom_of_scene : bool = false	setget set_bottom_of_scene
-export var opened : bool = false			setget set_opened
-# TODO: Have doors look for "keys" within the actors that trigger it.
+export (FACING) var facing : int = FACING.Up					setget set_facing
+export (STATE) var state : int = STATE.Opened					setget set_state
 export (String, FILE, "*.tscn") var connected_scene : String = ""
 export var connected_door : String = ""
 
@@ -32,53 +30,24 @@ export var connected_door : String = ""
 # -------------------------------------------------------------------------
 onready var trigger_node : Area2D = get_node("TriggerArea")
 onready var col_shape_node : CollisionShape2D = get_node("TriggerArea/CollisionShape2D")
-onready var anim_node : AnimationPlayer = get_node("Anim")
-onready var sprite_node : Sprite = get_node("Sprite")
 
 # -------------------------------------------------------------------------
 # Setters / Getters
 # -------------------------------------------------------------------------
-func set_opened(o : bool) -> void:
-	opened = o
-	if not Engine.editor_hint:
-		var db = System.get_db("game_state")
-		if db:
-			db.set_value("doors." + name + ".opened", opened, true)
-	if anim_node != null:
-		anim_node.play("opened" if opened else "closed")
+func set_facing(f : int) -> void:
+	if FACING.values.find(f) >= 0:
+		facing = f
 
-func set_bottom_of_scene(b : bool) -> void:
-	bottom_of_scene = b
-	if bottom_of_scene:
-		if sprite_node:
-			sprite_node.self_modulate = Color(1,1,1,BOTTOM_SCENE_ALPHA)
-		if col_shape_node:
-			col_shape_node.position.y = -5
-	else:
-		if sprite_node:
-			sprite_node.self_modulate = Color(1,1,1,1)
-		if col_shape_node:
-			col_shape_node.position.y = 5
+func set_state(s : int) -> void:
+	if STATE.values().find(s) >= 0:
+		state = s
 
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
-	set_bottom_of_scene(bottom_of_scene)
-	if not Engine.editor_hint:
-		if trigger_node != null:
-			trigger_node.connect("body_entered", self, "on_body_entered")
-			trigger_node.connect("body_exited", self, "on_body_exited")
-		if anim_node != null:
-			anim_node.connect("animation_finished", self, "on_animation_finished")
-		var db = System.get_db("game_state")
-		if db:
-			if db.has_value("doors." + name + ".opened"):
-				set_opened(db.get_value("doors." + name + ".opened"))
-			else:
-				set_opened(opened)
-	else:
-		set_opened(opened)
+	set_facing(facing)
+	set_state(state)
 
 # -------------------------------------------------------------------------
 # Private Methods
@@ -94,46 +63,25 @@ func _ConnectBody(body : Node2D, enable : bool = true) -> void:
 			body.disconnect("interact", self, "on_interact")
 			body.disconnect("trigger", self, "on_trigger")
 
-func _ChangeDoorState(state : String, anim_name : String, animate : bool) -> void:
-	if anim_node.assigned_animation != state:
-		if animate:
-			anim_node.play(anim_name)
-			return
-		else:
-			anim_node.play(state)
-	if state == "opened":
-		set_opened(true)
-		call_deferred("emit_signal", "door_opened")
-	else:
-		set_opened(false)
-		call_deferred("emit_signal", "door_closed")
 
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
-func open_door(animate : bool = true) -> void:
-	_ChangeDoorState("opened", "opening", animate)
-
-func close_door(animate : bool = true) -> void:
-	_ChangeDoorState("closed", "closing", animate)
+func get_facing_vector() -> Vector2:
+	match facing:
+		FACING.Up:
+			return Vector2.UP
+		FACING.Down:
+			return Vector2.DOWN
+		FACING.Left:
+			return Vector2.LEFT
+		FACING.Right:
+			return Vector2.RIGHT
+	return Vector2.ZERO
 
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-func on_animation_finished(anim : String) -> void:
-	if anim_node == null:
-		return
-	
-	match anim:
-		"opening":
-			anim_node.play("opened")
-			set_opened(true)
-			emit_signal("door_opened")
-		"closing":
-			anim_node.play("closed")
-			set_opened(false)
-			emit_signal("door_closed")
-
 
 func on_body_exited(body : Node2D) -> void:
 	if body.is_in_group("Actor") and body.has_signal("interact"):
@@ -146,22 +94,20 @@ func on_body_entered(body : Node2D) -> void:
 
 
 func on_interact(body : Node2D) -> void:
-	if anim_node == null:
-		return
-	
-	if body.is_connected("interact", self, "on_interact"):
-		match anim_node.assigned_animation:
-			"opened":
-				anim_node.play("closing")
-			"closed":
-				anim_node.play("opening")
+	pass
 
 func on_trigger(body : Node2D) -> void:
-	if anim_node == null:
-		return
-	if anim_node.assigned_animation == "opened" and connected_scene != "" and connected_door != "":
+	if state == STATE.Opened and connected_scene != "" and connected_door != "":
 		_ConnectBody(body, false)
-		body.fade_out()
+		var dir_name = "up"
+		match facing:
+			FACING.Down:
+				dir_name = "down"
+			FACING.Left:
+				dir_name = "left"
+			FACING.Right:
+				dir_name = "right"
+		body.fade_out(dir_name)
 		yield(body, "faded")
 		emit_signal("request_zone_change", connected_scene, connected_door)
 

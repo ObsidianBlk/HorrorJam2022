@@ -139,7 +139,7 @@ func _StartZone(door_name : String = "") -> void:
 			real_viewport_node.track_sibling_camera()
 			_ShowWorldPortals(alt_viewport_node)
 			
-		_player.global_position = entry_door.global_position + Vector2(0.0, 10.0)
+		_player.global_position = entry_door.global_position + (entry_door.get_facing_vector() * -10)
 		vp.snap_camera_to_target()
 		if entry_door.has_method("open_door"):
 			entry_door.open_door(true)
