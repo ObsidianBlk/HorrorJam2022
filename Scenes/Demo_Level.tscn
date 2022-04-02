@@ -1,202 +1,64 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Assets/Env/Walls/plaster_001.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Env/Floors/lanolium_001.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Env/Walls/Wood_001.png" type="Texture" id=3]
+[ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Portal/Portal.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Assets/Env/Floors/floor_shadow.png" type="Texture" id=7]
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Assets/Env/Walls/plaster_001_n.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Env/Walls/plaster_001_e.png" type="Texture" id=10]
-[ext_resource path="res://Assets/Env/Walls/plaster_001_e_n.png" type="Texture" id=11]
-
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 256, 10 )
-
-[sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 10, 48 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 256, 10 )
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 10, 48 )
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 512, 10 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 64 )
 
 [node name="Demo_Level" type="Node2D"]
 
 [node name="AltWorld" type="YSort" parent="."]
 
+[node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
+position = Vector2( 789, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 768.0
+
 [node name="PortalA" parent="AltWorld" instance=ExtResource( 4 )]
 position = Vector2( 901, 223 )
 
 [node name="PortalB" parent="AltWorld" instance=ExtResource( 4 )]
-position = Vector2( 1373, 224 )
-
-[node name="SectionA" type="Node2D" parent="AltWorld"]
-position = Vector2( 881, 64 )
-
-[node name="Wall" type="Sprite" parent="AltWorld/SectionA"]
-texture = ExtResource( 3 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 128 )
-
-[node name="Floor" type="Sprite" parent="AltWorld/SectionA"]
-position = Vector2( 0, 128 )
-texture = ExtResource( 2 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 64 )
-
-[node name="Shadow" type="Sprite" parent="AltWorld/SectionA/Floor"]
-self_modulate = Color( 0.333333, 0.215686, 0.0784314, 1 )
-texture = ExtResource( 7 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 64 )
-
-[node name="SectionCollisions" type="StaticBody2D" parent="AltWorld/SectionA"]
-
-[node name="CollNorth" type="CollisionShape2D" parent="AltWorld/SectionA/SectionCollisions"]
-position = Vector2( 256, 118 )
-shape = SubResource( 6 )
-
-[node name="CollSouth" type="CollisionShape2D" parent="AltWorld/SectionA/SectionCollisions"]
-position = Vector2( 256, 202 )
-shape = SubResource( 6 )
-
-[node name="CollWest" type="CollisionShape2D" parent="AltWorld/SectionA/SectionCollisions"]
-position = Vector2( -10, 160 )
-shape = SubResource( 7 )
-
-[node name="CollEast" type="CollisionShape2D" parent="AltWorld/SectionA/SectionCollisions"]
-position = Vector2( 522, 160 )
-shape = SubResource( 7 )
+position = Vector2( 1278, 224 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
 color = Color( 0.239216, 0.0666667, 0.0666667, 1 )
 
 [node name="RealWorld" type="YSort" parent="."]
 
-[node name="SectionB" type="Node2D" parent="RealWorld"]
-position = Vector2( 1224, 64 )
+[node name="LeftRoom" parent="RealWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 1024.0
+shadow_color = Color( 0.443137, 0.392157, 0.215686, 1 )
 
-[node name="Wall" type="Sprite" parent="RealWorld/SectionB"]
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 128 )
+[node name="RightRoom" parent="RealWorld" instance=ExtResource( 1 )]
+position = Vector2( 1117, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 512.0
+shadow_color = Color( 0.423529, 0.376471, 0.137255, 1 )
 
-[node name="Floor" type="Sprite" parent="RealWorld/SectionB"]
-position = Vector2( 0, 128 )
-texture = ExtResource( 2 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 512, 64 )
-
-[node name="SectionCollision" type="StaticBody2D" parent="RealWorld/SectionB"]
-
-[node name="CollNorth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 256, 118 )
-shape = SubResource( 4 )
-
-[node name="CollSouth" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 256, 202 )
-shape = SubResource( 4 )
-
-[node name="CollWest" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( -10, 160 )
-shape = SubResource( 5 )
-
-[node name="CollEast" type="CollisionShape2D" parent="RealWorld/SectionB/SectionCollision"]
-position = Vector2( 522, 160 )
-shape = SubResource( 5 )
+[node name="Door_E1" parent="RealWorld/RightRoom" instance=ExtResource( 5 )]
+position = Vector2( 483, 146 )
+facing = 2
+state = 1
+trigger_area = Vector2( 10, 40 )
+connected_scene = "res://Scenes/Demo_Zone_2.tscn"
+connected_door = "Door_W2"
 
 [node name="PortalA" parent="RealWorld" instance=ExtResource( 4 )]
 position = Vector2( 901, 223 )
 
 [node name="PortalB" parent="RealWorld" instance=ExtResource( 4 )]
-position = Vector2( 1246, 224 )
-
-[node name="SectionA" type="Node2D" parent="RealWorld"]
-
-[node name="Wall" type="Sprite" parent="RealWorld/SectionA"]
-position = Vector2( 0, 64 )
-texture = ExtResource( 1 )
-normal_map = ExtResource( 9 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 128 )
-
-[node name="Floor" type="Sprite" parent="RealWorld/SectionA"]
-position = Vector2( 0, 192 )
-texture = ExtResource( 2 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 64 )
-
-[node name="Shadow" type="Sprite" parent="RealWorld/SectionA/Floor"]
-self_modulate = Color( 0.203922, 0.203922, 0.203922, 1 )
-texture = ExtResource( 7 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 1024, 64 )
-
-[node name="Wall_Right_Edge" type="Sprite" parent="RealWorld/SectionA"]
-position = Vector2( 992, 160 )
-texture = ExtResource( 10 )
-normal_map = ExtResource( 11 )
-
-[node name="Wall_left_Edge2" type="Sprite" parent="RealWorld/SectionA"]
-position = Vector2( 32, 160 )
-texture = ExtResource( 10 )
-normal_map = ExtResource( 11 )
-flip_h = true
-
-[node name="Door_N1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
-position = Vector2( 384, 192 )
-facing = 1
-state = 1
-connected_scene = "res://Scenes/Demo_Zone_2.tscn"
-connected_door = "Door_S2"
-
-[node name="Door_S1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
-position = Vector2( 364, 256 )
-connected_scene = "res://Scenes/Demo_Zone_2.tscn"
-connected_door = "Door_N2"
-
-[node name="LevelCollisions" type="StaticBody2D" parent="RealWorld/SectionA"]
-
-[node name="Coll_North" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( 512, 182 )
-shape = SubResource( 1 )
-
-[node name="Coll_Sourth" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( 512, 266 )
-shape = SubResource( 1 )
-
-[node name="Coll_West" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( 23, 219 )
-rotation = 0.785398
-shape = SubResource( 2 )
-
-[node name="Coll_East" type="CollisionShape2D" parent="RealWorld/SectionA/LevelCollisions"]
-position = Vector2( 1000, 219 )
-rotation = -0.785398
-shape = SubResource( 2 )
+position = Vector2( 1278, 224 )
 
 [node name="CeilingLight" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 120, 56 )
+position = Vector2( 120, 88 )
 
 [node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 252, 56 )
+position = Vector2( 252, 88 )
 energy_variance = 0.5
 hum_min_energy = 0.8
 hum_max_energy = 1.5
@@ -206,15 +68,25 @@ flicker_interval = 10.0
 flicker_interval_variance = 0.2
 
 [node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 384, 56 )
+position = Vector2( 384, 88 )
 flicker_count_min = 4
 flicker_count_max = 10
 flicker_interval = 2.0
 flicker_interval_variance = 0.5
 
 [node name="CeilingLight4" parent="RealWorld" instance=ExtResource( 8 )]
-position = Vector2( 516, 56 )
+position = Vector2( 516, 88 )
 hum_constant_volume = 0.8
+
+[node name="CeilingLight5" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 1529, 88 )
+energy_variance = 0.5
+hum_min_energy = 1.0
+hum_max_energy = 1.5
+flicker_count_min = 2
+flicker_count_max = 10
+flicker_interval = 30.0
+flicker_interval_variance = 0.2
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.207843, 0.207843, 0.207843, 1 )

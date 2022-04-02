@@ -38,26 +38,21 @@ func set_state(s : int) -> void:
 		var db = System.get_db("game_state")
 		if db:
 			db.set_value("doors." + name + ".opened", state == STATE.Opened, true)
-	if anim_node != null:
-		var facing_name = _GetFacingNameAdj()
-		if state == STATE.Opened:
-			anim_node.play("opened_" + facing_name)
-		else:
-			anim_node.play("closed_" + facing_name)
+	_BasicDoorState()
 
 
 func set_facing(f : int) -> void:
-	.set_facing(f)
-	if [FACING.Up, FACING.Left, FACING.Right].find(facing) >= 0:
+	if FACING.values().find(f) >= 0:
+		facing = f
+		_UpdateCollisionShapes()
+	
+	_BasicDoorState()
+	if facing == FACING.Up:
 		if sprite_node:
 			sprite_node.self_modulate = Color(1,1,1,BOTTOM_SCENE_ALPHA)
-		if col_shape_node:
-			col_shape_node.position.y = -5
 	else:
 		if sprite_node:
 			sprite_node.self_modulate = Color(1,1,1,1)
-		if col_shape_node:
-			col_shape_node.position.y = 5
 
 
 # -------------------------------------------------------------------------
@@ -85,6 +80,13 @@ func _ready() -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+func _BasicDoorState() -> void:
+	if anim_node != null:
+		var facing_name = _GetFacingNameAdj()
+		if state == STATE.Opened:
+			anim_node.play("opened_" + facing_name)
+		else:
+			anim_node.play("closed_" + facing_name)
 
 func _ChangeDoorState(state_name : String, anim_name : String, animate : bool) -> void:
 	if anim_node.assigned_animation != state_name:
@@ -102,10 +104,7 @@ func _ChangeDoorState(state_name : String, anim_name : String, animate : bool) -
 		call_deferred("emit_signal", "door_closed")
 
 func _GetFacingNameAdj() -> String:
-	var facing_name = get_facing_name()
-	if facing_name == "left" or facing_name == "right":
-		facing_name = "side"
-	return facing_name
+	return get_facing_name() # I know this looks stupid. It's a hold-over I didn't bother fixing.
 
 # -------------------------------------------------------------------------
 # Public Methods

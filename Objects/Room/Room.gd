@@ -121,17 +121,13 @@ func _BuildWallSprite(src : String) -> void:
 		var tex : Texture = load(res_path)
 		if tex:
 			if _wall_sprite != null and _wall_sprite.texture != tex:
-				print("I have a wall!")
 				_wall_sprite.texture = tex
 				_wall_sprite.normal_map = load(res_n_path)
 				_wall_sprite.region_rect = Rect2(0, 0, room_size, tex.get_height())
 			elif _wall_sprite == null:
 				_wall_sprite = _BuildSprite(tex, load(res_n_path), false, Rect2(0,0,room_size, tex.get_height()))
 				if _wall_sprite:
-					print("Wall was properly made!")
 					add_child(_wall_sprite)
-				else:
-					print("No wall sprite")
 			if _wall_sprite != null and _floor_sprite != null:
 				_floor_sprite.position = Vector2(0, _wall_sprite.texture.get_height())
 

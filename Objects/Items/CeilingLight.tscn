@@ -8,7 +8,7 @@
 
 [node name="CeilingLight" type="Light2D"]
 texture = ExtResource( 2 )
-offset = Vector2( 0, 88 )
+offset = Vector2( 0, 64 )
 color = Color( 0.905882, 0.788235, 0.533333, 1 )
 mode = 2
 range_height = 10.0
@@ -19,6 +19,7 @@ hum_audio_path = NodePath("HumAudioStream")
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+offset = Vector2( 0, -24 )
 
 [node name="FlickerSoundCTRL" parent="." instance=ExtResource( 4 )]
 max_distance = 400.0

@@ -16,8 +16,9 @@ enum STATE {Opened=0, Blocked=1, Transition=2}
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-export (FACING) var facing : int = FACING.Up					setget set_facing
+export (FACING) var facing : int = FACING.Down					setget set_facing
 export (STATE) var state : int = STATE.Opened					setget set_state
+export var trigger_area : Vector2 = Vector2(10.0, 10.0)			setget set_trigger_area
 export (String, FILE, "*.tscn") var connected_scene : String = ""
 export var connected_door : String = ""
 
@@ -30,6 +31,7 @@ export var connected_door : String = ""
 # -------------------------------------------------------------------------
 onready var trigger_node : Area2D = get_node("TriggerArea")
 onready var col_shape_node : CollisionShape2D = get_node("TriggerArea/CollisionShape2D")
+onready var col_side_node : CollisionPolygon2D = get_node("TriggerArea/SideCollision")
 
 # -------------------------------------------------------------------------
 # Setters / Getters
@@ -37,10 +39,16 @@ onready var col_shape_node : CollisionShape2D = get_node("TriggerArea/CollisionS
 func set_facing(f : int) -> void:
 	if FACING.values().find(f) >= 0:
 		facing = f
+		_UpdateCollisionShapes()
 
 func set_state(s : int) -> void:
 	if STATE.values().find(s) >= 0:
 		state = s
+
+func set_trigger_area(ta : Vector2) -> void:
+	if ta.x > 0 and ta.y > 0:
+		trigger_area = ta
+		_UpdateCollisionShapes()
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -52,6 +60,45 @@ func _ready() -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+
+func _UpdateCollisionShapes() -> void:
+	if col_shape_node == null or col_side_node == null:
+		return
+	
+	match facing:
+		FACING.Up:
+			col_shape_node.disabled = false
+			col_side_node.disabled = true
+			
+			col_shape_node.position = Vector2(0, -trigger_area.y * 0.5)
+			col_shape_node.shape.extents = trigger_area * 0.5
+		FACING.Down:
+			col_shape_node.disabled = false
+			col_side_node.disabled = true
+			
+			col_shape_node.position = Vector2(0, trigger_area.y * 0.5)
+			col_shape_node.shape.extents = trigger_area * 0.5
+		FACING.Left:
+			col_shape_node.disabled = true
+			col_side_node.disabled = false
+			var _v = (Vector2.DOWN.rotated(deg2rad(-45)) * trigger_area.y)
+			col_side_node.polygon = PoolVector2Array([
+				Vector2(-18, 0),
+				Vector2(-18 - trigger_area.x, 0),
+				Vector2(-18 - trigger_area.x, 0) + _v,
+				Vector2(-18, 0) + _v,
+			])
+		FACING.Right:
+			col_shape_node.disabled = true
+			col_side_node.disabled = false
+			var _v = (Vector2.DOWN.rotated(deg2rad(45)) * trigger_area.y)
+			col_side_node.polygon = PoolVector2Array([
+				Vector2(18, 0),
+				Vector2(18 + trigger_area.x, 0),
+				Vector2(18 + trigger_area.x, 0) + _v,
+				Vector2(18, 0) + _v,
+			])
+
 
 func _ConnectBody(body : Node2D, enable : bool = true) -> void:
 	if enable:

@@ -23,16 +23,32 @@ flicker_interval_variance = 0.5
 
 [node name="Door_N2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 193, 128 )
-facing = 1
 state = 1
+trigger_area = Vector2( 40, 10 )
 connected_scene = "res://Scenes/Demo_Level.tscn"
 connected_door = "Door_S1"
 
 [node name="Door_S2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 253, 192 )
+facing = 0
 state = 1
+trigger_area = Vector2( 40, 10 )
 connected_scene = "res://Scenes/Demo_Level.tscn"
 connected_door = "Door_N1"
+
+[node name="Door_E2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 481, 144 )
+facing = 2
+state = 1
+trigger_area = Vector2( 10, 40 )
+
+[node name="Door_W2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 32, 143 )
+facing = 3
+state = 1
+trigger_area = Vector2( 10, 40 )
+connected_scene = "res://Scenes/Demo_Level.tscn"
+connected_door = "Door_E1"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.486275, 0.341176, 0.341176, 1 )

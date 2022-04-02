@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Assets/Characters/TestDummy/Run.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/TestDummy/Walk.png" type="Texture" id=2]
@@ -596,60 +596,8 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=37]
-resource_name = "fade_in_left"
-length = 0.8
-tracks/0/type = "animation"
-tracks/0/path = NodePath("Anim")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"clips": PoolStringArray( "walk", "rest" ),
-"times": PoolRealArray( 0, 0.8 )
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Viz:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -16, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Viz:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ Vector2( 1, 0 ) ],
-"method": "face"
-} ]
-}
-
 [sub_resource type="Animation" id=38]
-resource_name = "fade_in_right"
+resource_name = "fade_in_left"
 length = 0.8
 tracks/0/type = "animation"
 tracks/0/path = NodePath("Anim")
@@ -696,6 +644,58 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ Vector2( -1, 0 ) ],
+"method": "face"
+} ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "fade_in_right"
+length = 0.8
+tracks/0/type = "animation"
+tracks/0/path = NodePath("Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "walk", "rest" ),
+"times": PoolRealArray( 0, 0.8 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viz:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ Vector2( 1, 0 ) ],
 "method": "face"
 } ]
 }
@@ -776,6 +776,82 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -16 ) ]
 }
 
+[sub_resource type="Animation" id=39]
+resource_name = "fade_out_left"
+length = 0.8
+tracks/0/type = "animation"
+tracks/0/path = NodePath("Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "walk", "rest" ),
+"times": PoolRealArray( 0, 0.8 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viz:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 16, 0 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "fade_out_right"
+length = 0.8
+tracks/0/type = "animation"
+tracks/0/path = NodePath("Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "walk", "rest" ),
+"times": PoolRealArray( 0, 0.8 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viz:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -16, 0 ) ]
+}
+
 [sub_resource type="Animation" id=36]
 resource_name = "fade_out_up"
 length = 0.8
@@ -847,10 +923,12 @@ anims/walk_away = SubResource( 33 )
 [node name="AnimFade" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 30 )
 anims/fade_in_down = SubResource( 31 )
-anims/fade_in_left = SubResource( 37 )
-anims/fade_in_right = SubResource( 38 )
+anims/fade_in_left = SubResource( 38 )
+anims/fade_in_right = SubResource( 37 )
 anims/fade_in_up = SubResource( 35 )
 anims/fade_out_down = SubResource( 32 )
+anims/fade_out_left = SubResource( 39 )
+anims/fade_out_right = SubResource( 40 )
 anims/fade_out_up = SubResource( 36 )
 
 [node name="Light2D" type="Light2D" parent="."]
