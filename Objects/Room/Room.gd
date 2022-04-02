@@ -254,13 +254,13 @@ func _UpdateCollision() -> void:
 		north_col_node.shape.extents.x = room_size * 0.5
 		north_col_node.position = Vector2(
 			room_size * 0.5,
-			wheight - (north_col_node.shape.extents.y * 0.5)
+			wheight - (north_col_node.shape.extents.y)
 		) 
 		
 		south_col_node.shape.extents.x = north_col_node.shape.extents.x
 		south_col_node.position = north_col_node.position + Vector2(
 			0,
-			fheight + south_col_node.shape.extents.y
+			fheight + (south_col_node.shape.extents.y * 2)
 		)
 		
 		var points = null

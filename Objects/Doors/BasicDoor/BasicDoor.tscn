@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Env/Doors/Basic_Door.png" type="Texture" id=1]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.gd" type="Script" id=2]
@@ -20,7 +20,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-resource_name = "closed"
+resource_name = "closed_down"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "closed_up"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -36,7 +52,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "closing"
+resource_name = "closing_down"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -51,8 +67,24 @@ tracks/0/keys = {
 "values": [ 4, 3, 2, 1, 0 ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "closing_up"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 7, 6, 5, 0 ]
+}
+
 [sub_resource type="Animation" id=4]
-resource_name = "opened"
+resource_name = "opened_down"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -67,8 +99,24 @@ tracks/0/keys = {
 "values": [ 4 ]
 }
 
+[sub_resource type="Animation" id=10]
+resource_name = "opened_up"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+
 [sub_resource type="Animation" id=5]
-resource_name = "opening"
+resource_name = "opening_down"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -83,6 +131,22 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
+[sub_resource type="Animation" id=8]
+resource_name = "opening_up"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 5, 6, 7, 8 ]
+}
+
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 5 )
 
@@ -90,20 +154,25 @@ extents = Vector2( 10, 5 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0.45 )
 texture = ExtResource( 1 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, -48 )
-hframes = 5
+hframes = 9
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
-anims/closed = SubResource( 2 )
-anims/closing = SubResource( 3 )
-anims/opened = SubResource( 4 )
-anims/opening = SubResource( 5 )
+anims/closed_down = SubResource( 2 )
+anims/closed_up = SubResource( 9 )
+anims/closing_down = SubResource( 3 )
+anims/closing_up = SubResource( 7 )
+anims/opened_down = SubResource( 4 )
+anims/opened_up = SubResource( 10 )
+anims/opening_down = SubResource( 5 )
+anims/opening_up = SubResource( 8 )
 
 [node name="TriggerArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
-position = Vector2( 0, 5 )
+position = Vector2( 0, -5 )
 shape = SubResource( 6 )

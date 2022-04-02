@@ -558,7 +558,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=31]
 resource_name = "fade_in_down"
 length = 0.8
 tracks/0/type = "animation"
@@ -568,7 +568,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"clips": PoolStringArray( "walk_away", "rest_away" ),
+"clips": PoolStringArray( "walk", "rest" ),
 "times": PoolRealArray( 0, 0.8 )
 }
 tracks/1/type = "value"
@@ -581,7 +581,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 16 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, -16 ), Vector2( 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Viz:modulate")
@@ -700,7 +700,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=35]
 resource_name = "fade_in_up"
 length = 0.8
 tracks/0/type = "animation"
@@ -710,7 +710,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"clips": PoolStringArray( "walk", "rest" ),
+"clips": PoolStringArray( "walk_away", "rest_away" ),
 "times": PoolRealArray( 0, 0.8 )
 }
 tracks/1/type = "value"
@@ -723,7 +723,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, -16 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 16 ), Vector2( 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Viz:modulate")
@@ -738,46 +738,8 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=36]
-resource_name = "fade_out_down"
-length = 0.8
-tracks/0/type = "animation"
-tracks/0/path = NodePath("Anim")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"clips": PoolStringArray( "walk", "rest" ),
-"times": PoolRealArray( 0, 0.8 )
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Viz:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Viz:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 16 ) ]
-}
-
 [sub_resource type="Animation" id=32]
-resource_name = "fade_out_up"
+resource_name = "fade_out_down"
 length = 0.8
 tracks/0/type = "animation"
 tracks/0/path = NodePath("Anim")
@@ -814,6 +776,44 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -16 ) ]
 }
 
+[sub_resource type="Animation" id=36]
+resource_name = "fade_out_up"
+length = 0.8
+tracks/0/type = "animation"
+tracks/0/path = NodePath("Anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "walk", "rest" ),
+"times": PoolRealArray( 0, 0.8 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viz:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viz:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 16 ) ]
+}
+
 [node name="TestDummy" type="KinematicBody2D" groups=["Actor"]]
 script = ExtResource( 4 )
 
@@ -846,12 +846,12 @@ anims/walk_away = SubResource( 33 )
 
 [node name="AnimFade" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 30 )
-anims/fade_in_down = SubResource( 35 )
+anims/fade_in_down = SubResource( 31 )
 anims/fade_in_left = SubResource( 37 )
 anims/fade_in_right = SubResource( 38 )
-anims/fade_in_up = SubResource( 31 )
-anims/fade_out_down = SubResource( 36 )
-anims/fade_out_up = SubResource( 32 )
+anims/fade_in_up = SubResource( 35 )
+anims/fade_out_down = SubResource( 32 )
+anims/fade_out_up = SubResource( 36 )
 
 [node name="Light2D" type="Light2D" parent="."]
 visible = false

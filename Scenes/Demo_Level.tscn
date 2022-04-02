@@ -162,13 +162,13 @@ flip_h = true
 
 [node name="Door_N1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
 position = Vector2( 384, 192 )
+facing = 1
+state = 1
 connected_scene = "res://Scenes/Demo_Zone_2.tscn"
-connected_door = "Door_N2"
+connected_door = "Door_S2"
 
-[node name="Door_N2" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
+[node name="Door_S1" parent="RealWorld/SectionA" instance=ExtResource( 5 )]
 position = Vector2( 364, 256 )
-bottom_of_scene = true
-opened = true
 connected_scene = "res://Scenes/Demo_Zone_2.tscn"
 connected_door = "Door_N2"
 

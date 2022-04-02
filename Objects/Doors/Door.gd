@@ -35,7 +35,7 @@ onready var col_shape_node : CollisionShape2D = get_node("TriggerArea/CollisionS
 # Setters / Getters
 # -------------------------------------------------------------------------
 func set_facing(f : int) -> void:
-	if FACING.values.find(f) >= 0:
+	if FACING.values().find(f) >= 0:
 		facing = f
 
 func set_state(s : int) -> void:
@@ -78,6 +78,12 @@ func get_facing_vector() -> Vector2:
 		FACING.Right:
 			return Vector2.RIGHT
 	return Vector2.ZERO
+
+func get_facing_name() -> String:
+	for key in FACING.keys():
+		if FACING[key] == facing:
+			return key.to_lower()
+	return ""
 
 # -------------------------------------------------------------------------
 # Handler Methods

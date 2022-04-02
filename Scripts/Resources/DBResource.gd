@@ -82,7 +82,7 @@ func _GetRecord(key : String, create_if_not_exist : bool = false):
 				break # Subkey is NOT a dictionary. We're done looking!
 				
 			if subkey == endkey:
-				return rec
+				return rec[subkey]
 			rec = rec[subkey]
 		else:
 			# Subkey not in current record...

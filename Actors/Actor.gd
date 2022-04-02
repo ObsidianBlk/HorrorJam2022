@@ -56,7 +56,7 @@ func _physics_process(delta : float) -> void:
 		if _velocity.length() < 0.01:
 			_velocity = Vector2.ZERO
 	_velocity = move_and_slide(_velocity)
-	if get_last_slide_collision() != null:
+	if get_slide_count() > 0:
 		emit_signal("collision")
 
 # -------------------------------------------------------------------------

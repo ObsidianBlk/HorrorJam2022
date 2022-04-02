@@ -78,6 +78,11 @@ func _Prepare() -> void:
 	else:
 		printerr("WARNING: No 'Player' nodes found!!")
 
+func _IsDirectionalInputReleased() -> bool:
+	for i in _input_dir:
+		if i != 0:
+			return false
+	return true
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -88,7 +93,7 @@ func _Prepare() -> void:
 # Handler Methods
 # -------------------------------------------------------------------------
 func on_player_collision() -> void:
-	if _input_dir[2] != 0:
+	if not _IsDirectionalInputReleased():
 		_player.trigger()
 
 

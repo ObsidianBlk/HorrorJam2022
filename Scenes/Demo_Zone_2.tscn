@@ -23,6 +23,14 @@ flicker_interval_variance = 0.5
 
 [node name="Door_N2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 193, 128 )
+facing = 1
+state = 1
+connected_scene = "res://Scenes/Demo_Level.tscn"
+connected_door = "Door_S1"
+
+[node name="Door_S2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 253, 192 )
+state = 1
 connected_scene = "res://Scenes/Demo_Level.tscn"
 connected_door = "Door_N1"
 

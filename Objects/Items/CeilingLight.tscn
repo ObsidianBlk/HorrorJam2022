@@ -16,7 +16,6 @@ shadow_enabled = true
 script = ExtResource( 3 )
 sound_control_path = NodePath("FlickerSoundCTRL")
 hum_audio_path = NodePath("HumAudioStream")
-hum_max_energy = 1.4
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
