@@ -276,7 +276,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 5, 5 )
+extents = Vector2( 20, 5 )
 
 [node name="BasicDoor" type="Node2D" groups=["Door"]]
 script = ExtResource( 2 )
