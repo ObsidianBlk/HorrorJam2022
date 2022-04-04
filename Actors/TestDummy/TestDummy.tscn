@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Assets/Characters/TestDummy/Run.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/TestDummy/Walk.png" type="Texture" id=2]
@@ -890,6 +890,10 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 16 ) ]
 }
 
+[sub_resource type="CapsuleShape2D" id=41]
+radius = 12.0
+height = 10.0
+
 [node name="TestDummy" type="KinematicBody2D" groups=["Actor"]]
 script = ExtResource( 4 )
 
@@ -941,3 +945,11 @@ energy = 1.2
 [node name="SoundCTRL" parent="." instance=ExtResource( 7 )]
 sounds = [ [ "step1", "res://Assets/Audio/SFX/foot_step_001.wav" ], [ "step2", "res://Assets/Audio/SFX/foot_step_002.wav" ], [ "step3", "res://Assets/Audio/SFX/foot_step_003.wav" ] ]
 sound_sets = [ [ "steps", "step1,step2,step3" ] ]
+
+[node name="Interactable" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
+position = Vector2( 0, -32 )
+shape = SubResource( 41 )
