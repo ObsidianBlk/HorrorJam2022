@@ -33,6 +33,8 @@ onready var real_viewport_node : Viewport = get_node("Real_World_View")
 onready var alt_viewport_node : Viewport = get_node("Alt_World_View")
 
 onready var gameview_node : Control = get_node("Canvas/GameView")
+onready var canvas_node : CanvasLayer = get_node("Canvas")
+#onready var dialog_node : Control = get_node("Canvas/Dialog")
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -41,6 +43,7 @@ func _ready() -> void:
 	# NOTE: This call won't actually load a resource file as one will not automatically
 	# exist. This is here just for test purposes at the moment.
 	System.load_or_create_db("game_state", "user://game_state.tres")
+	System.connect("request_dialog", self, "_on_request_dialog")
 	
 	_PrepareWorld()
 	
@@ -238,6 +241,14 @@ func _on_world_shift(from_view : Viewport, to_view : Viewport, target_world : in
 			_ShowWorldPortals(to_view)
 
 
+func _on_request_dialog(timeline_name : String) -> void:
+	if timeline_name != "":
+		var dialog = Dialogic.start(timeline_name, "", "res://addons/dialogic/Nodes/DialogNode.tscn",false)
+		if dialog:
+			dialog.connect("timeline_start", self, "_on_Dialog_timeline_start")
+			dialog.connect("timeline_end", self, "_on_Dialog_timeline_end")
+			dialog.pause_mode = PAUSE_MODE_PROCESS
+			canvas_node.add_child(dialog)
 
 func _on_Dialog_timeline_start(timeline_name : String) -> void:
 	if timeline_name != "":
@@ -246,4 +257,5 @@ func _on_Dialog_timeline_start(timeline_name : String) -> void:
 
 func _on_Dialog_timeline_end(timeline_name : String) -> void:
 	if timeline_name != "":
+		print("Unpausing game")
 		get_tree().paused = false

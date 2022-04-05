@@ -6,6 +6,7 @@
 [node name="Desktop" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 3
 texture = ExtResource( 1 )
 normal_map = ExtResource( 2 )
 offset = Vector2( 0, -16 )

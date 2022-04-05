@@ -1,9 +1,9 @@
 extends Node
 
 # -------------------------------------------------------------------------
-# Constants
+# Signals
 # -------------------------------------------------------------------------
-
+signal request_dialog(timeline_name)
 
 # -------------------------------------------------------------------------
 # Export Variables
@@ -44,6 +44,10 @@ func _ready() -> void:
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
+func request_dialog(timeline_name : String) -> void:
+	emit_signal("request_dialog", timeline_name)
+
+
 func set_audio_sfx_effect(effect_name : String) -> void:
 	var sfx_idx = AudioServer.get_bus_index("SFX")
 	if sfx_idx < 0:

@@ -247,13 +247,21 @@ func _UpdateCollision() -> void:
 		var wheight : float = _wall_sprite.texture.get_height()
 		var fheight : float = 64 if not _floor_sprite else _floor_sprite.texture.get_height()
 		
-		north_col_node.shape.extents.x = room_size * 0.5
+		if north_col_node.shape == null:
+			var shape : RectangleShape2D = RectangleShape2D.new()
+			shape.extents.x = room_size * 0.5
+			shape.extents.y = 10
+			north_col_node.shape = shape
+		else:
+			north_col_node.shape.extents.x = room_size * 0.5
+		
 		north_col_node.position = Vector2(
 			room_size * 0.5,
 			wheight - (north_col_node.shape.extents.y)
 		) 
 		
-		south_col_node.shape.extents.x = north_col_node.shape.extents.x
+		if south_col_node.shape == null:
+			south_col_node.shape = north_col_node.shape
 		south_col_node.position = north_col_node.position + Vector2(
 			0,
 			fheight + (south_col_node.shape.extents.y * 2)

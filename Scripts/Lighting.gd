@@ -8,6 +8,7 @@ const FLICKER_SOUND_SET_NAME = "flicker" # Hardcoding this for coding speed.
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
+export var light_on : bool = true
 export var sound_control_path : NodePath = ""
 export var hum_audio_path : NodePath = ""
 export var energy_variance : float = 0.0			setget set_energy_variance
@@ -27,18 +28,28 @@ var _tween : Tween = null
 var _base_energy : float = 0.0
 var _flick : int = 0
 var _rng : RandomNumberGenerator = null
+var _isready : bool = false
 
 
 # -------------------------------------------------------------------------
 # Setters / Getters
 # -------------------------------------------------------------------------
+func set_light_on(l : bool) -> void:
+	if l:
+		turn_on()
+	else:
+		turn_off()
+
+
 func set_energy_variance(ev : float) -> void:
 	if ev >= 0.0:
 		energy_variance = ev
 
+
 func set_flicker_interval(fi : float) -> void:
 	if fi >= 0.0:
 		flicker_interval = fi
+
 
 func set_flicker_interval_variance(fiv : float) -> void:
 	if fiv >= 0.0:
@@ -52,28 +63,18 @@ func _ready() -> void:
 	_rng = RandomNumberGenerator.new()
 	_rng.randomize()
 	
-	if flicker_interval > 0.0 and flicker_count_min > 0 and flicker_count_max > flicker_count_min:
-		_timer = Timer.new()
-		add_child(_timer)
-		_timer.connect("timeout", self, "_on_flicker_timeout")
-		_on_flicker_timeout()
+	_tween = Tween.new()
+	add_child(_tween)
+	_tween.connect("tween_all_completed", self, "_on_tween_completed")
 	
-	if hum_audio_path == "":
-		set_process(false)
-	elif hum_constant_volume > 0.0:
-		set_process(false)
-		var haudio = get_node_or_null(hum_audio_path)
-		if haudio:
-			print("Playing constant audio")
-			haudio.volume_db = linear2db(hum_constant_volume)
-			haudio.play()
+	_timer = Timer.new()
+	add_child(_timer)
+	_timer.connect("timeout", self, "_on_flicker_timeout")
 	
-	if energy_variance > 0.0:
-		_base_energy = energy
-		_tween = Tween.new()
-		add_child(_tween)
-		_tween.connect("tween_all_completed", self, "_on_tween_completed")
-		_on_tween_completed()
+	_base_energy = energy
+	set_light_on(light_on)
+	_isready = true
+
 
 
 func _process(_delta : float) -> void:
@@ -104,45 +105,88 @@ func _GetSoundControl() -> Node2D:
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
+func turn_on() -> void:
+	if light_on and _isready:
+		return
+	
+	light_on = true
+	if flicker_interval > 0.0 and flicker_count_min > 0 and flicker_count_max > flicker_count_min:
+		_on_flicker_timeout()
+	if hum_audio_path == "" and hum_constant_volume > 0.0:
+		var haudio = get_node_or_null(hum_audio_path)
+		if haudio:
+			haudio.volume_db = linear2db(hum_constant_volume)
+			haudio.play()
+	if energy_variance > 0.0:
+		_on_tween_completed()
+	else:
+		_tween.remove_all()
+		_tween.interpolate_property(
+			self, "energy",
+			energy, _base_energy,
+			0.4,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		_tween.start()
 
+func turn_off() -> void:
+	if not light_on and _isready:
+		return
+		
+	light_on = false
+	_tween.remove_all()
+	_tween.interpolate_property(
+		self, "energy",
+		energy, 0.0,
+		0.4,
+		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+	)
+	_tween.start()
+	
 
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
 func _on_flicker_timeout() -> void:
-	if _flick == 0:
-		enabled = true
-		var variance : float = flicker_interval * flicker_interval_variance
-		var duration : float = _rng.randf_range(
-			flicker_interval - variance,
-			flicker_interval + variance
-		)
-		_flick = _rng.randi_range(flicker_count_min, flicker_count_max)
-		_timer.start(duration)
-	else:
-		if enabled:
-			_flick -= 1
-			enabled = false
-		else:
+	if light_on:
+		if _flick == 0:
 			enabled = true
-			var sc = _GetSoundControl()
-			if sc != null:
-				sc.play_random_set(FLICKER_SOUND_SET_NAME)
-		_timer.start(_rng.randf_range(0.02, 0.1))
+			var variance : float = flicker_interval * flicker_interval_variance
+			var duration : float = _rng.randf_range(
+				flicker_interval - variance,
+				flicker_interval + variance
+			)
+			_flick = _rng.randi_range(flicker_count_min, flicker_count_max)
+			_timer.start(duration)
+		else:
+			if enabled:
+				_flick -= 1
+				enabled = false
+			else:
+				enabled = true
+				var sc = _GetSoundControl()
+				if sc != null:
+					sc.play_random_set(FLICKER_SOUND_SET_NAME)
+			_timer.start(_rng.randf_range(0.02, 0.1))
+	else:
+		_timer.stop()
+		_flick = 0
+
 
 func _on_tween_completed() -> void:
-	var variance = _base_energy * energy_variance
-	var target_energy = _rng.randf_range(
-		_base_energy - variance,
-		_base_energy + variance
-	)
-	var duration : float = _rng.randf_range(0.1, 4.0)
-	_tween.interpolate_property(
-		self, "energy",
-		energy, target_energy,
-		duration,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-	)
-	_tween.start()
+	if light_on:
+		var variance = _base_energy * energy_variance
+		var target_energy = _rng.randf_range(
+			_base_energy - variance,
+			_base_energy + variance
+		)
+		var duration : float = _rng.randf_range(0.1, 4.0)
+		_tween.interpolate_property(
+			self, "energy",
+			energy, target_energy,
+			duration,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		_tween.start()
 
 

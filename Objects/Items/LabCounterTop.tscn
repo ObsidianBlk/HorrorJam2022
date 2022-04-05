@@ -9,6 +9,7 @@
 polygon = PoolVector2Array( -28, -35, -28, -24, -25, 0, 25, 0, 28, -24, 28, -35 )
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 3
 texture = ExtResource( 1 )
 normal_map = ExtResource( 2 )
 offset = Vector2( 0, -17.5 )

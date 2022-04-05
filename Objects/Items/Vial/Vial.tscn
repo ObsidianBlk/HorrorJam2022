@@ -9,10 +9,13 @@
 script = ExtResource( 4 )
 
 [node name="Liquid" type="Sprite" parent="."]
+modulate = Color( 0.54, 0.17, 0.89, 1 )
+light_mask = 3
 texture = ExtResource( 3 )
 offset = Vector2( 0, -6 )
 
 [node name="Glass" type="Sprite" parent="."]
+light_mask = 3
 texture = ExtResource( 2 )
 normal_map = ExtResource( 1 )
 offset = Vector2( 0, -6 )

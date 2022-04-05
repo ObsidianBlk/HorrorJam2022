@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Objects/Room/Room.gd" type="Script" id=1]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 256, 10 )
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 1 )
@@ -12,10 +9,8 @@ script = ExtResource( 1 )
 z_index = 1
 
 [node name="North" type="CollisionShape2D" parent="Body"]
-shape = SubResource( 1 )
 
 [node name="South" type="CollisionShape2D" parent="Body"]
-shape = SubResource( 1 )
 
 [node name="East" type="CollisionPolygon2D" parent="Body"]
 polygon = PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0 )
