@@ -29,17 +29,25 @@ func set_state(s : int) -> void:
 		if state != s:
 			state = s
 			_UpdateState()
+			if _db != null and variable_key_name != "":
+				_db.set_value(variable_key_name + ".state", state)
 			
 
 # -----------------------------------------------------------------------------
 # Override Methods
 # -----------------------------------------------------------------------------
 func _ready() -> void:
-	_UpdateState()
+	call_deferred("_DeferredReady")
 
 # -----------------------------------------------------------------------------
 # Private Methods
 # -----------------------------------------------------------------------------
+func _DeferredReady() -> void:
+	if _db != null and variable_key_name != "":
+		state = _db.get_value(variable_key_name + ".state", state)
+	_UpdateState()
+
+
 func _UpdateState() -> void:
 	if sprite_node:
 		sprite_node.frame = state

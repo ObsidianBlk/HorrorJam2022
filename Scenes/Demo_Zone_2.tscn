@@ -20,8 +20,7 @@ shadow_color = Color( 0.411765, 0.592157, 0.192157, 1 )
 
 [node name="WallSwitch" parent="Room" instance=ExtResource( 9 )]
 position = Vector2( 320, 97 )
-enabled = true
-trigger_once = false
+variable_key_name = "Z2.WallSwitch1"
 state = 1
 
 [node name="CeilingLight" parent="." instance=ExtResource( 2 )]
@@ -60,6 +59,7 @@ position = Vector2( 17, -29 )
 
 [node name="Monitor" parent="LabCounterTop" instance=ExtResource( 6 )]
 position = Vector2( 2, -28 )
+variable_key_name = "Z2.Monitor1"
 
 [node name="Keyboard" parent="LabCounterTop" instance=ExtResource( 8 )]
 position = Vector2( 8, -27 )
