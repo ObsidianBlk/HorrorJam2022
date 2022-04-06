@@ -56,6 +56,10 @@ func set_trigger_area(ta : Vector2) -> void:
 func _ready() -> void:
 	set_facing(facing)
 	set_state(state)
+	if not Engine.editor_hint:
+		if trigger_node != null:
+			trigger_node.connect("body_entered", self, "on_body_entered")
+			trigger_node.connect("body_exited", self, "on_body_exited")
 
 # -------------------------------------------------------------------------
 # Private Methods

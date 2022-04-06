@@ -282,7 +282,6 @@ extents = Vector2( 20, 5 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0.45 )
 texture = ExtResource( 1 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, -48 )
@@ -310,7 +309,7 @@ anims/opening_up = SubResource( 8 )
 [node name="TriggerArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
-position = Vector2( 0, -5 )
+position = Vector2( 0, 5 )
 shape = SubResource( 6 )
 
 [node name="SideCollision" type="CollisionPolygon2D" parent="TriggerArea"]

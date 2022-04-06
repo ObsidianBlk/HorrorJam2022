@@ -60,9 +60,9 @@ func _ready() -> void:
 	_nready = true
 	set_facing(facing)
 	if not Engine.editor_hint:
-		if trigger_node != null:
-			trigger_node.connect("body_entered", self, "on_body_entered")
-			trigger_node.connect("body_exited", self, "on_body_exited")
+#		if trigger_node != null:
+#			trigger_node.connect("body_entered", self, "on_body_entered")
+#			trigger_node.connect("body_exited", self, "on_body_exited")
 		if anim_node != null:
 			anim_node.connect("animation_finished", self, "on_animation_finished")
 		var val = _GetDBVar("opened", state == STATE.Opened)
