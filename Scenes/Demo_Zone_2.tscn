@@ -104,12 +104,15 @@ state = 1
 trigger_area = Vector2( 40, 10 )
 connected_scene = "res://Scenes/Demo_Level.tscn"
 connected_door = "Door_N1"
+db_variable_name = "z2.doors.door_s2"
+lock_variable_name = "player.keyring.z2s2"
 
 [node name="Door_E2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 481, 144 )
 facing = 2
 state = 1
 trigger_area = Vector2( 10, 40 )
+db_variable_name = "z2.doors.door_e2"
 
 [node name="Door_W2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 32, 143 )
@@ -118,6 +121,7 @@ state = 1
 trigger_area = Vector2( 10, 40 )
 connected_scene = "res://Scenes/Demo_Level.tscn"
 connected_door = "Door_E1"
+db_variable_name = "z2.doors.door_w2"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.121569, 0.172549, 0.141176, 1 )

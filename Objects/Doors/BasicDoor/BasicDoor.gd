@@ -16,7 +16,8 @@ const BOTTOM_SCENE_ALPHA : float = 0.45
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-# TODO: Have doors look for "keys" within the actors that trigger it.
+export var db_variable_name : String = ""
+export var lock_variable_name : String = ""
 
 # -------------------------------------------------------------------------
 # Variables
@@ -34,10 +35,7 @@ onready var sprite_node : Sprite = get_node("Sprite")
 # -------------------------------------------------------------------------
 func set_state(s : int) -> void:
 	.set_state(s)
-	if not Engine.editor_hint and _nready:
-		var db = System.get_db("game_state")
-		if db:
-			db.set_value("doors." + name + ".opened", state == STATE.Opened, true)
+	_SetDBVar("opened", state == STATE.Opened, true)
 	_BasicDoorState()
 
 
@@ -67,19 +65,31 @@ func _ready() -> void:
 			trigger_node.connect("body_exited", self, "on_body_exited")
 		if anim_node != null:
 			anim_node.connect("animation_finished", self, "on_animation_finished")
-		var db = System.get_db("game_state")
-		var sval = state
-		if db:
-			if db.has_value("doors." + name + ".opened"):
-				var val = db.get_value("doors." + name + ".opened", state == STATE.Opened)
-				sval = STATE.Opened if val == true else STATE.Blocked
-		set_state(sval)
+		var val = _GetDBVar("opened", state == STATE.Opened)
+		set_state(STATE.Opened if val == true else STATE.Blocked)
 	else:
 		set_state(state)
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+func _SetDBVar(sub_key_name : String, value, create_if_nexists : bool = false) -> void:
+	if not Engine.editor_hint and _nready and db_variable_name != "":
+		var db = System.get_db("game_state")
+		if db:
+			var key = db_variable_name + "." + sub_key_name
+			db.set_value(key, value, create_if_nexists)
+
+
+func _GetDBVar(sub_key_name : String, default = null):
+	if not Engine.editor_hint and _nready and db_variable_name != "":
+		var db = System.get_db("game_state")
+		if db:
+			var key = db_variable_name + "." + sub_key_name
+			return db.get_value(key, default)
+	return default
+
+
 func _BasicDoorState() -> void:
 	if anim_node != null:
 		var facing_name = _GetFacingNameAdj()
@@ -148,5 +158,9 @@ func on_interact(body : Node2D) -> void:
 			"opened":
 				anim_node.play("closing_" + facing_name)
 			"closed":
-				anim_node.play("opening_" + facing_name)
+				var open : bool = true
+				if lock_variable_name != "":
+					open = _GetDBVar(lock_variable_name, false)
+				if open:
+					anim_node.play("opening_" + facing_name)
 

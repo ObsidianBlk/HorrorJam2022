@@ -34,6 +34,14 @@ floor_base = "lanolium_001"
 room_size = 1024.0
 shadow_color = Color( 0.443137, 0.392157, 0.215686, 1 )
 
+[node name="Door_N1" parent="RealWorld/LeftRoom" instance=ExtResource( 5 )]
+position = Vector2( 255, 128 )
+state = 1
+trigger_area = Vector2( 40, 10 )
+connected_scene = "res://Scenes/Demo_Zone_2.tscn"
+connected_door = "Door_S2"
+db_variable_name = "z1.doors.door_n1"
+
 [node name="RightRoom" parent="RealWorld" instance=ExtResource( 1 )]
 position = Vector2( 1117, 64 )
 wall_base = "plaster_001"
@@ -48,6 +56,7 @@ state = 1
 trigger_area = Vector2( 10, 40 )
 connected_scene = "res://Scenes/Demo_Zone_2.tscn"
 connected_door = "Door_W2"
+db_variable_name = "z1.doors.door_e1"
 
 [node name="WallSwitch" parent="RealWorld/RightRoom" instance=ExtResource( 2 )]
 position = Vector2( -803, 103 )
