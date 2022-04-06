@@ -26,12 +26,26 @@ var _db : DBResource = null
 func _ready() -> void:
 	if variable_key_name != "":
 		_db = System.get_db("game_state")
-		if _db != null:
-			_triggered = _db.get_value(variable_key_name + ".triggered", _triggered)
-			if _triggered:
-				call_deferred("_on_interact")
+	_triggered = _GetDBVar("triggered", _triggered)
+	if _triggered:
+		call_deferred("_on_interact")
 	connect("area_entered", self, "_on_area_entered")
 	connect("area_exited", self, "_on_area_exited")
+
+# -----------------------------------------------------------------------------
+# Private Methods
+# -----------------------------------------------------------------------------
+
+func _SetDBVar(sub_key_name : String, value) -> void:
+	if _db != null and variable_key_name != "":
+		var key = variable_key_name + "." + sub_key_name
+		_db.set_value(key, value)
+
+func _GetDBVar(sub_key_name : String, default = null):
+	if _db != null and variable_key_name != "":
+		var key = variable_key_name + "." + sub_key_name
+		return _db.get_value(key, default)
+	return default
 
 # -----------------------------------------------------------------------------
 # Handler Methods
@@ -55,10 +69,10 @@ func _on_internal_interact() -> void:
 		return
 	
 	if not trigger_once or not _triggered:
-		_triggered = true
-		if _db and variable_key_name != "":
-			_db.set_value(variable_key_name + ".triggered", _triggered)
 		_on_interact()
+		if trigger_once:
+			_triggered = true
+			_SetDBVar("triggered", _triggered)
 
 func _on_interact() -> void:
 	emit_signal("trigger_on")

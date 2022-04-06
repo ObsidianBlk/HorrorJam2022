@@ -61,7 +61,9 @@ sibling_viewport_path = NodePath("../Alt_World_View")
 [node name="TestDummy" parent="Real_World_View" groups=["Player"] instance=ExtResource( 4 )]
 
 [node name="ShakeCamera" parent="Real_World_View" instance=ExtResource( 3 )]
+offset = Vector2( 0, 180 )
 current = true
+lock_to_y = true
 
 [node name="Alt_World_View" type="Viewport" parent="."]
 size = Vector2( 640, 360 )
@@ -73,7 +75,9 @@ script = ExtResource( 5 )
 sibling_viewport_path = NodePath("../Real_World_View")
 
 [node name="ShakeCamera" parent="Alt_World_View" instance=ExtResource( 3 )]
+offset = Vector2( 0, 180 )
 current = true
+lock_to_y = true
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 

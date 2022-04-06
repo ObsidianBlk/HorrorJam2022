@@ -74,7 +74,7 @@ func _on_interact() -> void:
 			2: # Off
 				_state = 0
 		emit_signal("trigger_on" if _state == 1 else "trigger_off")
-		if _state == 1:
+		if _state == 1 and not _triggered:
 			System.request_dialog(timeline_name)
 
 

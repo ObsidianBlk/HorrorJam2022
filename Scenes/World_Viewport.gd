@@ -142,6 +142,9 @@ func track_sibling_camera() -> void:
 		if sibling_camera:
 			_camera.target_node_path = _camera.get_path_to(sibling_camera)
 
+func get_camera_path_to(n : Node) -> NodePath:
+	return n.get_path_to(_camera)
+
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------

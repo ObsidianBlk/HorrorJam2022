@@ -129,6 +129,7 @@ func _StartZone(door_name : String = "") -> void:
 	
 	var entry_door : Node2D = _ConnectDoors(door_name)
 	_ConnectPortals()
+	_ConnectScrollWalls()
 	
 	if entry_door:
 		var vp = real_viewport_node
@@ -208,6 +209,12 @@ func _ConnectPortals() -> void:
 				self, "_on_world_shift",
 				[alt_viewport_node, real_viewport_node, WORLD.Real]
 			)
+
+func _ConnectScrollWalls() -> void:
+	var wslist = get_tree().get_nodes_in_group("ScrollWall")
+	for ws in wslist:
+		if real_viewport_node.is_a_parent_of(ws):
+			ws.camera_node_path = real_viewport_node.get_camera_path_to(ws)
 
 func _ShowWorldPortals(view : Viewport) -> void:
 	var portals = get_tree().get_nodes_in_group("Portal")

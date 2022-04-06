@@ -114,18 +114,25 @@ func _BuildSprite(tex : Texture, norm : Texture = null, centered : bool = false,
 			return spr
 	return null
 
+func _LoadTexture(path : String) -> Texture:
+	if ResourceLoader.exists(path):
+		var tex = load(path)
+		if tex is Texture:
+			return tex
+	return null
+
 func _BuildWallSprite(src : String) -> void:
 	var res_path = WALL_BASE_PATH + src + ".png"
 	var res_n_path = WALL_BASE_PATH + src + "_n.png"
 	if ResourceLoader.exists(res_path):
-		var tex : Texture = load(res_path)
+		var tex : Texture = _LoadTexture(res_path)
 		if tex:
 			if _wall_sprite != null and _wall_sprite.texture != tex:
 				_wall_sprite.texture = tex
-				_wall_sprite.normal_map = load(res_n_path)
+				_wall_sprite.normal_map = _LoadTexture(res_n_path)
 				_wall_sprite.region_rect = Rect2(0, 0, room_size, tex.get_height())
 			elif _wall_sprite == null:
-				_wall_sprite = _BuildSprite(tex, load(res_n_path), false, Rect2(0,0,room_size, tex.get_height()))
+				_wall_sprite = _BuildSprite(tex, _LoadTexture(res_n_path), false, Rect2(0,0,room_size, tex.get_height()))
 				if _wall_sprite:
 					add_child(_wall_sprite)
 			if _wall_sprite != null and _floor_sprite != null:
@@ -145,19 +152,19 @@ func _BuildWallEdgeSprite(src : String, left_edge : bool = false) -> void:
 	var res_path = WALL_BASE_PATH + src + "_e.png"
 	var res_n_path = WALL_BASE_PATH + src + "_e_n.png"
 	if ResourceLoader.exists(res_path):
-		var tex : Texture = load(res_path)
+		var tex : Texture = _LoadTexture(res_path)
 		if tex:
 			var edge : Sprite = _edge_l_sprite if left_edge else _edge_r_sprite
 			if edge != null and edge.texture != tex:
 				edge.texture = tex
-				edge.normal_map = load(res_n_path)
+				edge.normal_map = _LoadTexture(res_n_path)
 				if not left_edge:
 					edge.position = Vector2(room_size - tex.get_width(), 0)
 			elif edge == null:
-				edge = _BuildSprite(tex, load(res_n_path))
+				edge = _BuildSprite(tex, _LoadTexture(res_n_path))
 				if edge:
 					add_child(edge)
-					var shd = _BuildSprite(load(WALL_EDGE_SHADOW_PATH))
+					var shd = _BuildSprite(_LoadTexture(WALL_EDGE_SHADOW_PATH))
 					if shd:
 						shd.name = "shadow"
 						shd.modulate = shadow_color
@@ -206,15 +213,15 @@ func _BuildFloorSprite(src : String) -> void:
 	var res_path = FLOOR_BASE_PATH + src + ".png"
 	var res_n_path = FLOOR_BASE_PATH + src + "_n.png"
 	if ResourceLoader.exists(res_path):
-		var tex : Texture = load(res_path)
+		var tex : Texture = _LoadTexture(res_path)
 		if tex:
 			if _floor_sprite != null and _floor_sprite.texture != tex:
 				_floor_sprite.texture = tex
-				_floor_sprite.normal_map = load(res_n_path)
+				_floor_sprite.normal_map = _LoadTexture(res_n_path)
 			elif _floor_sprite == null:
-				_floor_sprite = _BuildSprite(tex, load(res_n_path), false, Rect2(0, 0, room_size, tex.get_height()))
+				_floor_sprite = _BuildSprite(tex, _LoadTexture(res_n_path), false, Rect2(0, 0, room_size, tex.get_height()))
 				if _floor_sprite:
-					var shd = _BuildSprite(load(FLOOR_SHADOW_PATH), null, false, Rect2(0, 0, room_size, tex.get_height()))
+					var shd = _BuildSprite(_LoadTexture(FLOOR_SHADOW_PATH), null, false, Rect2(0, 0, room_size, tex.get_height()))
 					if shd:
 						shd.name = "shadow"
 						shd.modulate = shadow_color

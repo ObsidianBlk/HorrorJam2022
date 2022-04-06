@@ -17,6 +17,7 @@ script = ExtResource( 4 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 3
 texture = ExtResource( 1 )
 normal_map = ExtResource( 2 )
 hframes = 2
@@ -26,3 +27,4 @@ texture = ExtResource( 3 )
 color = Color( 0.552941, 0.870588, 0.505882, 1 )
 energy = 0.5
 range_height = 4.0
+range_item_cull_mask = 2

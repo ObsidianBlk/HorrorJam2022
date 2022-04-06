@@ -12,6 +12,7 @@ const TRAUMA_POWER : float = 2.0
 # -------------------------------------------------------------------------
 export var target_node_path : NodePath = ""			setget set_target_node_path
 export var max_target_distance : float = 1000.0		setget set_max_target_distance
+export var lock_to_y : bool = false
 
 export var trauma_seed : int = 0
 export var trauma_decay : float = 0.8
@@ -58,27 +59,47 @@ func _ready() -> void:
 	_tween = Tween.new()
 	add_child(_tween)
 	
+	_lstpos = global_position
+	
 	noise.seed = trauma_seed
 	noise.period = 4
 	noise.octaves = 2
 
 func _process(delta : float) -> void:
 	if _target != null:
-		if _lstpos.distance_to(_target.global_position) > THRESHOLD:
-			_lstpos = _target.global_position
-			_tween.stop_all()
-			
-			var dist : float = global_position.distance_to(_target.global_position)
-			if dist > max_target_distance:
-				snap_to_target()
-			else:
-				_tween.interpolate_property(
-					self, "global_position", 
-					global_position, _target.global_position, 
-					0.1,
-					Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-				)
-				_tween.start()
+		if lock_to_y:
+			if abs(_lstpos.x - _target.global_position.x) > THRESHOLD:
+				_lstpos.x = _target.global_position.x
+				_tween.stop_all()
+				
+				var dist : float = abs(global_position.x - _target.global_position.x)
+				if dist > max_target_distance:
+					snap_to_target()
+				else:
+					var to : Vector2 = Vector2(_target.global_position.x, global_position.y)
+					_tween.interpolate_property(
+						self, "global_position", 
+						global_position, to, 
+						0.1,
+						Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+					)
+					_tween.start()
+		else:
+			if _lstpos.distance_to(_target.global_position) > THRESHOLD:
+				_lstpos = _target.global_position
+				_tween.stop_all()
+				
+				var dist : float = global_position.distance_to(_target.global_position)
+				if dist > max_target_distance:
+					snap_to_target()
+				else:
+					_tween.interpolate_property(
+						self, "global_position", 
+						global_position, _target.global_position, 
+						0.1,
+						Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+					)
+					_tween.start()
 	
 	if _trauma > 0.0:
 		_trauma = max(_trauma - trauma_decay * delta, 0)
@@ -101,7 +122,10 @@ func _Shake() -> void:
 func snap_to_target() -> void:
 	if _target != null:
 		_tween.stop_all()
-		global_position = _target.global_position
+		if lock_to_y:
+			global_position.x = _target.global_position.x
+		else:
+			global_position = _target.global_position
 
 func add_trauma(amount : float) -> void:
 	_trauma = max(min(_trauma + amount, 1.0), 0.0)

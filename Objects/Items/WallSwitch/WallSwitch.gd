@@ -13,6 +13,10 @@ const COLOR_OFF : Color = Color("#fdc02f")
 # -----------------------------------------------------------------------------
 export (int, 0, 1) var state : int = 0			setget set_state
 
+# -----------------------------------------------------------------------------
+# Variables
+# -----------------------------------------------------------------------------
+var _dready : bool = false
 
 # -----------------------------------------------------------------------------
 # Onready Variables
@@ -29,8 +33,8 @@ func set_state(s : int) -> void:
 		if state != s:
 			state = s
 			_UpdateState()
-			if _db != null and variable_key_name != "":
-				_db.set_value(variable_key_name + ".state", state)
+			if _dready:
+				_SetDBVar("state", state)
 			
 
 # -----------------------------------------------------------------------------
@@ -43,8 +47,8 @@ func _ready() -> void:
 # Private Methods
 # -----------------------------------------------------------------------------
 func _DeferredReady() -> void:
-	if _db != null and variable_key_name != "":
-		state = _db.get_value(variable_key_name + ".state", state)
+	_dready = true
+	state = _GetDBVar("state", state)
 	_UpdateState()
 
 
