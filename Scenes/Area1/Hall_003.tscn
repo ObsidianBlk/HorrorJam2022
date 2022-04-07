@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Doors/EntryWay/EntryWay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Doors/Indicators/SouthEntrywayFrame.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=5]
 
 [node name="Hall_003" type="Node2D"]
 
@@ -29,5 +31,12 @@ connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
 connected_door = "Door_Hall3"
 db_variable_name = "A1.Hall_003.Doors.R.Conference"
 
+[node name="SouthEntrywayFrame" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 325, 192 )
+
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.384314, 0.360784, 0.282353, 1 )
+
+[node name="SoundEnv" parent="RealWorld" instance=ExtResource( 5 )]
+position = Vector2( 513, 225 )
+trigger_area = Vector2( 512, 32 )

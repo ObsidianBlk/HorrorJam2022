@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Env/Doors/Entry_South_WallFrame_n.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Env/Doors/Entry_South_WallFrame.png" type="Texture" id=2]
+[ext_resource path="res://Objects/ScrollWall/ScrollWall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Env/Walls/Parallax/Entry_South_WallFrame_Parallax.png" type="Texture" id=4]
+
+[node name="SouthEntrywayFrame" type="Node2D"]
+
+[node name="ScrollWall" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -64 )
+texture = ExtResource( 4 )
+scroll_width = 128
+virtual_width = 256
+invert_scroll = true
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+normal_map = ExtResource( 1 )
+offset = Vector2( 0, -64 )

@@ -84,6 +84,7 @@ func move(dir : Vector2) -> void:
 			_velocity.x = 0.0
 
 func face(dir : Vector2) -> void:
+	print("Setting Facing: ", dir)
 	if dir.length() > 0:
 		_facing = Vector2(sign(dir.x), sign(dir.y))
 

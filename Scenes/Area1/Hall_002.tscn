@@ -1,9 +1,87 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Doors/EntryWay/EntryWay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Env/Doors/Entryway_Frames_Edge.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Env/Doors/Entryway_Frames_Edge_Right_n.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Env/Doors/Entryway_Frames_Edge_Left_n.png" type="Texture" id=5]
+[ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=8]
 
 [node name="Hall_002" type="Node2D"]
+
+[node name="AltWorld" type="YSort" parent="."]
+
+[node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 512.0
+
+[node name="Door_A_Cafe" parent="AltWorld" instance=ExtResource( 7 )]
+position = Vector2( 253, 192 )
+state = 1
+connected_scene = "res://Scenes/Area1/Cafe.tscn"
+connected_door = "Door_A_Hall2"
+db_variable_name = "A1.Hall_002.Doors.A.Cafe"
+
+[node name="Entry_A_Hall1" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 45, 193 )
+facing = 3
+trigger_area = Vector2( 10, 86 )
+connected_scene = "res://Scenes/Area1/Hall_001.tscn"
+connected_door = "Entry_A_Hall2"
+
+[node name="Entry_A_Hall3" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 468, 193 )
+facing = 2
+trigger_area = Vector2( 10, 86 )
+connected_scene = "res://Scenes/Area1/Hall_003.tscn"
+connected_door = "Entry_Hall2"
+
+[node name="CeilingLight" parent="AltWorld" instance=ExtResource( 8 )]
+position = Vector2( 145, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
+energy = 0.5
+energy_variance = 0.2
+hum_min_energy = 0.8
+hum_max_energy = 1.2
+flicker_count_min = 2
+flicker_count_max = 10
+flicker_interval = 10.0
+flicker_interval_variance = 0.2
+
+[node name="CeilingLight2" parent="AltWorld" instance=ExtResource( 8 )]
+position = Vector2( 251, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
+light_on = false
+energy_variance = 0.2
+hum_min_energy = 0.8
+hum_max_energy = 1.2
+
+[node name="CeilingLight3" parent="AltWorld" instance=ExtResource( 8 )]
+position = Vector2( 363, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
+energy = 0.8
+
+[node name="EntryFrame_A_Left" type="Sprite" parent="AltWorld"]
+position = Vector2( 480, 160 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 5 )
+
+[node name="EntryFrame_A_Right" type="Sprite" parent="AltWorld"]
+position = Vector2( 32, 160 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
+flip_h = true
+
+[node name="SoundEnv" parent="AltWorld" instance=ExtResource( 6 )]
+position = Vector2( 257, 224 )
+trigger_area = Vector2( 256, 32 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
+color = Color( 0.192157, 0.0627451, 0.0941176, 1 )
 
 [node name="RealWorld" type="YSort" parent="."]
 
@@ -12,6 +90,13 @@ position = Vector2( 0, 64 )
 wall_base = "plaster_001"
 floor_base = "lanolium_001"
 room_size = 512.0
+
+[node name="Door_Cafe" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 253, 192 )
+state = 1
+connected_scene = "res://Scenes/Area1/Cafe.tscn"
+connected_door = "Door_Hall2"
+db_variable_name = "A1.Hall_002.Doors.R.Cafe"
 
 [node name="Entry_Hall1" parent="RealWorld" instance=ExtResource( 2 )]
 position = Vector2( 45, 193 )
@@ -26,3 +111,41 @@ facing = 2
 trigger_area = Vector2( 10, 86 )
 connected_scene = "res://Scenes/Area1/Hall_003.tscn"
 connected_door = "Entry_Hall2"
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 145, 80 )
+energy_variance = 0.2
+hum_min_energy = 0.8
+hum_max_energy = 1.2
+flicker_count_min = 2
+flicker_count_max = 10
+flicker_interval = 10.0
+flicker_interval_variance = 0.2
+
+[node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 251, 80 )
+energy_variance = 0.2
+hum_min_energy = 0.8
+hum_max_energy = 1.2
+
+[node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 363, 80 )
+energy = 1.1
+
+[node name="EntryFrame_Left" type="Sprite" parent="RealWorld"]
+position = Vector2( 480, 160 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 5 )
+
+[node name="EntryFrame_Left2" type="Sprite" parent="RealWorld"]
+position = Vector2( 32, 160 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
+flip_h = true
+
+[node name="SoundEnv" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 257, 224 )
+trigger_area = Vector2( 256, 32 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
+color = Color( 0.282353, 0.254902, 0.219608, 1 )

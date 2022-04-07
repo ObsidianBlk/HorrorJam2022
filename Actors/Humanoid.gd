@@ -14,6 +14,7 @@ var _sprite_nodes : Array = []
 # Onready Variables
 # -------------------------------------------------------------------------
 onready var anim_node : AnimationPlayer = $Anim
+onready var sndctrl : Node2D = $SoundCTRL
 
 # -------------------------------------------------------------------------
 # Override Methods
@@ -49,6 +50,11 @@ func _Fade(anim_name : String) -> void:
 	set_physics_process(true)
 	emit_signal("faded")
 
+func _PlayStep() -> void:
+	var _db : DBResource = System.get_db("game_state")
+	if _db and sndctrl:
+		var setname = _db.get_value("player.footsteps.soundset", "steps")
+		sndctrl.play_random_set(setname)
 
 # -------------------------------------------------------------------------
 # Public Methods

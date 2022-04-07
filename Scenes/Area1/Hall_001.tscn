@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Doors/EntryWay/EntryWay.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Env/Effects/Entryway_North_Shadow.png" type="Texture" id=6]
 
 [node name="Hall_001" type="Node2D"]
 
@@ -49,6 +51,7 @@ lock_variable_name = "Random.NonExistant.Key"
 
 [node name="CeilingLight" parent="AltWorld" instance=ExtResource( 2 )]
 position = Vector2( 112, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
 energy = 0.75
 energy_variance = 0.5
 hum_min_energy = 0.4
@@ -60,10 +63,12 @@ flicker_interval_variance = 0.5
 
 [node name="CeilingLight1" parent="AltWorld" instance=ExtResource( 2 )]
 position = Vector2( 386, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
 energy = 0.5
 
 [node name="CeilingLight2" parent="AltWorld" instance=ExtResource( 2 )]
 position = Vector2( 570, 80 )
+color = Color( 0.509804, 0.85098, 0.505882, 1 )
 energy = 0.9
 energy_variance = 0.3
 hum_min_energy = 0.0
@@ -73,6 +78,13 @@ hum_max_energy = 0.1
 position = Vector2( 658, 256 )
 facing = 0
 trigger_area = Vector2( 128, 10 )
+connected_scene = "res://Scenes/Area1/Hall_002.tscn"
+connected_door = "Entry_A_Hall1"
+
+[node name="Entryway_Shadow" type="Sprite" parent="AltWorld"]
+modulate = Color( 0.27451, 0.27451, 0.27451, 1 )
+position = Vector2( 626, 240 )
+texture = ExtResource( 6 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
 color = Color( 0.219608, 0.0470588, 0.113725, 1 )
@@ -84,6 +96,11 @@ position = Vector2( 0, 64 )
 wall_base = "plaster_001"
 floor_base = "lanolium_001"
 room_size = 768.0
+
+[node name="SoundEnv" parent="RealWorld" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 381, 223 )
+trigger_area = Vector2( 384, 32 )
 
 [node name="Door_Office1" parent="RealWorld" instance=ExtResource( 3 )]
 position = Vector2( 148, 192 )
@@ -159,3 +176,8 @@ facing = 0
 trigger_area = Vector2( 128, 10 )
 connected_scene = "res://Scenes/Area1/Hall_002.tscn"
 connected_door = "Entry_Hall1"
+
+[node name="Entryway_Shadow" type="Sprite" parent="RealWorld"]
+modulate = Color( 0.27451, 0.27451, 0.27451, 1 )
+position = Vector2( 626, 240 )
+texture = ExtResource( 6 )
