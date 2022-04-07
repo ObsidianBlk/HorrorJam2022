@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Items/OfficeChair/OfficeChair.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Items/WoodenTable/WoodenTable.tscn" type="PackedScene" id=5]
 
 [node name="ConferenceRoom_001" type="Node2D"]
 
@@ -15,7 +18,7 @@ room_size = 512.0
 shadow_color = Color( 0.305882, 0.223529, 0.0470588, 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
-color = Color( 0.607843, 0.552941, 0.45098, 1 )
+color = Color( 0.478431, 0.431373, 0.341176, 1 )
 
 [node name="Door_Hall1_1" parent="RealWorld" instance=ExtResource( 1 )]
 position = Vector2( 117, 192 )
@@ -50,3 +53,39 @@ trigger_area = Vector2( 30, 10 )
 connected_scene = "res://Scenes/Area1/Hall_004.tscn"
 connected_door = "Door_Conference"
 db_variable_name = "A1.Conference_001.Doors.R.Hall4"
+
+[node name="OfficeChair" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 169, 222 )
+
+[node name="OfficeChair2" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 396, 232 )
+facing = 3
+
+[node name="OfficeChair3" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 284, 240 )
+facing = 1
+
+[node name="OfficeChair4" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 96, 237 )
+facing = 2
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 112, 81 )
+flicker_count_min = 2
+flicker_count_max = 10
+flicker_interval = 40.0
+flicker_interval_variance = 0.2
+
+[node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 249, 81 )
+energy_variance = 0.2
+hum_min_energy = 0.8
+hum_max_energy = 1.2
+
+[node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 388, 81 )
+energy = 0.6
+
+[node name="WoodenTable" parent="RealWorld" instance=ExtResource( 5 )]
+position = Vector2( 247, 225 )
+table_width = 128.0

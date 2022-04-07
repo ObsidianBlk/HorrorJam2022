@@ -127,4 +127,4 @@ func on_player_collision() -> void:
 		_player.trigger()
 
 func on_joy_connection_changed(device_id, connected):
-    print(device_id, connected)
+	print(device_id, connected)
