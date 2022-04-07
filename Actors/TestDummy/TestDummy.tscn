@@ -643,7 +643,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ Vector2( -1, 0 ) ],
+"args": [ Vector2( 1, 0 ) ],
 "method": "face"
 } ]
 }
@@ -695,7 +695,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ Vector2( 1, 0 ) ],
+"args": [ Vector2( -1, 0 ) ],
 "method": "face"
 } ]
 }

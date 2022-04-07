@@ -1,0 +1,161 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Doors/EntryWay/EntryWay.tscn" type="PackedScene" id=4]
+
+[node name="Hall_001" type="Node2D"]
+
+[node name="AltWorld" type="YSort" parent="."]
+
+[node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 768.0
+
+[node name="Door_A_Office1" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 148, 192 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+lock_variable_name = "Random.NonExistant.Key"
+
+[node name="Door_A_Office2" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 295, 193 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+db_variable_name = "A1.Hall_001.Doors.A.Office2"
+
+[node name="Door_A_Office3" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 446, 192 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+lock_variable_name = "Random.NonExistant.Key"
+
+[node name="Door_A_Conference1" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 207, 256 )
+facing = 0
+state = 1
+trigger_area = Vector2( 30, 10 )
+lock_variable_name = "Random.NonExistant.Key"
+
+[node name="Door_A_Conference2" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 387, 256 )
+facing = 0
+state = 1
+trigger_area = Vector2( 30, 10 )
+lock_variable_name = "Random.NonExistant.Key"
+
+[node name="CeilingLight" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 112, 80 )
+energy = 0.75
+energy_variance = 0.5
+hum_min_energy = 0.4
+hum_max_energy = 1.0
+flicker_count_min = 2
+flicker_count_max = 10
+flicker_interval = 16.0
+flicker_interval_variance = 0.5
+
+[node name="CeilingLight1" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 386, 80 )
+energy = 0.5
+
+[node name="CeilingLight2" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 570, 80 )
+energy = 0.9
+energy_variance = 0.3
+hum_min_energy = 0.0
+hum_max_energy = 0.1
+
+[node name="Entry_A_Hall2" parent="AltWorld" instance=ExtResource( 4 )]
+position = Vector2( 658, 256 )
+facing = 0
+trigger_area = Vector2( 128, 10 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
+color = Color( 0.219608, 0.0470588, 0.113725, 1 )
+
+[node name="RealWorld" type="YSort" parent="."]
+
+[node name="Room" parent="RealWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "lanolium_001"
+room_size = 768.0
+
+[node name="Door_Office1" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 148, 192 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+db_variable_name = "A1.Hall_001.Doors.R.Office1"
+
+[node name="Door_Office2" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 295, 193 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+lock_variable_name = "Random.NoneExistant.Key"
+
+[node name="Door_Office3" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 446, 192 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+db_variable_name = "A1.Hall_001.Doors.R.Office3"
+
+[node name="Door_Conference1" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 207, 256 )
+facing = 0
+state = 1
+trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
+connected_door = "Door_Hall1_1"
+db_variable_name = "A1.Hall_001.Doors.R.Conf1"
+
+[node name="Door_Conference2" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 387, 256 )
+facing = 0
+state = 1
+trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
+connected_door = "Door_Hall1_2"
+db_variable_name = "A1.Hall_001.Doors.R.Conf2"
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 112, 80 )
+energy = 1.25
+
+[node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 204, 80 )
+energy = 1.25
+
+[node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 294, 80 )
+energy = 1.25
+
+[node name="CeilingLight4" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 386, 80 )
+energy = 1.25
+
+[node name="CeilingLight5" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 478, 80 )
+energy_variance = 0.3
+hum_min_energy = 0.9
+hum_max_energy = 1.8
+
+[node name="CeilingLight6" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 570, 80 )
+energy = 1.25
+
+[node name="Player_Start" type="Position2D" parent="RealWorld" groups=["Player_Start"]]
+position = Vector2( 117, 224 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
+color = Color( 0.192157, 0.172549, 0.105882, 1 )
+
+[node name="Entry_Hall2" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 658, 256 )
+facing = 0
+trigger_area = Vector2( 128, 10 )
+connected_scene = "res://Scenes/Area1/Hall_002.tscn"
+connected_door = "Entry_Hall1"

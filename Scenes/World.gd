@@ -3,7 +3,7 @@ extends Node2D
 # -------------------------------------------------------------------------
 # Constants
 # -------------------------------------------------------------------------
-const INITIAL_ZONE : String = "res://Scenes/Demo_Level.tscn"
+const INITIAL_ZONE : String = "res://Scenes/Area1/Hall_001.tscn"
 const WORLD_SHIFT_TIME : float = 1.0
 
 enum WORLD {Real=0, Alt=1}
