@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Scenes/World_Viewport.gd" type="Script" id=5]
 [ext_resource path="res://Shaders/World.gdshader" type="Shader" id=6]
 [ext_resource path="res://Scripts/AINightmare.gd" type="Script" id=7]
+[ext_resource path="res://Actors/Nightmare/Nightmare.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
@@ -78,6 +79,8 @@ sibling_viewport_path = NodePath("../Real_World_View")
 offset = Vector2( 0, 180 )
 current = true
 lock_to_y = true
+
+[node name="Nightmare" parent="Alt_World_View" instance=ExtResource( 8 )]
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 

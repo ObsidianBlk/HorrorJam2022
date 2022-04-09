@@ -8,6 +8,50 @@
 
 [node name="Hall_003" type="Node2D"]
 
+[node name="AltWorld" type="YSort" parent="."]
+
+[node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_tendral"
+floor_base = "lanoliumGrunge_001"
+room_size = 1024.0
+shadow_color = Color( 0.207843, 0.109804, 0.0352941, 1 )
+
+[node name="Entry_A_Hall2" parent="AltWorld" instance=ExtResource( 2 )]
+position = Vector2( 325, 192 )
+trigger_area = Vector2( 128, 10 )
+connected_scene = "res://Scenes/Area1/Hall_002.tscn"
+connected_door = "Entry_A_Hall3"
+
+[node name="Door_Conference" parent="AltWorld" instance=ExtResource( 3 )]
+position = Vector2( 125, 192 )
+state = 1
+trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
+connected_door = "Door_Hall3"
+db_variable_name = "A1.Hall_003.Doors.R.Conference"
+
+[node name="SouthEntrywayFrame" parent="AltWorld" instance=ExtResource( 4 )]
+position = Vector2( 325, 192 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
+color = Color( 0.231373, 0.129412, 0.168627, 1 )
+
+[node name="SoundEnv" parent="AltWorld" instance=ExtResource( 5 )]
+position = Vector2( 513, 225 )
+trigger_area = Vector2( 512, 32 )
+
+[node name="Nightmare_Spawns" type="Node2D" parent="AltWorld"]
+
+[node name="Position2D" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 208, 221 )
+
+[node name="Position2D2" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 580, 217 )
+
+[node name="Position2D3" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 816, 218 )
+
 [node name="RealWorld" type="YSort" parent="."]
 
 [node name="Room" parent="RealWorld" instance=ExtResource( 1 )]

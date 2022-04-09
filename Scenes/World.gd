@@ -48,7 +48,9 @@ func _ready() -> void:
 	_PrepareWorld()
 	
 	# Kick the pig!
-	_LoadZone(INITIAL_ZONE)
+	var load_zone = _GetDBValue("world.zone_path", INITIAL_ZONE)
+	call_deferred("_LoadZone", load_zone)
+	#_LoadZone(load_zone)
 
 
 func _process(delta : float) -> void:
@@ -83,6 +85,18 @@ func _process(delta : float) -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
+func _GetDBValue(key : String, default):
+	var db : DBResource = System.get_db("game_state")
+	if db:
+		return db.get_value(key, default)
+	return default
+
+func _SetDBValue(key : String, value, create_if_nexists : bool = false) -> void:
+	var db : DBResource = System.get_db("game_state")
+	if db:
+		db.set_value(key, value, create_if_nexists)
+
+
 func _PrepareWorld() -> void:
 	var pnode = get_tree().get_nodes_in_group("Player")
 	if pnode.size() > 0:
@@ -92,12 +106,31 @@ func _PrepareWorld() -> void:
 	else:
 		printerr("WARNING: No 'Player' nodes found!!")
 
+func _GetSceneArea(scene_path : String) -> int:
+	var base : String = "res://Scenes/Area"
+	if scene_path.begins_with(base):
+		var from = base.length()
+		var to = scene_path.findn("/", base.length())
+		if to > from:
+			var num : String = scene_path.substr(from, to - from)
+			if num.is_valid_integer():
+				return int(num)
+	return -1
+
+
+func _GetSceneName(scene_path : String) -> String:
+	return scene_path.get_file().get_basename()
+
 
 func _LoadZone(scene_path : String, start_door : String = "") -> void:
 	var zone_inst = load(scene_path)
 	if zone_inst:
 		var zone = zone_inst.instance()
 		if zone:
+			_SetDBValue("world.zone_path", scene_path, true)
+			_SetDBValue("world.zone_area", _GetSceneArea(scene_path), true)
+			_SetDBValue("world.zone_name", _GetSceneName(scene_path), true)
+			
 			_player.hide_viz(true)
 			if real_viewport_node.has_player():
 				real_viewport_node.release_player()
@@ -113,6 +146,9 @@ func _LoadZone(scene_path : String, start_door : String = "") -> void:
 				elif child.name == "AltWorld":
 					zone.remove_child(child)
 					alt_viewport_node.add_child(child)
+				if not child.visible:
+					child.visible = true
+			alt_viewport_node.resort_nightmare()
 			
 			if not real_viewport_node.has_world_nodes() and not alt_viewport_node.has_world_nodes():
 				real_viewport_node.add_child(zone)
@@ -135,11 +171,13 @@ func _StartZone(door_name : String = "") -> void:
 		var vp = real_viewport_node
 		if real_viewport_node.is_a_parent_of(entry_door):
 			real_viewport_node.add_player(_player)
+			_SetDBValue("player.world", "real", true)
 			alt_viewport_node.track_sibling_camera()
 			_ShowWorldPortals(real_viewport_node)
 		else:
 			vp = alt_viewport_node
 			alt_viewport_node.add_player(_player)
+			_SetDBValue("player.world", "alt", true)
 			real_viewport_node.track_sibling_camera()
 			_ShowWorldPortals(alt_viewport_node)
 			
@@ -215,6 +253,8 @@ func _ConnectScrollWalls() -> void:
 	for ws in wslist:
 		if real_viewport_node.is_a_parent_of(ws):
 			ws.camera_node_path = real_viewport_node.get_camera_path_to(ws)
+		elif alt_viewport_node.is_a_parent_of(ws):
+			ws.camera_node_path = alt_viewport_node.get_camera_path_to(ws)
 
 func _ShowWorldPortals(view : Viewport) -> void:
 	var portals = get_tree().get_nodes_in_group("Portal")
@@ -245,6 +285,7 @@ func _on_world_shift(from_view : Viewport, to_view : Viewport, target_world : in
 			to_view.add_player(_player)
 			to_view.audio_listener_enable_2d = true
 			from_view.track_sibling_camera()
+			_SetDBValue("player.world", "real" if target_world == WORLD.Real else "alt", true)
 			_ShowWorldPortals(to_view)
 
 
@@ -264,5 +305,4 @@ func _on_Dialog_timeline_start(timeline_name : String) -> void:
 
 func _on_Dialog_timeline_end(timeline_name : String) -> void:
 	if timeline_name != "":
-		print("Unpausing game")
 		get_tree().paused = false

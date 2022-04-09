@@ -15,8 +15,8 @@
 
 [node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
 position = Vector2( 0, 64 )
-wall_base = "plaster_001"
-floor_base = "lanolium_001"
+wall_base = "plaster_tendral"
+floor_base = "lanoliumGrunge_001"
 room_size = 512.0
 
 [node name="Door_A_Cafe" parent="AltWorld" instance=ExtResource( 7 )]
@@ -38,7 +38,7 @@ position = Vector2( 468, 193 )
 facing = 2
 trigger_area = Vector2( 10, 86 )
 connected_scene = "res://Scenes/Area1/Hall_003.tscn"
-connected_door = "Entry_Hall2"
+connected_door = "Entry_A_Hall2"
 
 [node name="CeilingLight" parent="AltWorld" instance=ExtResource( 8 )]
 position = Vector2( 145, 80 )
@@ -81,7 +81,15 @@ position = Vector2( 257, 224 )
 trigger_area = Vector2( 256, 32 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
-color = Color( 0.192157, 0.0627451, 0.0941176, 1 )
+color = Color( 0.580392, 0.184314, 0.282353, 1 )
+
+[node name="Nightmare_Spawns" type="Node2D" parent="AltWorld"]
+
+[node name="Position2D" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 175, 216 )
+
+[node name="Position2D2" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 354, 215 )
 
 [node name="RealWorld" type="YSort" parent="."]
 

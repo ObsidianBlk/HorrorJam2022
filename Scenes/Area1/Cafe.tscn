@@ -13,8 +13,8 @@
 
 [node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
 position = Vector2( 0, 64 )
-wall_base = "plaster_001"
-floor_base = "lanolium_001"
+wall_base = "plaster_tendral"
+floor_base = "TilesGrunge"
 room_size = 640.0
 shadow_color = Color( 0.152941, 0.14902, 0.141176, 1 )
 
@@ -61,14 +61,19 @@ hum_min_energy = 1.0
 hum_max_energy = 1.1
 
 [node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
-color = Color( 0.211765, 0.0862745, 0.113725, 1 )
+color = Color( 0.509804, 0.231373, 0.290196, 1 )
+
+[node name="Nightmare_Spawns" type="Node2D" parent="AltWorld"]
+
+[node name="Position2D" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
+position = Vector2( 336, 226 )
 
 [node name="RealWorld" type="YSort" parent="."]
 
 [node name="Room" parent="RealWorld" instance=ExtResource( 1 )]
 position = Vector2( 0, 64 )
 wall_base = "plaster_001"
-floor_base = "lanolium_001"
+floor_base = "Tiles"
 room_size = 640.0
 shadow_color = Color( 0.152941, 0.14902, 0.141176, 1 )
 

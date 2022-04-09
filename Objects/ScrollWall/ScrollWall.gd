@@ -83,6 +83,8 @@ func _process(_delta : float) -> void:
 			sprite_node.position = offset
 			sprite_node.region_enabled = true
 			sprite_node.region_rect = Rect2(tex_reg_offset, tex_reg_size)
+	else:
+		print("Camera Path: ", camera_node_path)
 
 # -------------------------------------------------------------------------
 # Private Methods

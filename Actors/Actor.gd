@@ -84,7 +84,6 @@ func move(dir : Vector2) -> void:
 			_velocity.x = 0.0
 
 func face(dir : Vector2) -> void:
-	print("Setting Facing: ", dir)
 	if dir.length() > 0:
 		_facing = Vector2(sign(dir.x), sign(dir.y))
 
@@ -101,7 +100,7 @@ func hide_viz(enable : bool = true) -> void:
 	viz_node.visible = not enable
 	set_physics_process(not enable)
 
-func fade_in(dir_name : String) -> void:
+func fade_in(dir_name : String = "") -> void:
 	if not viz_node.visible:
 		viz_node.visible = true
 	if ["up", "down", "left", "right"].find(dir_name) < 0:
@@ -109,7 +108,7 @@ func fade_in(dir_name : String) -> void:
 		return
 	_Fade("fade_in_" + dir_name)
 
-func fade_out(dir_name : String) -> void:
+func fade_out(dir_name : String = "") -> void:
 	if ["up", "down", "left", "right"].find(dir_name) < 0:
 		emit_signal("faded")
 		return
