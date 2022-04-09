@@ -3,6 +3,7 @@ extends Node2D
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
+export (float, 0.0, 1.0, 0.001) var volume : float = 1.0
 export var max_distance : float = 2000.0
 export (Array, Array, String) var sounds = []
 export (Array, Array, String) var sound_sets = []
@@ -31,6 +32,14 @@ func set_max_distance(md : float) -> void:
 		if sfx2:
 			sfx2.max_distance = max_distance
 
+func set_volume(v : float) -> void:
+	v = max(0.0, min(1.0, v))
+	volume = v
+	if sfx1:
+		sfx1.volume_db = linear2db(volume)
+	if sfx2:
+		sfx2.volume_db = linear2db(volume)
+
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
@@ -40,6 +49,7 @@ func _ready() -> void:
 	_rng.seed = randi() * 821345
 	for sound in sounds:
 		add_sound(sound[0], sound[1])
+	set_volume(volume)
 
 # -------------------------------------------------------------------------
 # Private Methods

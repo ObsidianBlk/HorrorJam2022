@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Shaders/World.gdshader" type="Shader" id=6]
 [ext_resource path="res://Scripts/AINightmare.gd" type="Script" id=7]
 [ext_resource path="res://Actors/Nightmare/Nightmare.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/SoundCTRL/SoundCTRL.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
@@ -43,6 +44,7 @@ script = ExtResource( 2 )
 [node name="AINightmare" type="Node" parent="."]
 pause_mode = 1
 script = ExtResource( 7 )
+nightmare_sounds_path = NodePath("../Real_World_View/SoundCTRL")
 
 [node name="PlayerController" type="Node" parent="."]
 pause_mode = 1
@@ -58,6 +60,11 @@ render_target_update_mode = 3
 audio_listener_enable_2d = true
 script = ExtResource( 5 )
 sibling_viewport_path = NodePath("../Alt_World_View")
+
+[node name="SoundCTRL" parent="Real_World_View" groups=["keep_in_view"] instance=ExtResource( 9 )]
+volume = 0.25
+sounds = [ [ "hunt1", "res://Assets/Audio/SFX/nightmare_hunt_001.wav" ], [ "hunt2", "res://Assets/Audio/SFX/nightmare_hunt_002.wav" ], [ "hunt3", "res://Assets/Audio/SFX/nightmare_hunt_003.wav" ], [ "hunt4", "res://Assets/Audio/SFX/nightmare_hunt_004.wav" ] ]
+sound_sets = [ [ "hunt", "hunt1,hunt2,hunt3,hunt4" ] ]
 
 [node name="TestDummy" parent="Real_World_View" groups=["Player"] instance=ExtResource( 4 )]
 

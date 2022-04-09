@@ -152,7 +152,7 @@ func release_nightmare() -> void:
 func clear_children() -> void:
 	release_nightmare()
 	for child in get_children():
-		if child != _player and child != _camera and child != _nightmare:
+		if child != _player and child != _camera and child != _nightmare and not child.is_in_group("keep_in_view"):
 			if _player and _player.get_parent() == child:
 				release_player()
 			remove_child(child)

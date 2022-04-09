@@ -20,6 +20,7 @@ enum STATE {WANDERING=0, HUNTING=1, CHASING=2, FADING=3}
 # Export Variables
 # -------------------------------------------------------------------------
 export var section_wait_time : float = 2.0
+export var nightmare_sounds_path : NodePath = ""
 
 # -------------------------------------------------------------------------
 # Variables
@@ -27,6 +28,7 @@ export var section_wait_time : float = 2.0
 var _rng : RandomNumberGenerator = null
 
 var _nightmare_node : KinematicBody2D = null
+var _nightmaresnd_node : Node2D = null
 var _area : int = 0
 var _section : String = ""
 var _state : int = STATE.HUNTING
@@ -179,7 +181,14 @@ func _FindNightmare() -> void:
 				break
 	elif not is_instance_valid(_nightmare_node):
 		_nightmare_node = null
-
+	
+	if _nightmaresnd_node == null:
+		if nightmare_sounds_path != "":
+			var n = get_node_or_null(nightmare_sounds_path)
+			if n != null and n.has_method("play_random_set"):
+				_nightmaresnd_node = n
+	elif not is_instance_valid(_nightmaresnd_node):
+		_nightmaresnd_node = null
 
 func _GetPlayer() -> KinematicBody2D:
 	var plist = get_tree().get_nodes_in_group("Player")
@@ -209,6 +218,9 @@ func _GetNextSection() -> void:
 		_section = AREAS[_area][_section][idx]
 		_SetDBValue("ai.nightmare.section", _section, true)
 		print("AI moved to: ", _section)
+		if _nightmaresnd_node != null and _GetDBValue("world.zone_name", "") == _section:
+			print("Playing Nightmare Sound")
+			_nightmaresnd_node.play_random_set("hunt")
 		_waiting = section_wait_time
 
 # -------------------------------------------------------------------------
