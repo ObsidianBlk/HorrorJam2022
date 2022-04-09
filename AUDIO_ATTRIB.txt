@@ -1,0 +1,10 @@
+
+
+Audio Set
+door_open_*.wave
+door_close_*.wav
+Original Source: https://freesound.org/people/rivernile7/sounds/234244/
+Original Author: rivernile7
+License: CC3 - http://creativecommons.org/licenses/by/3.0/
+Modification: Original source cut into segments and some mild clean-up for use in game.
+

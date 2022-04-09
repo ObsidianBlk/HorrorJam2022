@@ -29,6 +29,7 @@ var _nready : bool = false
 # -------------------------------------------------------------------------
 onready var anim_node : AnimationPlayer = get_node("Anim")
 onready var sprite_node : Sprite = get_node("Sprite")
+onready var sndctrl_node : Node2D = get_node("SoundCTRL")
 
 # -------------------------------------------------------------------------
 # Setters / Getters
@@ -143,6 +144,7 @@ func on_animation_finished(anim : String) -> void:
 			emit_signal("door_opened")
 		"closing":
 			anim_node.play("closed_" + facing_name)
+			sndctrl_node.play_random_set("close")
 			set_state(STATE.Blocked)
 			emit_signal("door_closed")
 
@@ -162,5 +164,6 @@ func on_interact(body : Node2D) -> void:
 				if lock_variable_name != "":
 					open = _GetDBVar(lock_variable_name, false)
 				if open:
+					sndctrl_node.play_random_set("open")
 					anim_node.play("opening_" + facing_name)
 

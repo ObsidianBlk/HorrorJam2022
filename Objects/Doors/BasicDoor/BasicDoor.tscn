@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Assets/Env/Doors/Basic_Door.png" type="Texture" id=1]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Env/Doors/Basic_Door_n.png" type="Texture" id=3]
+[ext_resource path="res://Objects/SoundCTRL/SoundCTRL.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -276,7 +277,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 20, 5 )
+extents = Vector2( 5, 5 )
 
 [node name="BasicDoor" type="Node2D" groups=["Door"]]
 script = ExtResource( 2 )
@@ -315,3 +316,7 @@ shape = SubResource( 6 )
 [node name="SideCollision" type="CollisionPolygon2D" parent="TriggerArea"]
 polygon = PoolVector2Array( -28, 0, -18, 0, 14, 32, 4, 32 )
 disabled = true
+
+[node name="SoundCTRL" parent="." instance=ExtResource( 4 )]
+sounds = [ [ "open1", "res://Assets/Audio/SFX/door_open_001.wav" ], [ "open2", "res://Assets/Audio/SFX/door_open_002.wav" ], [ "open3", "res://Assets/Audio/SFX/door_open_003.wav" ], [ "close1", "res://Assets/Audio/SFX/door_close_001.wav" ], [ "close2", "res://Assets/Audio/SFX/door_close_002.wav" ], [ "close3", "res://Assets/Audio/SFX/door_close_003.wav" ] ]
+sound_sets = [ [ "open", "open1,open2,open3" ], [ "close", "close1,close2,close3" ] ]
