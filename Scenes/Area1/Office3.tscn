@@ -1,0 +1,109 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Items/WallSwitch/WallSwitch.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Items/Keyboard/Keyboard.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Items/Monitor/Monitor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/Items/WoodenTable/WoodenTable.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Items/OfficeChair/OfficeChair.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Items/Desktop.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Objects/Items/CafeTable.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Objects/FilingCabinet/FilingCabinet.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=12]
+
+[node name="Office3" type="Node2D"]
+
+[node name="RealWorld" type="YSort" parent="."]
+
+[node name="Room" parent="RealWorld" instance=ExtResource( 1 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "OfficeRug_001"
+room_size = 384.0
+shadow_color = Color( 0.219608, 0.180392, 0.0901961, 1 )
+
+[node name="Door_Hall1" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 74, 256 )
+facing = 0
+state = 1
+connected_scene = "res://Scenes/Area1/Hall_001.tscn"
+connected_door = "Door_Office3"
+db_variable_name = "A1.Office3.Doors.R.Hall1"
+
+[node name="WallSwitch" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 249, 168 )
+
+[node name="WoodenTable" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 313, 225 )
+table_width = 32.0
+
+[node name="Monitor" parent="RealWorld/WoodenTable" instance=ExtResource( 6 )]
+position = Vector2( -21, -20 )
+trigger_once = true
+variable_key_name = "A1.Office3.Triggers.Monitor1"
+
+[node name="Keyboard" parent="RealWorld/WoodenTable" instance=ExtResource( 5 )]
+position = Vector2( -6, -18 )
+trigger_state = 1
+trigger_node_path = NodePath("../Monitor")
+
+[node name="Desktop" parent="RealWorld/WoodenTable" instance=ExtResource( 9 )]
+show_behind_parent = true
+position = Vector2( 16, 8 )
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 192, 80 )
+energy = 1.75
+hum_constant_volume = 0.4
+trigger_node_path = NodePath("../WallSwitch")
+
+[node name="OfficeChair" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 346, 247 )
+facing = 3
+
+[node name="CafeTable" parent="RealWorld" instance=ExtResource( 10 )]
+position = Vector2( 308, 197 )
+
+[node name="WoodenTable2" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 103, 192 )
+table_width = 32.0
+
+[node name="Monitor" parent="RealWorld/WoodenTable2" instance=ExtResource( 6 )]
+position = Vector2( 21, -20 )
+trigger_once = true
+variable_key_name = "A1.Office3.Triggers.Monitor2"
+
+[node name="Keyboard" parent="RealWorld/WoodenTable2" instance=ExtResource( 5 )]
+position = Vector2( 4, -18 )
+trigger_node_path = NodePath("../Monitor")
+
+[node name="Desktop" parent="RealWorld/WoodenTable2" instance=ExtResource( 9 )]
+show_behind_parent = true
+position = Vector2( -23, 11 )
+
+[node name="OfficeChair2" parent="RealWorld" instance=ExtResource( 8 )]
+position = Vector2( 76, 228 )
+facing = 1
+
+[node name="FilingCabinet" parent="RealWorld" instance=ExtResource( 11 )]
+position = Vector2( 158, 203 )
+
+[node name="FilingCabinet2" parent="RealWorld" instance=ExtResource( 11 )]
+position = Vector2( 260, 236 )
+
+[node name="FilingCabinet3" parent="RealWorld" instance=ExtResource( 11 )]
+position = Vector2( 210, 204 )
+memetic_effect = true
+memetic_color = Color( 0.756863, 0.470588, 0.470588, 1 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
+color = Color( 0.301961, 0.258824, 0.203922, 1 )
+
+[node name="SoundEnv" parent="RealWorld" instance=ExtResource( 12 )]
+position = Vector2( 189, 224 )
+trigger_area = Vector2( 256, 32 )
+override_environment = true
+environment_effect = "SmallOffice"
+step_effect = 1

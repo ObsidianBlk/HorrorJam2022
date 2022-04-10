@@ -56,7 +56,7 @@ light_mask = 0
 material = SubResource( 24 )
 frames = SubResource( 11 )
 animation = "Default"
-frame = 4
+frame = 5
 playing = true
 offset = Vector2( 0, -64 )
 

@@ -1,63 +1,54 @@
-extends "res://Actors/Actor.gd"
+tool
+extends StaticBody2D
 
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-
+export (int, "left_facing", "right_facing") var facing : int = 0	setget set_facing
 
 # -------------------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------------------
-var _sprite_nodes : Array = []
+
 
 # -------------------------------------------------------------------------
 # Onready Variables
 # -------------------------------------------------------------------------
-onready var anim_node : AnimationPlayer = $Anim
-onready var sndctrl : Node2D = $SoundCTRL
+onready var sprite_node : Sprite = get_node("Sprite")
+onready var col_left_node : CollisionPolygon2D = get_node("Collision_Left")
+onready var col_right_node : CollisionPolygon2D = get_node("Collision_Right")
+
+# -------------------------------------------------------------------------
+# Setters / Getters
+# -------------------------------------------------------------------------
+func set_facing(f : int) -> void:
+	if f == 0 or f == 1:
+		facing = f
+		_UpdateFacing()
 
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
 func _ready() -> void:
-	for child in viz_node.get_children():
-		if child is Sprite and child.is_in_group("Flippable"):
-			_sprite_nodes.append(child)
+	_UpdateFacing()
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _UpdateViz() -> void:
-	if _direction.length() > 0:
-		var walk_anim = "walk" if _facing.y >= 0 else "walk_away"
-		anim_node.play("run" if _running else walk_anim)
-	elif _velocity.length() < 0.01:
-		if anim_node.assigned_animation.substr(0, 4) != "rest":
-			anim_node.play("rest" if _facing.y >= 0 else "rest_away")
-	_UpdateXFacing()
-
-func _UpdateXFacing() -> void:
-	if _facing.x < 0.0:
-		for sprite_node in _sprite_nodes:
-			sprite_node.flip_h = true
-	elif _facing.x > 0.0:
-		for sprite_node in _sprite_nodes:
+func _UpdateFacing() -> void:
+	if not (sprite_node and col_left_node and col_right_node):
+		return
+	
+	match facing:
+		0 : # Left Facing
 			sprite_node.flip_h = false
+			col_left_node.disabled = false
+			col_right_node.disabled = true
+		1 : # Right Facing
+			sprite_node.flip_h = true
+			col_left_node.disabled = true
+			col_right_node.disabled = false
 
-func _Fade(anim_name : String) -> void:
-	_velocity = Vector2.ZERO
-	_direction = Vector2.ZERO
-	$AnimFade.play(anim_name)
-	set_physics_process(false)
-	yield($AnimFade, "animation_finished")
-	set_physics_process(true)
-	emit_signal("faded")
-
-func _PlayStep() -> void:
-	var _db : DBResource = System.get_db("game_state")
-	if _db and sndctrl:
-		var setname = _db.get_value("player.footsteps.soundset", "steps")
-		sndctrl.play_random_set(setname)
 
 # -------------------------------------------------------------------------
 # Public Methods

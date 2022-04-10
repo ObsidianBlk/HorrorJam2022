@@ -59,6 +59,7 @@ func set_audio_sfx_effect(effect_name : String) -> void:
 		
 	var cur_effect_name = AudioServer.get_bus_send(sfx_idx)
 	if cur_effect_name != effect_name:
+		print("Setting Audio SFX to: ", effect_name)
 		AudioServer.set_bus_send(sfx_idx, effect_name)
 
 func get_audio_sfx_effect() -> String:

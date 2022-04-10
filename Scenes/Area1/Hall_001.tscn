@@ -27,6 +27,8 @@ lock_variable_name = "Random.NonExistant.Key"
 position = Vector2( 295, 193 )
 state = 1
 trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/Office2.tscn"
+connected_door = "Door_A_Hall1"
 db_variable_name = "A1.Hall_001.Doors.A.Office2"
 
 [node name="Door_A_Office3" parent="AltWorld" instance=ExtResource( 3 )]
@@ -109,11 +111,14 @@ room_size = 768.0
 visible = false
 position = Vector2( 381, 223 )
 trigger_area = Vector2( 384, 32 )
+override_environment = true
 
 [node name="Door_Office1" parent="RealWorld" instance=ExtResource( 3 )]
 position = Vector2( 148, 192 )
 state = 1
 trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/Office1.tscn"
+connected_door = "Door_Hall1"
 db_variable_name = "A1.Hall_001.Doors.R.Office1"
 
 [node name="Door_Office2" parent="RealWorld" instance=ExtResource( 3 )]
@@ -126,6 +131,8 @@ lock_variable_name = "Random.NoneExistant.Key"
 position = Vector2( 446, 192 )
 state = 1
 trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/Office3.tscn"
+connected_door = "Door_Hall1"
 db_variable_name = "A1.Hall_001.Doors.R.Office3"
 
 [node name="Door_Conference1" parent="RealWorld" instance=ExtResource( 3 )]

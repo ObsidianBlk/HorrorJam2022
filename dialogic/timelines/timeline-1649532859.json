@@ -1,0 +1,134 @@
+{
+	"events": [
+		{
+			"animation": "[Default]",
+			"animation_length": 0,
+			"change_mirror_portrait": false,
+			"change_z_index": false,
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_002",
+			"mirror_portrait": false,
+			"portrait": "Default",
+			"portrait_definition": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			},
+			"type": 0,
+			"z_index": 0
+		},
+		{
+			"animation": "[Default]",
+			"animation_length": 0,
+			"change_mirror_portrait": false,
+			"change_z_index": false,
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_002",
+			"mirror_portrait": false,
+			"portrait": "Default",
+			"portrait_definition": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": true
+			},
+			"type": 0,
+			"z_index": 0
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Ahhh... you're awake. You've missed quite the festivities. A shame really, but, perhaps for the best."
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Festivities? Who are you? Where is everyone?!"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "Ha! \"Who am I\", they ask! Look, friend, I'm, honestly, quite tired. Let's say you ask me just one question..."
+		},
+		{
+			"choice": "Who are you?",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Your associates didn't like calling me by my name... or any name for that matter. Just a number, and telling you that isn't exciting, so... just call me how you see me, eh?"
+		},
+		{
+			"choice": "Where is everyone?",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Now THAT was a story! One experiment too many, if you ask me! ... You don't look like you're up for a long, drawn out tale, so, I think the best answer is, everybody is... not here."
+		},
+		{
+			"choice": "Answer me!",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Pffft... You're demanding, aren't you! Sorry. I don't do demanding... anymore. No more questions now."
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Forgive me, but I think I'm going to take my leave..."
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Wait! Can you at least tell me what THAT thing is?"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "That thing making all the noise? Yes, I can tell you. No, I won't tell you. Just isn't fun giving away the surprise. Though... you can always go over and interact with it. Never know where that will lead... ha!"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649532859.json",
+		"name": "Bunny_First_Hello"
+	}
+}

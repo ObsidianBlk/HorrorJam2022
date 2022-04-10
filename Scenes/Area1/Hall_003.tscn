@@ -1,14 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Doors/EntryWay/EntryWay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Doors/Indicators/SouthEntrywayFrame.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Items/Barracade/Barracade.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Items/Crevas/Crevas.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Portal/Portal.tscn" type="PackedScene" id=9]
 
 [node name="Hall_003" type="Node2D"]
 
 [node name="AltWorld" type="YSort" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
+color = Color( 0.329412, 0.184314, 0.239216, 1 )
 
 [node name="Room" parent="AltWorld" instance=ExtResource( 1 )]
 position = Vector2( 0, 64 )
@@ -34,9 +41,6 @@ db_variable_name = "A1.Hall_003.Doors.R.Conference"
 [node name="SouthEntrywayFrame" parent="AltWorld" instance=ExtResource( 4 )]
 position = Vector2( 325, 192 )
 
-[node name="CanvasModulate" type="CanvasModulate" parent="AltWorld"]
-color = Color( 0.231373, 0.129412, 0.168627, 1 )
-
 [node name="SoundEnv" parent="AltWorld" instance=ExtResource( 5 )]
 position = Vector2( 513, 225 )
 trigger_area = Vector2( 512, 32 )
@@ -44,13 +48,23 @@ trigger_area = Vector2( 512, 32 )
 [node name="Nightmare_Spawns" type="Node2D" parent="AltWorld"]
 
 [node name="Position2D" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
-position = Vector2( 208, 221 )
+position = Vector2( 125, 229 )
 
 [node name="Position2D2" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
-position = Vector2( 580, 217 )
+position = Vector2( 399, 218 )
 
 [node name="Position2D3" type="Position2D" parent="AltWorld/Nightmare_Spawns" groups=["Nightmare_Spawn"]]
-position = Vector2( 816, 218 )
+position = Vector2( 679, 216 )
+
+[node name="Portal" parent="AltWorld" instance=ExtResource( 9 )]
+position = Vector2( 626, 220 )
+
+[node name="Crevas" parent="AltWorld" instance=ExtResource( 8 )]
+position = Vector2( 213, 192 )
+facing = 1
+
+[node name="Crevas2" parent="AltWorld" instance=ExtResource( 8 )]
+position = Vector2( 735, 193 )
 
 [node name="RealWorld" type="YSort" parent="."]
 
@@ -75,12 +89,59 @@ connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
 connected_door = "Door_Hall3"
 db_variable_name = "A1.Hall_003.Doors.R.Conference"
 
+[node name="Door_Exit" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 991, 206 )
+facing = 2
+state = 1
+trigger_area = Vector2( 10, 40 )
+connected_scene = "res://Scenes/Area1/ConferenceRoom_001.tscn"
+connected_door = "Door_Hall3"
+db_variable_name = "A1.Hall_003.Doors.R.Conference"
+
 [node name="SouthEntrywayFrame" parent="RealWorld" instance=ExtResource( 4 )]
 position = Vector2( 325, 192 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
-color = Color( 0.384314, 0.360784, 0.282353, 1 )
+color = Color( 0.313726, 0.294118, 0.235294, 1 )
 
 [node name="SoundEnv" parent="RealWorld" instance=ExtResource( 5 )]
 position = Vector2( 513, 225 )
 trigger_area = Vector2( 512, 32 )
+
+[node name="Barracade" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 459, 162 )
+
+[node name="Barracade2" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 526, 162 )
+facing = 1
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 123, 79 )
+energy = 1.2
+
+[node name="CeilingLight2" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 247, 79 )
+energy = 1.2
+
+[node name="CeilingLight3" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 404, 80 )
+energy = 1.2
+
+[node name="CeilingLight4" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 520, 80 )
+energy = 1.2
+
+[node name="CeilingLight5" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 653, 80 )
+energy = 1.2
+
+[node name="CeilingLight6" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 786, 80 )
+energy = 1.2
+
+[node name="CeilingLight7" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 919, 80 )
+energy = 1.2
+
+[node name="Portal" parent="RealWorld" instance=ExtResource( 9 )]
+position = Vector2( 626, 220 )

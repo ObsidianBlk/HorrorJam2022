@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Items/WallSwitch/WallSwitch.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Items/CafeTable.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/FilingCabinet/FilingCabinet.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/SoundEnv/SoundEnv.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Items/Vial/Vial.tscn" type="PackedScene" id=8]
+
+[node name="Office1" type="Node2D"]
+
+[node name="RealWorld" type="YSort" parent="."]
+
+[node name="Room" parent="RealWorld" instance=ExtResource( 2 )]
+position = Vector2( 0, 64 )
+wall_base = "plaster_001"
+floor_base = "OfficeRug_001"
+room_size = 320.0
+
+[node name="CeilingLight" parent="RealWorld" instance=ExtResource( 3 )]
+position = Vector2( 159, 80 )
+energy = 1.5
+hum_constant_volume = 0.5
+trigger_node_path = NodePath("../WallSwitch")
+
+[node name="Door_Hall1" parent="RealWorld" instance=ExtResource( 1 )]
+position = Vector2( 247, 256 )
+facing = 0
+state = 1
+trigger_area = Vector2( 30, 10 )
+connected_scene = "res://Scenes/Area1/Hall_001.tscn"
+connected_door = "Door_Office1"
+db_variable_name = "A1.Office1.Doors.R.Hall1"
+
+[node name="WallSwitch" parent="RealWorld" instance=ExtResource( 4 )]
+position = Vector2( 216, 170 )
+variable_key_name = "A1.Office1.Switch"
+
+[node name="CafeTable" parent="RealWorld" instance=ExtResource( 5 )]
+position = Vector2( 74, 197 )
+
+[node name="Vial" parent="RealWorld/CafeTable" instance=ExtResource( 8 )]
+position = Vector2( -1, -23 )
+liquid_color = Color( 0.584314, 0.968627, 0.572549, 1 )
+
+[node name="FilingCabinet" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 110, 207 )
+
+[node name="FilingCabinet2" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 145, 207 )
+
+[node name="FilingCabinet3" parent="RealWorld" instance=ExtResource( 6 )]
+position = Vector2( 182, 207 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
+color = Color( 0.172549, 0.164706, 0.14902, 1 )
+
+[node name="SoundEnv" parent="RealWorld" instance=ExtResource( 7 )]
+position = Vector2( 157, 224 )
+trigger_area = Vector2( 192, 32 )
+override_environment = true
+environment_effect = "SmallOffice"
+step_effect = 1

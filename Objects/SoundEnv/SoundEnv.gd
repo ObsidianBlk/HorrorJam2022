@@ -56,6 +56,7 @@ func _SetEvironment() -> void:
 	var effects = System.get_sfx_effects()
 	if effects.find(environment_effect) >= 0:
 		System.set_audio_sfx_effect(environment_effect)
+		print("Audio SFX Now Set to: ", System.get_audio_sfx_effect())
 
 func _SetStepSet() -> void:
 	if Engine.editor_hint:

@@ -44,6 +44,7 @@ script = ExtResource( 2 )
 [node name="AINightmare" type="Node" parent="."]
 pause_mode = 1
 script = ExtResource( 7 )
+section_wait_time = 10.0
 nightmare_sounds_path = NodePath("../Real_World_View/SoundCTRL")
 
 [node name="PlayerController" type="Node" parent="."]
@@ -69,7 +70,7 @@ sound_sets = [ [ "hunt", "hunt1,hunt2,hunt3,hunt4" ] ]
 [node name="TestDummy" parent="Real_World_View" groups=["Player"] instance=ExtResource( 4 )]
 
 [node name="ShakeCamera" parent="Real_World_View" instance=ExtResource( 3 )]
-offset = Vector2( 0, 180 )
+position = Vector2( 0, 180 )
 current = true
 lock_to_y = true
 
@@ -83,9 +84,12 @@ script = ExtResource( 5 )
 sibling_viewport_path = NodePath("../Real_World_View")
 
 [node name="ShakeCamera" parent="Alt_World_View" instance=ExtResource( 3 )]
-offset = Vector2( 0, 180 )
+position = Vector2( 0, 180 )
 current = true
 lock_to_y = true
+trauma_decay = 0.3
+trauma_max_offset = Vector2( 5, 5 )
+trauma_max_roll = 0.4
 
 [node name="Nightmare" parent="Alt_World_View" instance=ExtResource( 8 )]
 

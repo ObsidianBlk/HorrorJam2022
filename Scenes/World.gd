@@ -56,8 +56,8 @@ func _ready() -> void:
 func _process(delta : float) -> void:
 	match _last_world:
 		WORLD.Real:
-			if System.get_audio_sfx_effect() != "RealWorld":
-				System.set_audio_sfx_effect("RealWorld")
+			#if System.get_audio_sfx_effect() != "RealWorld":
+			#	System.set_audio_sfx_effect("RealWorld")
 			
 			if _world_time > 0.0:
 				_world_time = max(0.0, _world_time - delta)
@@ -69,8 +69,8 @@ func _process(delta : float) -> void:
 					gameview_node.material.set_shader_param("blend", blend)
 					gameview_node.material.set_shader_param("transit", 1.0 - blend)
 		WORLD.Alt:
-			if System.get_audio_sfx_effect() != "AltWorld":
-				System.set_audio_sfx_effect("AltWorld")
+			#if System.get_audio_sfx_effect() != "AltWorld":
+			#	System.set_audio_sfx_effect("AltWorld")
 				
 			if _world_time < WORLD_SHIFT_TIME:
 				_world_time = min(WORLD_SHIFT_TIME, _world_time + delta)

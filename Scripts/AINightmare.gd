@@ -56,9 +56,9 @@ func _process(delta : float) -> void:
 		
 		match _state:
 			STATE.WANDERING:
-				_ProcessWandering(delta, db)
+				_ProcessWandering(delta)
 			STATE.HUNTING:
-				_ProcessHunting(delta, db)
+				_ProcessHunting(delta)
 			STATE.CHASING:
 				_ProcessChasing(delta, db)
 		
@@ -66,7 +66,7 @@ func _process(delta : float) -> void:
 # -------------------------------------------------------------------------
 # Private State Methods
 # -------------------------------------------------------------------------
-func _ProcessWandering(delta : float, db : DBResource) -> void:
+func _ProcessWandering(delta : float) -> void:
 	if _GetDBValue("player.world", "real") == "alt":
 		if _GetDBValue("world.zone_name", "") == _section:
 			if _SetSpawnPosition():
@@ -82,7 +82,7 @@ func _ProcessWandering(delta : float, db : DBResource) -> void:
 			_GetNextSection()
 
 
-func _ProcessHunting(delta : float, db : DBResource) -> void:
+func _ProcessHunting(delta : float) -> void:
 	if _GetDBValue("player.world", "real") == "alt":
 		if _GetDBValue("world.zone_name", "") == _section:
 			if _SetSpawnPosition():
@@ -111,14 +111,18 @@ func _ProcessChasing(_delta : float, db : DBResource) -> void:
 	if player:
 		var dist = nppos.distance_to(player.global_position)
 		if dist > 24 and dist < 200:
+			var trauma = (176 - (dist - 24)) / 176
 			var direction : Vector2 = nppos.direction_to(player.global_position)
 			_nightmare_node.move(direction.normalized())
+			_ShakeDaCamera(trauma * _delta)
 		else:
 			_nightmare_node.move(Vector2.ZERO)
 			if dist >= 200:
-				print("I'm outta here")
 				_nightmare_node.fade_out()
 				_state = STATE.FADING
+			else:
+				var trauma = (176 - (dist - 24)) / 176
+				_ShakeDaCamera(trauma * _delta)
 	if db and (lastpos == null or lastpos != _nightmare_node.global_position):
 		db.set_value("ai.nightmare.position", _nightmare_node.global_position)
 
@@ -219,9 +223,14 @@ func _GetNextSection() -> void:
 		_SetDBValue("ai.nightmare.section", _section, true)
 		print("AI moved to: ", _section)
 		if _nightmaresnd_node != null and _GetDBValue("world.zone_name", "") == _section:
-			print("Playing Nightmare Sound")
 			_nightmaresnd_node.play_random_set("hunt")
 		_waiting = section_wait_time
+
+func _ShakeDaCamera(amount : float) -> void:
+	var camlist : Array = get_tree().get_nodes_in_group("ShakeCamera")
+	for cam in camlist:
+		if cam.has_method("add_trauma"):
+			cam.add_trauma(amount)
 
 # -------------------------------------------------------------------------
 # Public Methods

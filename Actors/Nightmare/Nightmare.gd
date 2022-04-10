@@ -24,13 +24,11 @@ func _ready() -> void:
 
 func _enter_tree() -> void:
 	if _active_anim != "":
-		print("Replaying animation: ", _active_anim)
 		anim_node.play(_active_anim)
 		_active_anim = ""
 
 func _exit_tree() -> void:
 	if anim_node.is_playing():
-		print("Saving Animation")
 		_active_anim = anim_node.assigned_animation
 
 # -------------------------------------------------------------------------
@@ -74,8 +72,6 @@ func fade_out(dir_name : String = "") -> void:
 # Handler Methods
 # -------------------------------------------------------------------------
 func _on_anim_finished(anim_name : String) -> void:
-	print(anim_name)
 	if anim_name.substr(0, 4) == "fade":
-		print("Fade complete!!")
 		emit_signal("faded")
 

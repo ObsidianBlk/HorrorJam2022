@@ -102,8 +102,8 @@ func _process(delta : float) -> void:
 					_tween.start()
 	
 	if _trauma > 0.0:
-		_trauma = max(_trauma - trauma_decay * delta, 0)
 		_Shake()
+		_trauma = max(_trauma - (trauma_decay * delta), 0)
 
 # -------------------------------------------------------------------------
 # Private Methods
