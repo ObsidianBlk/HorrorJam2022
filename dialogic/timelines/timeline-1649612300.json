@@ -51,6 +51,10 @@
 			"event_id": "dialogic_040"
 		},
 		{
+			"emit_signal": "DBSet:Event.ConferenceBunny:True",
+			"event_id": "dialogic_040"
+		},
+		{
 			"character": "character-1649612357.json",
 			"event_id": "dialogic_001",
 			"portrait": "",

@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Menus/PlayerDied.gd" type="Script" id=1]
+
+[node name="PlayerDied" type="CenterContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PC" type="PanelContainer" parent="."]
+margin_left = 953.0
+margin_top = 533.0
+margin_right = 967.0
+margin_bottom = 547.0
+
+[node name="MC" type="MarginContainer" parent="PC"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 430.0
+margin_bottom = 93.0
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+
+[node name="VBC" type="VBoxContainer" parent="PC/MC"]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 399.0
+margin_bottom = 62.0
+
+[node name="Label" type="Label" parent="PC/MC/VBC"]
+margin_right = 375.0
+margin_bottom = 14.0
+text = "It seems the nightmares of this place have gotten to you..."
+
+[node name="BTN_Done" type="Button" parent="PC/MC/VBC"]
+margin_top = 18.0
+margin_right = 375.0
+margin_bottom = 38.0
+text = "Done"
+
+[connection signal="pressed" from="PC/MC/VBC/BTN_Done" to="." method="_on_BTN_Done_pressed"]

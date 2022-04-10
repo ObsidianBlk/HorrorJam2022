@@ -27,6 +27,8 @@ var _alt_world : Node2D = null
 var _last_world : int = WORLD.Real
 var _world_time : float = 0.0
 
+var _game_over : bool = false
+
 var _input_dir = [0,0,0,0]
 
 # -------------------------------------------------------------------------
@@ -137,6 +139,7 @@ func _LoadZone(scene_path : String, start_door : String = "", store_zone_in_db :
 				_SetDBValue("world.zone_name", _GetSceneName(scene_path), true)
 				emit_signal("player_as_ai", false)
 			else:
+				_last_world = WORLD.Real
 				emit_signal("player_as_ai", true)
 			
 			_player.hide_viz(true)
@@ -239,6 +242,8 @@ func _ConnectDoors(door_name : String) -> Node2D:
 	if doors.size() > 0:
 		for door in doors:
 			door.connect("request_zone_change", self, "_LoadZone")
+			if door.has_signal("game_win"):
+				door.connect("game_win", self, "_on_game_win")
 			if door.name == door_name:
 				entry_door = door
 	return entry_door
@@ -319,6 +324,8 @@ func _on_dialog_signal(info : String) -> void:
 	var segs = info.split(":")
 	if segs.size() > 0:
 		match segs[0]:
+			"GameOver":
+				_game_over = true
 			"DBSet":
 				var _db = System.get_db("game_state")
 				if _db == null:
@@ -352,3 +359,19 @@ func _on_Dialog_timeline_start(timeline_name : String) -> void:
 func _on_Dialog_timeline_end(timeline_name : String) -> void:
 	if timeline_name != "":
 		get_tree().paused = false
+		if _game_over:
+			_game_over = false
+			_on_game_over()
+
+
+func _on_player_died():
+	System.request_dialog("DiedByNightmare")
+
+func _on_game_win():
+	System.request_dialog("Escaped")
+
+
+func _on_game_over():
+	emit_signal("show_ui", "MainMenu")
+	System.reset_db("game_state")
+	call_deferred("_LoadZone", INITIAL_ZONE, "", false)

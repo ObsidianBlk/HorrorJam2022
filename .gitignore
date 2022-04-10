@@ -6,6 +6,7 @@ export_presets.cfg
 
 # Release folder
 Releases/*
+Release/*
 
 # Raw work folder and misc
 Work/*

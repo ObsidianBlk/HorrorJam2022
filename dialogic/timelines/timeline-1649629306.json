@@ -1,0 +1,80 @@
+{
+	"events": [
+		{
+			"character": "",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "Hmmm... Right key, wrong hall. Sure you wouldn't rather join your associates?"
+		},
+		{
+			"choice": "You mean the people who worked here?",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Worked? I suppose you could call it that. Experimented? Most definitely!"
+		},
+		{
+			"choice": "Do you know something about this strange key?",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Doesn't look all that strange to me. Find it's door and open it. You might even find what you're looking for."
+		},
+		{
+			"choice": "Where am I supposed to go?",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Equal, but opposite, and all the way down."
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "What the [b]fuck[/b] does [i]that[/i] mean?!"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "[b]LANGUAGE![/b]"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"emit_signal": "DBSet:Event.Office1Key:False",
+			"event_id": "dialogic_040"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649629306.json",
+		"name": "Bunny_Hall4"
+	}
+}

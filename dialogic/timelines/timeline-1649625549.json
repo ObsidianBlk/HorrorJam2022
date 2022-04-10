@@ -1,0 +1,57 @@
+{
+	"events": [
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "The monitor is a glow with information. Casefiles and strange numbers scroll across the screen."
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "In the top right of the screen you see a notification..."
+		},
+		{
+			"choice": "Open the notification",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649612323.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "We would like to keep the filing office at the end of the hall locked. More over, we demand the key be hidden by a memetic protocol. As your office has such a protocol in action, it is your responsibility to secure the key. Thank you."
+		},
+		{
+			"choice": "Leave the computer alone",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You walk away from the computer, not wanting to touch anything."
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 1
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649625549.json",
+		"name": "Office3FrontComputer"
+	}
+}

@@ -120,6 +120,7 @@ trigger_area = Vector2( 30, 10 )
 connected_scene = "res://Scenes/Area1/Office1.tscn"
 connected_door = "Door_Hall1"
 db_variable_name = "A1.Hall_001.Doors.R.Office1"
+lock_variable_name = "Player.Keyring.Office1"
 
 [node name="Door_Office2" parent="RealWorld" instance=ExtResource( 3 )]
 position = Vector2( 295, 193 )

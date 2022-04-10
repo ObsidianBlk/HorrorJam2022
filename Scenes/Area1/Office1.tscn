@@ -48,6 +48,8 @@ liquid_color = Color( 0.584314, 0.968627, 0.572549, 1 )
 [node name="FilingCabinet" parent="RealWorld" instance=ExtResource( 6 )]
 position = Vector2( 110, 207 )
 memetic_color = Color( 0, 0, 0, 1 )
+timeline_name = "Office1LabKey"
+trigger_key = "Player.Keyring.LabDoor"
 
 [node name="FilingCabinet2" parent="RealWorld" instance=ExtResource( 6 )]
 position = Vector2( 145, 207 )

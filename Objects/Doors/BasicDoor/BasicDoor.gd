@@ -7,6 +7,8 @@ extends "res://Objects/Doors/Door.gd"
 # -------------------------------------------------------------------------
 signal door_opened()
 signal door_closed()
+signal game_win()
+
 
 # -------------------------------------------------------------------------
 # Constants
@@ -36,7 +38,7 @@ onready var sndctrl_node : Node2D = get_node("SoundCTRL")
 # -------------------------------------------------------------------------
 func set_state(s : int) -> void:
 	.set_state(s)
-	_SetDBVar("opened", state == STATE.Opened, true)
+	_SetDBVar(db_variable_name + ".opened", state == STATE.Opened, true)
 	_BasicDoorState()
 
 
@@ -66,7 +68,7 @@ func _ready() -> void:
 #			trigger_node.connect("body_exited", self, "on_body_exited")
 		if anim_node != null:
 			anim_node.connect("animation_finished", self, "on_animation_finished")
-		var val = _GetDBVar("opened", state == STATE.Opened)
+		var val = _GetDBVar(db_variable_name + ".opened", state == STATE.Opened)
 		set_state(STATE.Opened if val == true else STATE.Blocked)
 	else:
 		set_state(state)
@@ -74,20 +76,18 @@ func _ready() -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _SetDBVar(sub_key_name : String, value, create_if_nexists : bool = false) -> void:
+func _SetDBVar(key_name : String, value, create_if_nexists : bool = false) -> void:
 	if not Engine.editor_hint and _nready and db_variable_name != "":
 		var db = System.get_db("game_state")
 		if db:
-			var key = db_variable_name + "." + sub_key_name
-			db.set_value(key, value, create_if_nexists)
+			db.set_value(key_name, value, create_if_nexists)
 
 
-func _GetDBVar(sub_key_name : String, default = null):
+func _GetDBVar(key_name : String, default = null):
 	if not Engine.editor_hint and _nready and db_variable_name != "":
 		var db = System.get_db("game_state")
 		if db:
-			var key = db_variable_name + "." + sub_key_name
-			return db.get_value(key, default)
+			return db.get_value(key_name, default)
 	return default
 
 
@@ -167,3 +167,20 @@ func on_interact(body : Node2D) -> void:
 					sndctrl_node.play_random_set("open")
 					anim_node.play("opening_" + facing_name)
 
+
+func on_trigger(body : Node2D) -> void:
+	if state == STATE.Opened and connected_door == "game win":
+		_ConnectBody(body, false)
+		var dir_name = "up"
+		match facing:
+			FACING.Down:
+				dir_name = "down"
+			FACING.Left:
+				dir_name = "left"
+			FACING.Right:
+				dir_name = "right"
+		body.fade_out(dir_name)
+		yield(body, "faded")
+		emit_signal("game_win")
+	else:
+		.on_trigger(body)

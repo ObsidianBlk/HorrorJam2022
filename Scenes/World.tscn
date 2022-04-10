@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Actors/Nightmare/Nightmare.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/SoundCTRL/SoundCTRL.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Menus/MainMenu.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Menus/PlayerDied.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Menus/PlayerWon.tscn" type="PackedScene" id=12]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
@@ -114,5 +116,16 @@ __meta__ = {
 
 [node name="MainMenu" parent="Canvas" instance=ExtResource( 10 )]
 
+[node name="PlayerDied" parent="Canvas" instance=ExtResource( 11 )]
+
+[node name="PlayerWon" parent="Canvas" instance=ExtResource( 12 )]
+
 [connection signal="player_as_ai" from="." to="PlayerController" method="_on_player_as_ai"]
+[connection signal="show_ui" from="." to="Canvas/MainMenu" method="_on_show_ui"]
+[connection signal="show_ui" from="." to="Canvas/PlayerDied" method="_on_show_ui"]
+[connection signal="show_ui" from="." to="Canvas/PlayerWon" method="_on_show_ui"]
 [connection signal="zone_changed" from="." to="AINightmare" method="_on_World_zone_changed"]
+[connection signal="player_died" from="PlayerController" to="." method="_on_player_died"]
+[connection signal="start_game" from="Canvas/MainMenu" to="." method="_on_start_game"]
+[connection signal="game_over" from="Canvas/PlayerDied" to="." method="_on_game_over"]
+[connection signal="game_over" from="Canvas/PlayerWon" to="." method="_on_game_over"]

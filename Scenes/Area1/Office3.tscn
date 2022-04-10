@@ -47,6 +47,7 @@ variable_key_name = "A1.Office3.Triggers.Monitor1"
 [node name="Keyboard" parent="RealWorld/WoodenTable" instance=ExtResource( 5 )]
 position = Vector2( -6, -18 )
 trigger_state = 1
+timeline_name = "Office3FrontComputer"
 trigger_node_path = NodePath("../Monitor")
 
 [node name="Desktop" parent="RealWorld/WoodenTable" instance=ExtResource( 9 )]
@@ -99,6 +100,8 @@ memetic_color = Color( 0, 0, 0, 1 )
 position = Vector2( 210, 204 )
 memetic_effect = true
 memetic_color = Color( 0.756863, 0.470588, 0.470588, 1 )
+timeline_name = "Office3MemeticCabinet"
+trigger_key = "Player.Keyring.Office1"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="RealWorld"]
 color = Color( 0.301961, 0.258824, 0.203922, 1 )

@@ -99,7 +99,6 @@ func _GetRecord(key : String, create_if_not_exist : bool = false):
 # -------------------------------------------------------------------------
 # Public Methods
 # -------------------------------------------------------------------------
-
 func get_keys(key : String = "") -> Array:
 	var record = _GetRecord(key)
 	var keys : Array = []

@@ -1,0 +1,29 @@
+{
+	"events": [
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "In the end it pinned you down and... well... you probably wouldn't want to imagine."
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "On the bright side, you did find where everyone else went."
+		},
+		{
+			"emit_signal": "GameOver",
+			"event_id": "dialogic_040"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649622618.json",
+		"name": "DiedByNightmare"
+	}
+}

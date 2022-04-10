@@ -134,6 +134,7 @@ func save_db(db_name : String, filepath : String = "") -> bool:
 		if filepath != "":
 			var result = ResourceSaver.save(filepath, _dbs[db_name].db)
 			if result == OK:
+				_dbs[db_name].filepath = filepath
 				return true
 			else:
 				printerr("SAVE FAILED: Failed to save database '", db_name, "' to filepath '", filepath, "'.")
@@ -158,6 +159,14 @@ func load_or_create_db(db_name : String, filepath : String, replace_existing : b
 		if create_db(db_name, replace_existing):
 			return save_db(db_name, filepath)
 	return true
+
+func reset_db(db_name : String) -> DBResource:
+	if db_name in _dbs:
+		_dbs[db_name].db = DBResource.new()
+		if _dbs[db_name].filepath != "":
+			save_db(db_name, _dbs[db_name].filepath)
+		return _dbs[db_name].db
+	return null
 
 
 func get_db(db_name : String) -> DBResource:

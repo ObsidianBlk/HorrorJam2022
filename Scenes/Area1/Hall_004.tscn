@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Objects/Doors/BasicDoor/BasicDoor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Items/CeilingLight.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Items/Barracade/Barracade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/EBunny/EvilBunny.tscn" type="PackedScene" id=5]
 
 [node name="Hall_004" type="Node2D"]
 
@@ -50,3 +51,9 @@ position = Vector2( 441, 80 )
 [node name="Barracade" parent="RealWorld" instance=ExtResource( 4 )]
 position = Vector2( 765, 162 )
 facing = 1
+
+[node name="EvilBunny" parent="RealWorld" instance=ExtResource( 5 )]
+position = Vector2( 833, 204 )
+on_key = "Event.Office1Key"
+on_key_action = 1
+timeline_name = "Bunny_Hall4"

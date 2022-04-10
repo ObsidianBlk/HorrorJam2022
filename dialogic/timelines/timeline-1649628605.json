@@ -1,0 +1,85 @@
+{
+	"events": [
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "What did you think? Was the other side as exciting as you thought it was?"
+		},
+		{
+			"choice": "No! What the hell [i]was[/i] that place?!",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Huh... thought it would have been obvious. I suppose not everyone can appreciate the beauty over there."
+		},
+		{
+			"choice": "You again! Who are you, damit?!",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "I'd tell you. You probably wouldn't believe me though. Your colleagues liked calling me by some silly number... I think it was seven, eight, three... nah, nevermind. You don't look like the sort that deal in those sort of numbers."
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Stop being so damn cryptic!"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "I know not what you mean."
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"character": "character-1649532797.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Anyway... smells like you found a little mind game your colleagues like to play. Hope you know when to make your move. A mistep could be deadly."
+		},
+		{
+			"character": "character-1648682589.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "What are you talking about?!"
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "The man in the bunny suit just seems to stare off, not even acknowleging you."
+		},
+		{
+			"emit_signal": "DBSet:Event.ConferenceBunny:False",
+			"event_id": "dialogic_040"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649628605.json",
+		"name": "Bunny_Conference"
+	}
+}

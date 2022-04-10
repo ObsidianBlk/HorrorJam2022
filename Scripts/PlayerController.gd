@@ -159,10 +159,17 @@ func _GetDBValue(key : String, default = null):
 # -------------------------------------------------------------------------
 func set_ai_mode(enable : bool = true) -> void:
 	_ai_mode = enable
+	# NOTE: This is pretty much a cheat. Officially I wouldn't KNOW if the
+	# player is alive or dead or if they should be revived, but I DO know for this
+	# jam game. I don't have time to be more elegant.
+	_player.revive()
+	_player.hide_viz(false)
+	_player.move(Vector2.ZERO)
 	if _ai_mode:
 		set_process(true)
 		set_process_unhandled_input(false)
 	else:
+		_patrol_target = null
 		set_process(false)
 		set_process_unhandled_input(true)
 

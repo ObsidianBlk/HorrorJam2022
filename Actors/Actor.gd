@@ -123,8 +123,9 @@ func trigger() -> void:
 	emit_signal("trigger")
 
 func hide_viz(enable : bool = true) -> void:
-	viz_node.visible = not enable
-	set_physics_process(not enable)
+	if viz_node:
+		viz_node.visible = not enable
+		set_physics_process(not enable)
 
 func fade_in(dir_name : String = "") -> void:
 	if not viz_node.visible:
@@ -154,6 +155,9 @@ func is_hurting() -> bool:
 
 func current_life() -> float:
 	return _life / MAX_LIFE
+
+func revive() -> void:
+	_life = MAX_LIFE
 
 func is_alive() -> bool:
 	return _life > 0.0

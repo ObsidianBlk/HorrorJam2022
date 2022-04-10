@@ -4,7 +4,6 @@ extends Control
 # Signals
 # -------------------------------------------------------------------------
 signal start_game()
-signal options()
 
 # -------------------------------------------------------------------------
 # Variables
@@ -43,10 +42,10 @@ func _on_BTN_Start_pressed():
 	emit_signal("start_game")
 
 
-func _on_BTN_Options_pressed():
-	emit_signal("options")
-
 
 func _on_BTN_Quit_pressed():
 	get_tree().quit()
 
+
+func _on_BTN_Link_pressed():
+	OS.shell_open("https://obsidianblk.itch.io/")
