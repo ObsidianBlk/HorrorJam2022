@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Assets/Characters/Nightmare/segment_end.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Characters/Nightmare/segment.png" type="Texture" id=2]
@@ -368,6 +368,22 @@ tracks/9/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, -36 ), Vector2( 33, -44 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "fade_instant"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viz:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -1903,9 +1919,10 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-autoplay = "idle_right"
+autoplay = "fade_instant"
 anims/RESET = SubResource( 5 )
 anims/fade_in = SubResource( 15 )
+anims/fade_instant = SubResource( 16 )
 anims/fade_out = SubResource( 14 )
 anims/idle_left = SubResource( 7 )
 anims/idle_left_away = SubResource( 8 )

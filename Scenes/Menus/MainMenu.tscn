@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Menus/MainMenu.gd" type="Script" id=1]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MC" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -92.0
+margin_right = 87.0
+custom_constants/margin_right = 12
+custom_constants/margin_top = 12
+custom_constants/margin_left = 12
+custom_constants/margin_bottom = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBC" type="VBoxContainer" parent="MC"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 75.0
+margin_bottom = 80.0
+
+[node name="BTN_Start" type="Button" parent="MC/VBC"]
+margin_right = 63.0
+margin_bottom = 20.0
+text = "Start"
+
+[node name="BTN_Options" type="Button" parent="MC/VBC"]
+margin_top = 24.0
+margin_right = 63.0
+margin_bottom = 44.0
+text = "Options"
+
+[node name="BTN_Quit" type="Button" parent="MC/VBC"]
+margin_top = 48.0
+margin_right = 63.0
+margin_bottom = 68.0
+text = "Escape"
+
+[connection signal="pressed" from="MC/VBC/BTN_Start" to="." method="_on_BTN_Start_pressed"]
+[connection signal="pressed" from="MC/VBC/BTN_Options" to="." method="_on_BTN_Options_pressed"]
+[connection signal="pressed" from="MC/VBC/BTN_Quit" to="." method="_on_BTN_Quit_pressed"]

@@ -52,12 +52,8 @@ func _UpdateViz() -> void:
 		anim_node.play(anim)
 
 func _Fade(anim_name : String) -> void:
-	if anim_node.assigned_animation.substr(0, 4) == "fade" and anim_node.is_playing():
-		return
-		
-	if anim_node.assigned_animation != anim_name:
-		anim_node.play(anim_name)
-
+	# So many bugs occuring in the last version... now it's just this!
+	anim_node.play(anim_name)
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -67,6 +63,9 @@ func fade_in(dir_name : String = "") -> void:
 
 func fade_out(dir_name : String = "") -> void:
 	_Fade("fade_out")
+
+func hide() -> void:
+	_Fade("fade_instant")
 
 # -------------------------------------------------------------------------
 # Handler Methods

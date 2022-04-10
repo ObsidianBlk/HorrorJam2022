@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scripts/AINightmare.gd" type="Script" id=7]
 [ext_resource path="res://Actors/Nightmare/Nightmare.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/SoundCTRL/SoundCTRL.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Menus/MainMenu.tscn" type="PackedScene" id=10]
 
 [sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("Alt_World_View")
@@ -110,3 +111,8 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MainMenu" parent="Canvas" instance=ExtResource( 10 )]
+
+[connection signal="player_as_ai" from="." to="PlayerController" method="_on_player_as_ai"]
+[connection signal="zone_changed" from="." to="AINightmare" method="_on_World_zone_changed"]

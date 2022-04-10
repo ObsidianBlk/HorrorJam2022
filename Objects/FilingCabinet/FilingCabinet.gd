@@ -5,8 +5,10 @@ extends Node2D
 # Export Variables
 # -------------------------------------------------------------------------
 export var memetic_effect : bool = false
-export var memetic_color : Color = Color(1,1,1,1)
+export var memetic_color : Color = Color(1,1,1,1)	setget set_memetic_color
 export var timeline_name : String = ""
+export var trigger_key : String = ""
+export var trigger_on_true : bool = false
 
 # -------------------------------------------------------------------------
 # Variables
@@ -44,7 +46,11 @@ func _ready() -> void:
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-
+func _GetDBValue(key : String, default = null):
+	var _db = System.get_db("game_state")
+	if _db:
+		return _db.get_value(key, default)
+	return default
 
 
 # -------------------------------------------------------------------------
@@ -68,4 +74,13 @@ func _on_memetic_changed(value : float) -> void:
 
 func _on_trigger_on():
 	if timeline_name != "":
-		System.request_dialog(timeline_name)
+		var trigger = trigger_key == ""
+		if trigger_key != "":
+			var val = _GetDBValue(trigger_key, false)
+			if val and trigger_on_true:
+				trigger = true
+			elif not val and not trigger_on_true:
+				trigger = true
+
+		if trigger:
+			System.request_dialog(timeline_name)

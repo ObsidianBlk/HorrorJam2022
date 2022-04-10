@@ -5,10 +5,18 @@ extends KinematicBody2D
 # -------------------------------------------------------------------------
 signal interact()
 signal trigger()
+signal life_changed(percent)
+signal died()
 
 signal faded()
+signal fade_canceled()
 
 signal collision()
+
+# -------------------------------------------------------------------------
+# Constants
+# -------------------------------------------------------------------------
+const MAX_LIFE : float = 5.0 # See note new the _life variable declaration
 
 # -------------------------------------------------------------------------
 # Export Variables
@@ -25,6 +33,11 @@ var _velocity : Vector2 = Vector2.ZERO
 var _direction : Vector2 = Vector2.ZERO
 var _facing : Vector2 = Vector2(1,1)
 var _running : bool = false
+
+# NOTE: This whole life system is a VERY last minute addition to give this game
+#  and "loose" state. If I had more time, this would not be so damn JANK!
+var _life : float = 5.0 # This is in seconds
+var _life_drain : bool = false
 
 # -------------------------------------------------------------------------
 # Onready Variables
@@ -45,6 +58,8 @@ func set_running(r : bool) -> void:
 
 func _physics_process(delta : float) -> void:
 	_UpdateViz()
+	_UpdateLife(delta)
+	
 	if _direction.length_squared() > 0.01:
 		var speed = run_speed if _running else walk_speed
 		var accel = run_accel if _running else walk_accel
@@ -69,6 +84,17 @@ func _UpdateViz() -> void:
 func _Fade(anim_name : String) -> void:
 	pass
 
+func _UpdateLife(delta : float) -> void:
+	if _life > 0.0:
+		if _life_drain:
+			_life_drain = false
+			_life = max(0.0, _life - delta)
+			emit_signal("life_changed", _life / MAX_LIFE)
+			if _life <= 0.0:
+				emit_signal("died")
+		elif _life < MAX_LIFE:
+			_life = min(MAX_LIFE, _life + delta)
+			emit_signal("life_changed", _life / MAX_LIFE)
 
 # -------------------------------------------------------------------------
 # Public Methods
@@ -119,6 +145,18 @@ func is_walking() -> bool:
 
 func is_running() -> bool:
 	return _running
+
+func hurt(enable : bool = true) -> void:
+	_life_drain = enable
+
+func is_hurting() -> bool:
+	return _life_drain
+
+func current_life() -> float:
+	return _life / MAX_LIFE
+
+func is_alive() -> bool:
+	return _life > 0.0
 
 # -------------------------------------------------------------------------
 # Handler Methods

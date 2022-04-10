@@ -1,14 +1,10 @@
-extends Node2D
+extends Control
 
 # -------------------------------------------------------------------------
 # Signals
 # -------------------------------------------------------------------------
-signal world_shift()
-
-# -------------------------------------------------------------------------
-# Export Variables
-# -------------------------------------------------------------------------
-
+signal start_game()
+signal options()
 
 # -------------------------------------------------------------------------
 # Variables
@@ -28,11 +24,7 @@ signal world_shift()
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _GetDBValue(key : String, default = null):
-	var _db = System.get_db("game_state")
-	if _db:
-		return _db.get_value(key, default)
-	return default
+
 
 
 # -------------------------------------------------------------------------
@@ -43,23 +35,18 @@ func _GetDBValue(key : String, default = null):
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-
-func _on_TriggerZone_body_entered(body : Node2D) -> void:
-	if body.is_in_group("Player"):
-		if not body.is_connected("interact", self, "_on_interact"):
-			body.connect("interact", self, "_on_interact", [body])
+func _on_show_ui(ui_name : String) -> void:
+	visible = ui_name == name
 
 
-func _on_TriggerZone_body_exited(body : Node2D) -> void:
-	if body.is_in_group("Player"):
-		if body.is_connected("interact", self, "_on_interact"):
-			body.disconnect("interact", self, "_on_interact")
+func _on_BTN_Start_pressed():
+	emit_signal("start_game")
 
 
-func _on_interact(body : Node2D) -> void:
-	if not _GetDBValue("Player.PortalAllowed", false):
-		return
-	
-	if body.is_connected("interact", self, "_on_interact"):
-		body.disconnect("interact", self, "_on_interact")
-		emit_signal("world_shift")
+func _on_BTN_Options_pressed():
+	emit_signal("options")
+
+
+func _on_BTN_Quit_pressed():
+	get_tree().quit()
+

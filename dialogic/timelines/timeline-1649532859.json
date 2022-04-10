@@ -122,6 +122,10 @@
 			"text": "That thing making all the noise? Yes, I can tell you. No, I won't tell you. Just isn't fun giving away the surprise. Though... you can always go over and interact with it. Never know where that will lead... ha!"
 		},
 		{
+			"emit_signal": "DBSet:Player.PortalAllowed:True",
+			"event_id": "dialogic_040"
+		},
+		{
 			"event_id": "dialogic_022",
 			"transition_duration": 0.5
 		}

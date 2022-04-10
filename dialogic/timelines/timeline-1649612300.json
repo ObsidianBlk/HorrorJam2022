@@ -1,0 +1,87 @@
+{
+	"events": [
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You rifle through the papers in the cabinet. Disconcertingly, most are blank, or contain nothing but scribbled lines as if to give only the [b]appearance[/b] of being a document, but otherwise containing no real information."
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You are about to close the drawers when one single memo sticks out from all others...."
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "What do you wish to do with the memo?"
+		},
+		{
+			"choice": "Take the Memo",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649612323.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "... that the public should not see and definitely not allowed access to. This is the reason for the memetic protections around the building. If you absolutely must interact with a non-public element, this document can be used as an anti-memetic for a short time..."
+		},
+		{
+			"character": "character-1649612323.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "... Look upon this document ([i]press Q[i]) and you'll activate the anti-memtic."
+		},
+		{
+			"character": "character-1649612323.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Remember... anti-memetics can save your life!"
+		},
+		{
+			"emit_signal": "DBSet:Player.MemeticAllowed:True",
+			"event_id": "dialogic_040"
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You fold up the memo and place it in your pocket."
+		},
+		{
+			"choice": "Leave it",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You decide to leave the memo. Memos are worthless anyway, after all!"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"character": "character-1649612357.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "You slowly slide all of the drawers closed in the filing cabinet and leave it be."
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4",
+		"file": "timeline-1649612300.json",
+		"name": "MemeticNote"
+	}
+}

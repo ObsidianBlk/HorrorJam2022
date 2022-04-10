@@ -1,14 +1,10 @@
-extends Node2D
-
-# -------------------------------------------------------------------------
-# Signals
-# -------------------------------------------------------------------------
-signal world_shift()
+tool
+extends Sprite
 
 # -------------------------------------------------------------------------
 # Export Variables
 # -------------------------------------------------------------------------
-
+export var memetic_color : Color = Color(1,1,1,1)		setget set_memetic_color
 
 # -------------------------------------------------------------------------
 # Variables
@@ -19,20 +15,27 @@ signal world_shift()
 # Onready Variables
 # -------------------------------------------------------------------------
 
+# -------------------------------------------------------------------------
+# Setters / Getters
+# -------------------------------------------------------------------------
+func set_memetic_color(c : Color) -> void:
+	var a = modulate.a
+	memetic_color = c
+	memetic_color.a = a if not Engine.editor_hint else 1.0
+	modulate = c
 
 # -------------------------------------------------------------------------
 # Override Methods
 # -------------------------------------------------------------------------
-
+func _ready() -> void:
+	set_memetic_color(memetic_color)
+	var _res = Memetics.connect("memetic_changed", self, "_on_memetic_changed")
+	_on_memetic_changed(Memetics.get_memetic_value())
 
 # -------------------------------------------------------------------------
 # Private Methods
 # -------------------------------------------------------------------------
-func _GetDBValue(key : String, default = null):
-	var _db = System.get_db("game_state")
-	if _db:
-		return _db.get_value(key, default)
-	return default
+
 
 
 # -------------------------------------------------------------------------
@@ -43,23 +46,7 @@ func _GetDBValue(key : String, default = null):
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
-
-func _on_TriggerZone_body_entered(body : Node2D) -> void:
-	if body.is_in_group("Player"):
-		if not body.is_connected("interact", self, "_on_interact"):
-			body.connect("interact", self, "_on_interact", [body])
+func _on_memetic_changed(value : float) -> void:
+	modulate.a = value
 
 
-func _on_TriggerZone_body_exited(body : Node2D) -> void:
-	if body.is_in_group("Player"):
-		if body.is_connected("interact", self, "_on_interact"):
-			body.disconnect("interact", self, "_on_interact")
-
-
-func _on_interact(body : Node2D) -> void:
-	if not _GetDBValue("Player.PortalAllowed", false):
-		return
-	
-	if body.is_connected("interact", self, "_on_interact"):
-		body.disconnect("interact", self, "_on_interact")
-		emit_signal("world_shift")

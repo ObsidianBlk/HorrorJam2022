@@ -6,10 +6,11 @@ extends Node
 # -------------------------------------------------------------------------
 const AREAS = [
 	{ # AREA 1
-		"Hall_001": ["Hall_002"],
+		"Hall_001": ["Hall_002", "Office2"],
 		"Hall_002": ["Hall_001", "Hall_003", "Cafe"],
 		"Hall_003": ["Hall_002"],
 		"Cafe": ["Hall_002"],
+		"Office2" : ["Hall_001"]
 	}
 ]
 
@@ -108,7 +109,8 @@ func _ProcessChasing(_delta : float, db : DBResource) -> void:
 	var lastpos = db.get_value("ai.nightmare.position")
 	var nppos = _nightmare_node.global_position
 	var player = _GetPlayer()
-	if player:
+	if player and player.is_alive():
+		player.hurt(false) # This CAN be changed
 		var dist = nppos.distance_to(player.global_position)
 		if dist > 24 and dist < 200:
 			var trauma = (176 - (dist - 24)) / 176
@@ -121,6 +123,7 @@ func _ProcessChasing(_delta : float, db : DBResource) -> void:
 				_nightmare_node.fade_out()
 				_state = STATE.FADING
 			else:
+				player.hurt(true)
 				var trauma = (176 - (dist - 24)) / 176
 				_ShakeDaCamera(trauma * _delta)
 	if db and (lastpos == null or lastpos != _nightmare_node.global_position):
@@ -179,6 +182,7 @@ func _FindNightmare() -> void:
 			if nm is KinematicBody2D:
 				_nightmare_node = nm
 				_nightmare_node.connect("faded", self, "_on_nightmare_faded")
+				_nightmare_node.connect("fade_canceled", self, "_on_nightmare_fade_canceled")
 				if not _IsPlayerInSection():
 					_state = STATE.FADING
 					_nightmare_node.fade_out()
@@ -232,17 +236,7 @@ func _ShakeDaCamera(amount : float) -> void:
 		if cam.has_method("add_trauma"):
 			cam.add_trauma(amount)
 
-# -------------------------------------------------------------------------
-# Public Methods
-# -------------------------------------------------------------------------
-
-
-# -------------------------------------------------------------------------
-# Handler Methods
-# -------------------------------------------------------------------------
-func _on_nightmare_faded() -> void:
-	_faded = not _faded
-	print("Fade State: ", _faded)
+func _HandlePostFade() -> void:
 	if _GetDBValue("player.world", "real") == "alt":
 		if _GetDBValue("world.zone_name", "") == _section:
 			if _faded:
@@ -259,5 +253,26 @@ func _on_nightmare_faded() -> void:
 		print("Wandering")
 		_state = STATE.WANDERING
 
+# -------------------------------------------------------------------------
+# Public Methods
+# -------------------------------------------------------------------------
 
 
+# -------------------------------------------------------------------------
+# Handler Methods
+# -------------------------------------------------------------------------
+func _on_nightmare_faded() -> void:
+	_faded = not _faded
+	_HandlePostFade()
+
+
+func _on_nightmare_fade_canceled() -> void:
+	call_deferred("_HandlePostFade")
+
+
+func _on_World_zone_changed():
+	if _state == STATE.FADING:
+		_faded = false
+		if _nightmare_node:
+			_nightmare_node.hide()
+			_nightmare_node.move(Vector2.ZERO)

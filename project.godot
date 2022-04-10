@@ -86,7 +86,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="HorrorJam2022"
+config/name="The Building"
+config/description="A game written by Bryan Miller for the Themed Horror Jam #5, March - April, 2022"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
 

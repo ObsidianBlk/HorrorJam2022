@@ -168,6 +168,14 @@ func track_sibling_camera() -> void:
 		if sibling_camera:
 			_camera.target_node_path = _camera.get_path_to(sibling_camera)
 
+func camera_use_alt_target(group_name : String) -> void:
+	var atl = get_tree().get_nodes_in_group(group_name)
+	if atl.size() > 0:
+		for at in atl:
+			if at is Node2D and is_a_parent_of(at):
+				_camera.target_node_path = _camera.get_path_to(at)
+				_camera.snap_to_target()
+
 func get_camera_path_to(n : Node) -> NodePath:
 	return n.get_path_to(_camera)
 

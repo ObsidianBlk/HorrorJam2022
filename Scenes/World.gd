@@ -3,15 +3,18 @@ extends Node2D
 # -------------------------------------------------------------------------
 # Constants
 # -------------------------------------------------------------------------
-const INITIAL_ZONE : String = "res://Scenes/Area1/Hall_001.tscn"
+const INITIAL_ZONE : String = "res://Scenes/MenuZone.tscn"
+const START_ZONE : String = "res://Scenes/Area1/Hall_001.tscn"
 const WORLD_SHIFT_TIME : float = 1.0
 
 enum WORLD {Real=0, Alt=1}
 
 # -------------------------------------------------------------------------
-# Export Variables
+# Signals
 # -------------------------------------------------------------------------
-
+signal show_ui(ui_name)
+signal zone_changed()
+signal player_as_ai(ai_mode)
 
 # -------------------------------------------------------------------------
 # Variables
@@ -48,8 +51,8 @@ func _ready() -> void:
 	_PrepareWorld()
 	
 	# Kick the pig!
-	var load_zone = _GetDBValue("world.zone_path", INITIAL_ZONE)
-	call_deferred("_LoadZone", load_zone)
+	#var load_zone = _GetDBValue("world.zone_path", START_ZONE)
+	call_deferred("_LoadZone", INITIAL_ZONE, "", false)
 	#_LoadZone(load_zone)
 
 
@@ -91,6 +94,7 @@ func _GetDBValue(key : String, default):
 		return db.get_value(key, default)
 	return default
 
+
 func _SetDBValue(key : String, value, create_if_nexists : bool = false) -> void:
 	var db : DBResource = System.get_db("game_state")
 	if db:
@@ -122,14 +126,18 @@ func _GetSceneName(scene_path : String) -> String:
 	return scene_path.get_file().get_basename()
 
 
-func _LoadZone(scene_path : String, start_door : String = "") -> void:
+func _LoadZone(scene_path : String, start_door : String = "", store_zone_in_db : bool = true) -> void:
 	var zone_inst = load(scene_path)
 	if zone_inst:
 		var zone = zone_inst.instance()
 		if zone:
-			_SetDBValue("world.zone_path", scene_path, true)
-			_SetDBValue("world.zone_area", _GetSceneArea(scene_path), true)
-			_SetDBValue("world.zone_name", _GetSceneName(scene_path), true)
+			if store_zone_in_db:
+				_SetDBValue("world.zone_path", scene_path, true)
+				_SetDBValue("world.zone_area", _GetSceneArea(scene_path), true)
+				_SetDBValue("world.zone_name", _GetSceneName(scene_path), true)
+				emit_signal("player_as_ai", false)
+			else:
+				emit_signal("player_as_ai", true)
 			
 			_player.hide_viz(true)
 			if real_viewport_node.has_player():
@@ -167,6 +175,7 @@ func _StartZone(door_name : String = "") -> void:
 	_ConnectPortals()
 	_ConnectScrollWalls()
 	
+	emit_signal("zone_changed")
 	if entry_door:
 		var vp = real_viewport_node
 		if real_viewport_node.is_a_parent_of(entry_door):
@@ -189,6 +198,7 @@ func _StartZone(door_name : String = "") -> void:
 		else:
 			_player.global_position = entry_door.global_position + (fvec * 12)
 		vp.snap_camera_to_target()
+		vp.camera_use_alt_target("camera_target") # This is a hack, really.
 		if entry_door.has_method("open_door"):
 			entry_door.open_door(true)
 			yield(entry_door, "door_opened")
@@ -205,6 +215,7 @@ func _StartZone(door_name : String = "") -> void:
 		
 		info.primary.add_player(_player)
 		info.secondary.track_sibling_camera()
+		info.primary.camera_use_alt_target("camera_target") # This is a hack, really.
 		_ShowWorldPortals(info.primary)
 		if info.pos != null:
 			_player.global_position = info.pos
@@ -276,6 +287,11 @@ func _InvertShader() -> void:
 # -------------------------------------------------------------------------
 # Handler Methods
 # -------------------------------------------------------------------------
+func _on_start_game() -> void:
+	emit_signal("show_ui", "NONE")
+	var load_zone = _GetDBValue("world.zone_path", START_ZONE)
+	call_deferred("_LoadZone", load_zone)
+
 func _on_world_shift(from_view : Viewport, to_view : Viewport, target_world : int) -> void:
 	if WORLD.values().find(target_world) >= 0 and _last_world != target_world:
 		if to_view.has_world_nodes():
@@ -295,8 +311,38 @@ func _on_request_dialog(timeline_name : String) -> void:
 		if dialog:
 			dialog.connect("timeline_start", self, "_on_Dialog_timeline_start")
 			dialog.connect("timeline_end", self, "_on_Dialog_timeline_end")
+			dialog.connect("dialogic_signal", self, "_on_dialog_signal")
 			dialog.pause_mode = PAUSE_MODE_PROCESS
 			canvas_node.add_child(dialog)
+
+func _on_dialog_signal(info : String) -> void:
+	var segs = info.split(":")
+	if segs.size() > 0:
+		match segs[0]:
+			"DBSet":
+				var _db = System.get_db("game_state")
+				if _db == null:
+					printerr("DBSet database not found")
+					return
+				if segs.size() == 3:
+					var key = segs[1]
+					var sval : String = segs[2].to_lower()
+					var val = null
+					if ["true", "t"].find(sval) >= 0:
+						val = true
+					elif ["false", "f"].find(sval) >= 0:
+						val = false
+					elif sval.is_valid_float():
+						val = float(sval)
+					elif sval.is_valid_integer():
+						val = int(sval)
+					if val != null:
+						_db.set_value(key, val, true)
+					else:
+						printerr("DBSet invalid value type")
+				else:
+					printerr("DBSet request malformed")
+
 
 func _on_Dialog_timeline_start(timeline_name : String) -> void:
 	if timeline_name != "":

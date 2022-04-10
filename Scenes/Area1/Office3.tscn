@@ -89,9 +89,11 @@ facing = 1
 
 [node name="FilingCabinet" parent="RealWorld" instance=ExtResource( 11 )]
 position = Vector2( 158, 203 )
+memetic_color = Color( 0, 0, 0, 1 )
 
 [node name="FilingCabinet2" parent="RealWorld" instance=ExtResource( 11 )]
 position = Vector2( 260, 236 )
+memetic_color = Color( 0, 0, 0, 1 )
 
 [node name="FilingCabinet3" parent="RealWorld" instance=ExtResource( 11 )]
 position = Vector2( 210, 204 )
