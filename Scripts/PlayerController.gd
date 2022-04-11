@@ -184,7 +184,6 @@ func on_player_life_changed(percent : float) -> void:
 	print("Player Life: ", percent)
 
 func on_player_died() -> void:
-	print("Player is now dead!")
 	_player.move(Vector2.ZERO)
 	emit_signal("player_died")
 

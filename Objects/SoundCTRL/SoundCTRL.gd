@@ -70,8 +70,9 @@ func _GetSoundsInSet(set_name : String) -> Array:
 # -------------------------------------------------------------------------
 func add_sound(sound_name : String, path : String) -> void:
 	if not sound_name in _sounds:
-		var dir : Directory = Directory.new()
-		if dir.file_exists(path):
+		#var dir : Directory = Directory.new()
+		#if dir.file_exists(path):
+		if ResourceLoader.exists(path):
 			var snd = load(path)
 			if snd and snd is AudioStream:
 				_sounds[sound_name] = snd
